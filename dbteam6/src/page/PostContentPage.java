@@ -65,7 +65,7 @@ public class PostContentPage {
 			} catch (Exception e) {
 				sc.next();
 				System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
-				return cons.ConsoleDB.CATEGORYPAGE;
+				return cons.ConsoleDB.POSTCONTENTPAGE;
 			}
 
 			switch (choosen) {
@@ -121,8 +121,10 @@ public class PostContentPage {
 				System.out.println("★★ 게시물이 삭제되었습니다. ★★");
 
 				return cons.ConsoleDB.POSTPAGE;
+				
 			case 4:
 				return cons.ConsoleDB.POSTPAGE;
+				
 			default:
 				System.out.println("다시 입력하세요.");
 				return cons.ConsoleDB.POSTCONTENTPAGE;
@@ -142,7 +144,7 @@ public class PostContentPage {
 			} catch (Exception e) {
 				sc.next();
 				System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
-				return cons.ConsoleDB.CATEGORYPAGE;
+				return cons.ConsoleDB.POSTCONTENTPAGE;
 			}
 
 			switch (choosen) {
@@ -168,7 +170,6 @@ public class PostContentPage {
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 
 			case 4:
-				// todo
 				return cons.ConsoleDB.POSTPAGE;
 
 			default:
@@ -188,7 +189,7 @@ public class PostContentPage {
 			} catch (Exception e) {
 				sc.next();
 				System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
-				return cons.ConsoleDB.CATEGORYPAGE;
+				return cons.ConsoleDB.POSTCONTENTPAGE;
 			}
 
 			switch (choosen) {
@@ -210,9 +211,10 @@ public class PostContentPage {
 				// todo
 				System.out.println("친구 추가가 되었습니다...");
 				return cons.ConsoleDB.POSTCONTENTPAGE;
+				
 			case 4:
-				// todo
 				return cons.ConsoleDB.POSTPAGE;
+				
 			default:
 				System.out.println("다시 입력하세요.");
 				return cons.ConsoleDB.POSTCONTENTPAGE;
