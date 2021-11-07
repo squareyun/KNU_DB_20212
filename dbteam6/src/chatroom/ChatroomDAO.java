@@ -121,7 +121,7 @@ public class ChatroomDAO{
 		// TODO Auto-generated method stub
 		boolean result = false;
 		try {
-			conn = PRdao.getConnection();
+			conn = cons.ConsoleDB.conn;
 			String sql = "SELECT * FROM CHAT_ROOM WHERE Host_id = ? OR Participant_id = ? AND CRname = ?";
 			pstmt = conn.prepareStatement(sql);
 			int user_id = PRdto.getPRid();
@@ -150,7 +150,7 @@ public class ChatroomDAO{
 		// TODO Auto-generated method stub
 		boolean result = false;
 		try {
-			conn = PRdao.getConnection();
+			conn = cons.ConsoleDB.conn;
 			String sql = "INSERT INTO CHAT_ROOM VALUES (Chat_room_SEQ.NEXTVAL, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, dto.getHost_id());

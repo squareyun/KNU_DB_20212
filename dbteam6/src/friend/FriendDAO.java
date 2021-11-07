@@ -118,7 +118,7 @@ public class FriendDAO{
 		// TODO Auto-generated method stub
 		boolean result = false;
 		try {
-			conn = PRdao.getConnection();
+			conn = cons.ConsoleDB.conn;
 			String sql = "INSERT INTO FRIEND VALUES(?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,PRdto.getPRid());

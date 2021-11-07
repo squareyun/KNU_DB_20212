@@ -189,5 +189,33 @@ public class MyChatroom {
 		}
 
 	}
+	
+	public void CreateChatroomWithPostCreator() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("채팅방 이름을 무엇으로 하시습니까?");
+		String name = "";
+		try {
+			name = sc.nextLine();
+			if (dao.hasChatroomName(name))
+				throw new InputMismatchException();
+			else if (name.equals(""))
+				throw new Exception("공백을 채팅방의 이름으로 할 수 없습니다.");
+		} catch (InputMismatchException e) {
+			System.out.println("중복된 이름입니다.");
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+
+		System.out.println("위의 정보로 채팅방을 생성 하시겠습니까? (Y/N)");
+		String input = sc.nextLine().trim();
+		if (input.equalsIgnoreCase("y")) {
+			ChatroomDTO dto = new ChatroomDTO(PRdto.getPRid(), PRdto.getNickname(), name);
+			if (dao.CreateChatroom(dto))
+				System.out.println("채팅방이 성공적으로 생성되었습니다.\n\n\n");
+			else
+				System.out.println("채팅방을 생성하지 못하였습니다.\n\n\n");
+		} else
+			System.out.println("채팅방 생성 작업을 취소 하였습니다.\n\n\n");
+	}
 
 }

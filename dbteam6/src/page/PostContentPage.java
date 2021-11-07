@@ -1,15 +1,10 @@
 package page;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import friend.FriendDAO;
+import function.MyChatroom;
 import post.PostDAO;
 import post.PostDTO;
 import reply.ReplyDAO;
@@ -27,8 +22,10 @@ public class PostContentPage {
 		System.out.println("---------------------------------");
 		System.out.println(input_pid + "번 게시글 정보입니다....");
 		System.out.println();
+		
+		String post_creator_nicname = profile.ProfileDAO.getUserByPRid(postInfo.getCreator_id()).getNickname();
 
-		System.out.printf("[작성자] %s\n", profile.ProfileDAO.getUserByPRid(postInfo.getCreator_id()).getNickname());
+		System.out.printf("[작성자] %s\n", post_creator_nicname);
 		System.out.printf("[제목] %s\n", postInfo.getTitle());
 		System.out.printf("[작성 날짜] %s\n", postInfo.getCreate_date());
 		System.out.printf("[내용]\n %s\n\n", postInfo.getContents());
@@ -57,6 +54,7 @@ public class PostContentPage {
 			System.out.println("2. 게시글 수정");
 			System.out.println("3. 게시글 삭제");
 			System.out.println("4. 뒤로 가기");
+			System.out.println("5. 메인으로 가기");
 			System.out.println();
 			System.out.print("입력(번호) : ");
 			int choosen;
@@ -125,6 +123,9 @@ public class PostContentPage {
 			case 4:
 				return cons.ConsoleDB.POSTPAGE;
 				
+			case 5:
+				return cons.ConsoleDB.mainPage;
+				
 			default:
 				System.out.println("다시 입력하세요.");
 				return cons.ConsoleDB.POSTCONTENTPAGE;
@@ -136,6 +137,7 @@ public class PostContentPage {
 			System.out.println("2. 게시글 삭제");
 			System.out.println("3. 글쓴이와 채팅방 만들기");
 			System.out.println("4. 뒤로 가기");
+			System.out.println("5. 메인으로 가기");
 			System.out.println();
 			System.out.print("입력(번호) : ");
 			int choosen;
@@ -165,12 +167,16 @@ public class PostContentPage {
 				return cons.ConsoleDB.POSTPAGE;
 
 			case 3:
-				// todo
-				System.out.println("채팅방이 생성되었습니다... 채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
+				MyChatroom cr = new MyChatroom(cons.ConsoleDB.currentUser);
+				cr.CreateChatroomWithPostCreator();
+				System.out.println("채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 
 			case 4:
 				return cons.ConsoleDB.POSTPAGE;
+				
+			case 5:
+				return cons.ConsoleDB.mainPage;
 
 			default:
 				System.out.println("다시 입력하세요.");
@@ -181,6 +187,7 @@ public class PostContentPage {
 			System.out.println("2. 글쓴이와 채팅방 만들기");
 			System.out.println("3. 글쓴이와 친구 추가");
 			System.out.println("4. 뒤로 가기");
+			System.out.println("5. 메인으로 가기");
 			System.out.println();
 			System.out.print("입력(번호) : ");
 			int choosen;
@@ -204,42 +211,30 @@ public class PostContentPage {
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 				
 			case 2:
-				// todo
-				System.out.println("채팅방이 생성되었습니다... 채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
+				MyChatroom cr = new MyChatroom(cons.ConsoleDB.currentUser);
+				cr.CreateChatroomWithPostCreator();
+				System.out.println("채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
 				return cons.ConsoleDB.POSTCONTENTPAGE;
+				
 			case 3:
-				// todo
-				System.out.println("친구 추가가 되었습니다...");
+				FriendDAO fr = new FriendDAO(cons.ConsoleDB.currentUser);
+				fr.CreateFriendRequest(post_creator_nicname);
+				
+				System.out.println("★★ 친구추가 신청을 성공적으로 전송하었습니다. ★★");
+				
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 				
 			case 4:
 				return cons.ConsoleDB.POSTPAGE;
+				
+			case 5:
+				return cons.ConsoleDB.mainPage;
 				
 			default:
 				System.out.println("다시 입력하세요.");
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 			}
 		}
-
-//
-//		case 2:
-//			sql = String.format("insert into chat_room values(10, 11, %d, '%s')", post_creator_id,
-//					post_creator_nickname + "님과의 채팅방");
-//			stmt.executeUpdate(sql);
-//
-//			System.out.println(post_creator_nickname + "님과의 채팅방이 생성되었습니다.");
-//			break;
-//
-//		case 3:
-//			sql = String.format("insert into friend values(11, %d)", post_creator_id);
-//			stmt.executeUpdate(sql);
-//
-//			sql = String.format("insert into friend values(%d, 11)", post_creator_id);
-//			stmt.executeUpdate(sql);
-//
-//			System.out.println(post_creator_nickname + "님과 친구 추가가 되었습니다.");
-//			break;
-//		}
 
 	}
 

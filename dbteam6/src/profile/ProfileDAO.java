@@ -24,7 +24,7 @@ public class ProfileDAO {
 		// TODO Auto-generated method stub
 		int prid = 0;
 		try {
-			conn = getConnection();
+			conn = cons.ConsoleDB.conn;
 			String sql = "SELECT PRid FROM PROFILE WHERE Nickname = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, nickname);
