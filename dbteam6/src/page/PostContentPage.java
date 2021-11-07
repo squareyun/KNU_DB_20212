@@ -7,10 +7,13 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import post.PostDAO;
 import post.PostDTO;
+import reply.ReplyDAO;
+import reply.ReplyDTO;
 
 public class PostContentPage {
 
@@ -30,34 +33,22 @@ public class PostContentPage {
 		System.out.printf("[작성 날짜] %s\n", postInfo.getCreate_date());
 		System.out.printf("[내용]\n %s\n\n", postInfo.getContents());
 
-//		rs.close();
-//
-//		System.out.println("<<<<<<<<<<댓글 정보>>>>>>>>>>");
-//		sql = "select p.nickname, r.contents, r.create_date " + "from reply r, profile p where r.post_id = " + input_pid
-//				+ " and p.prid = r.post_creator_id";
-//		rs = stmt.executeQuery(sql);
-//		System.out.println("작성자		내용				날짜");
-//		System.out.println("----------------------------------------");
-//
-//		while (rs.next()) {
-//			System.out.printf("%s		%s		%s\n", rs.getString(1), rs.getString(2), rs.getTimestamp(3));
-//		}
-//		rs.close();
-//
-//		System.out.println("----------------------------------------");
-//		System.out.println("1	> 댓글 달기");
-//		System.out.println("2	> 글쓴이와 채팅방 만들기");
-//		System.out.println("3	> 글쓴이와 친구 추가");
-//		System.out.println("-1  > 뒤로 가기");
-//
-//		System.out.print("input>> ");
-//		int input = sc.nextInt();
-//
-//		if (input == -1) {
-//			break;
-//		}
-//
+		System.out.println("---------------------------------");
+		System.out.println("댓글 정보입니다....");
+		
+		ReplyDAO dao = new ReplyDAO();
+		List<ReplyDTO> list = dao.getReplyListInPost(postInfo.getPid());
 
+		System.out.println();
+		System.out.println("작성자			내용				날짜");
+		System.out.println("---------------------------------");
+
+		for (ReplyDTO dto : list) {
+			System.out.printf("%s		%s		%s\n", profile.ProfileDAO.getUserByPRid(dto.getCreator_id()).getNickname(),
+					dto.getContents(), dto.getCreate_date());
+		}
+
+		System.out.println();
 		System.out.println("---------------------------------");
 
 		// 글 작성자일 때 수정 및 삭제 가능
@@ -79,8 +70,15 @@ public class PostContentPage {
 
 			switch (choosen) {
 			case 1:
-				// todo
+				System.out.println("댓글을 작성하세요. 엔터를 누르면 등록됩니다.");
+				sc.nextLine();
+				String input_reply = sc.nextLine();
+				reply.ReplyDAO.makeReply(input_reply, postInfo);
+
+				System.out.println("★★ 댓글이 작성되었습니다. ★★");
+				
 				return cons.ConsoleDB.POSTCONTENTPAGE;
+				
 			case 2:
 				System.out.println("---------------------------------");
 				System.out.println("수정 가능한 목록입니다....");
@@ -149,7 +147,13 @@ public class PostContentPage {
 
 			switch (choosen) {
 			case 1:
-				// todo
+				System.out.println("댓글을 작성하세요. 엔터를 누르면 등록됩니다.");
+				sc.nextLine();
+				String input_reply = sc.nextLine();
+				reply.ReplyDAO.makeReply(input_reply, postInfo);
+
+				System.out.println("★★ 댓글이 작성되었습니다. ★★");
+				
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 
 			case 2:
@@ -189,8 +193,15 @@ public class PostContentPage {
 
 			switch (choosen) {
 			case 1:
-				// todo
+				System.out.println("댓글을 작성하세요. 엔터를 누르면 등록됩니다.");
+				sc.nextLine();
+				String input_reply = sc.nextLine();
+				reply.ReplyDAO.makeReply(input_reply, postInfo);
+
+				System.out.println("★★ 댓글이 작성되었습니다. ★★");
+				
 				return cons.ConsoleDB.POSTCONTENTPAGE;
+				
 			case 2:
 				// todo
 				System.out.println("채팅방이 생성되었습니다... 채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
@@ -208,18 +219,6 @@ public class PostContentPage {
 			}
 		}
 
-//		switch (input) {
-//		case 1:
-//			System.out.println("댓글을 작성하세요. 엔터를 누르면 등록됩니다.");
-//			sc.nextLine();
-//			String input_reply = sc.nextLine();
-//			Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-//			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//			sql = String.format(
-//					"insert into reply values(10, %d, %d, %d, '%s', to_date('%s', 'yyyy-mm-dd hh24:mi:ss'))", input_pid,
-//					post_creator_id, 1, input_reply, sdf.format(timeStamp).toString());
-//			stmt.executeUpdate(sql);
-//			break;
 //
 //		case 2:
 //			sql = String.format("insert into chat_room values(10, 11, %d, '%s')", post_creator_id,

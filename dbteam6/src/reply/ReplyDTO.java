@@ -5,7 +5,7 @@ public class ReplyDTO {
 	private int post_id;
 	private int post_creator_id;
 	private int creator_id;
-	private String Contents;
+	private String contents;
 	private String create_date;
 	
 	public ReplyDTO(int rid, int post_id, int post_creator_id, int creator_id, String contents, String create_date) {
@@ -13,7 +13,7 @@ public class ReplyDTO {
 		this.post_id = post_id;
 		this.post_creator_id = post_creator_id;
 		this.creator_id = creator_id;
-		Contents = contents;
+		this.contents = contents;
 		this.create_date = create_date;
 	}
 	
@@ -42,10 +42,10 @@ public class ReplyDTO {
 		this.creator_id = creator_id;
 	}
 	public String getContents() {
-		return Contents;
+		return contents;
 	}
 	public void setContents(String contents) {
-		Contents = contents;
+		this.contents = contents;
 	}
 	public String getCreate_date() {
 		return create_date;

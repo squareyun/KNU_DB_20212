@@ -21,7 +21,7 @@ public class PostDAO {
 			}
 			rs.close();
 		} catch (SQLException e) {
-			System.out.println("PostDAO.getList() 오류");
+			System.out.println("PostDAO.getPostListInCategory() 오류");
 			e.printStackTrace();
 		}
 
