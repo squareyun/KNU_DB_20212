@@ -14,9 +14,9 @@ import profile.ProfileDTO;
 
 public class ConsoleDB {
 
-	public static final String URL = "jdbc:oracle:thin:@192.168.219.105:1521:orcl";
-	public static final String USER_NAME = "userchat";
-	public static final String USER_PASSWD = "1234";
+	public static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
+	public static final String USER_NAME = "test";
+	public static final String USER_PASSWD = "test";
 	public static Connection conn = null; // Connection object
 	public static Statement stmt = null; // Statement object
 	public static PreparedStatement pstmt;
@@ -36,6 +36,9 @@ public class ConsoleDB {
 	public static int CATEGORYPAGE = 6;
 	public static int POSTPAGE = 7;
 	public static int POSTCONTENTPAGE = 8;
+	public static int FRIENDMANAGEMENTPAGE = 9;
+	public static int CHATROOMLISTPAGE = 10;
+
 
 	public ConsoleDB() {
 		// TODO Auto-generated constructor stub
@@ -80,6 +83,7 @@ public class ConsoleDB {
 		int nextStep;
 		try {
 			nextStep = scanner.nextInt();
+			scanner.nextLine();
 		} catch (Exception e) {
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
 			scanner.next();
@@ -111,6 +115,7 @@ public class ConsoleDB {
 		int nextStep;
 		try {
 			nextStep = scanner.nextInt();
+			scanner.nextLine();
 		} catch (Exception e) {
 			scanner.next();
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
@@ -123,7 +128,7 @@ public class ConsoleDB {
 		if (nextStep == 1) {
 			return 5;
 		} else if (nextStep == 2) {
-			return mainPage;
+			return CHATROOMLISTPAGE;
 		} else if (nextStep == 3) {
 			return CATEGORYPAGE;
 		} else { // 로그아웃
@@ -145,6 +150,7 @@ public class ConsoleDB {
 		int nextStep;
 		try {
 			nextStep = scanner.nextInt();
+			scanner.nextLine();
 		} catch (Exception e) {
 			scanner.next();
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
@@ -197,6 +203,7 @@ public class ConsoleDB {
 		int nextStep;
 		try {
 			nextStep = scanner.nextInt();
+			scanner.nextLine();
 		} catch (Exception e) {
 			scanner.next();
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
@@ -246,7 +253,7 @@ public class ConsoleDB {
 			case 5 : // mainPage -> 내 정보 보기 페이지
 				nextStep = myAccountInfoPage();
 				break;
-
+			
 			case 6: // mainPage --> 카테고리 페이지
 				nextStep = page.CategoryPage.show();
 				break;
@@ -258,7 +265,12 @@ public class ConsoleDB {
 			case 8: // mainPage --> 카테고리 페이지 --> 게시판 페이지 --> 게시판 내용
 				nextStep = PostContentPage.show();
 				break;
-
+			case 9:
+				nextStep = page.FriendManagementPage.show();
+				break;
+			case 10:
+				nextStep = page.ChatroomListPage.show();
+				break;
 			default:
 				break;
 
