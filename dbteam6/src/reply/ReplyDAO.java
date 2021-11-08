@@ -36,11 +36,10 @@ public class ReplyDAO {
 		
 		try {
 			String sql = String.format(
-					"insert into reply values(Reply_SEQ.nextval, %d, %d, %d, '%s', to_date('%s', 'yyyy-mm-dd hh24:mi:ss'))", dto.getPid(),
-					dto.getCreator_id(), cons.ConsoleDB.currentUser.getPRid(), input_contents, sdf.format(timeStamp).toString());
+					"insert into reply values(Reply_SEQ.nextval, %d, %d, %d, '%s', to_date('%s', 'yyyy-mm-dd hh24:mi:ss'))", dto.getPid(),dto.getCreator_id(), cons.ConsoleDB.currentUser.getPRid(), input_contents, sdf.format(timeStamp).toString());
 			cons.ConsoleDB.stmt.executeUpdate(sql);
 		} catch (SQLException e) {
-			System.out.println("PostDAO.makePost() 오류");
+			System.out.println("PostDAO.makeReply() 오류");
 			e.printStackTrace();
 		}
 	}

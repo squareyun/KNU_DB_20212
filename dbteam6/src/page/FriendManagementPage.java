@@ -16,7 +16,7 @@ public class FriendManagementPage {
 		try {
 			input = cons.ConsoleDB.scanner.nextInt();
 			cons.ConsoleDB.scanner.nextLine();
-			if (input < 1 && input > 5)
+			if (input < 1 || input > 5)
 				throw new InputMismatchException();
 		} catch (InputMismatchException e) {
 			System.out.println("잘못된 값입니다.");

@@ -41,9 +41,9 @@ public class MessageDTO {
 	public void getInfo(int cur_user_id) {
 		// TODO Auto-generated method stub
 		if(Sender_id == cur_user_id)
-			System.out.printf("%-30s\n",Contents);
-		else
 			System.out.printf("%30s\n",Contents);
+		else
+			System.out.printf("%-30s\n",Contents);
 	}
 	public int getMid() {
 		return Mid;
@@ -75,7 +75,7 @@ public class MessageDTO {
 
 	public String getCreate_date() {
 		// TODO Auto-generated method stub
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		return sdf.format(Create_date).toString();
 	}
 }

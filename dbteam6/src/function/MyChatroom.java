@@ -34,10 +34,12 @@ public class MyChatroom {
 			int n = 0;
 			for (ChatroomDTO dto : list) {
 				n++;
-				if(PRdto.getPRid() == dto.getHost_id())
-					System.out.printf("%d\t %s %s\n", n,dto.getCRname(),new ProfileDAO().getNickname_PRid(dto.getParticipant_id()));
+				if (PRdto.getPRid() == dto.getHost_id())
+					System.out.printf("%d\t %15s %15s\n", n, dto.getCRname(),
+							new ProfileDAO().getNickname_PRid(dto.getParticipant_id()));
 				else
-					System.out.printf("%d\t %s %S\n", n,dto.getCRname(),new ProfileDAO().getNickname_PRid(dto.getHost_id()));
+					System.out.printf("%d\t %15s %15s\n", n, dto.getCRname(),
+							new ProfileDAO().getNickname_PRid(dto.getHost_id()));
 			}
 		} else {
 			System.out.println("현재 생성된 채팅방이 없습니다.");
@@ -52,15 +54,18 @@ public class MyChatroom {
 			List<ChatroomDTO> list = dao.GetChatroomList();
 			System.out.printf("어떤 채팅방을 삭제 하시겠습니까? [1-%d]\n", list.size());
 			int input = 0;
-			try {
-				input = cons.ConsoleDB.scanner.nextInt();
-				cons.ConsoleDB.scanner.nextLine();
-				if (input < 1 && input > list.size())
-					throw new InputMismatchException();
-			} catch (InputMismatchException e) {
-				System.out.println("잘못된 입력 값입니다.");
+			while (true) {
+				try {
+					input = cons.ConsoleDB.scanner.nextInt();
+					cons.ConsoleDB.scanner.nextLine();
+					if (input < 1 || input > list.size())
+						throw new InputMismatchException();
+					else
+						break;
+				} catch (InputMismatchException e) {
+					System.out.println("잘못된 입력 값입니다.");
+				}
 			}
-
 			ChatroomDTO dto = list.get(input - 1);
 			if (dao.DeleteChatroom(dto))
 				System.out.printf("채팅방 %s가 정상적으로 삭제 되었습니다\n\n\n\n", input);
@@ -78,15 +83,18 @@ public class MyChatroom {
 			System.out.printf("어떤 채팅방의 이름을 수정 하시겠습니까? [1-%d]\n", list.size());
 			String input_up_name = "";
 			int input = 0;
-			try {
-				input = cons.ConsoleDB.scanner.nextInt();
-				cons.ConsoleDB.scanner.nextLine();
-				if (input < 1 && input > list.size())
-					throw new InputMismatchException();
-			} catch (InputMismatchException e) {
-				System.out.println("잘못된 입력 값입니다.");
+			while (true) {
+				try {
+					input = cons.ConsoleDB.scanner.nextInt();
+					cons.ConsoleDB.scanner.nextLine();
+					if (input < 1 || input > list.size())
+						throw new InputMismatchException();
+					else
+						break;
+				} catch (InputMismatchException e) {
+					System.out.println("잘못된 입력 값입니다.");
+				}
 			}
-
 			System.out.println("채팅방의 이름을 입력해 주세요 (# 공백시 본래 이름 유지)");
 			input_up_name = cons.ConsoleDB.scanner.nextLine().trim();
 			ChatroomDTO dto = list.get(input - 1);
@@ -120,14 +128,23 @@ public class MyChatroom {
 
 		System.out.println("채팅할 상대방의 Nickname을 입력해주세요.");
 		String Nickname = "";
-		try {
-			Nickname = cons.ConsoleDB.scanner.nextLine().trim();
-			if (dao.hasChatroomName(name))
-				throw new InputMismatchException();
-		} catch (InputMismatchException e) {
-			System.out.println("해당 사용자의 Nickname이 존재하지 않습니다.");
+		while (true) {
+			try {
+				Nickname = cons.ConsoleDB.scanner.nextLine().trim();
+				if (!new ProfileDAO().hasNickname(Nickname))
+					throw new Exception("해당 사용자의 Nickname이 존재하지 않습니다.");
+				else if(dao.hasChatroom(Nickname))
+					throw new Exception("해당 사용자와의 채팅방이 이미 존재 합니다.");
+				else if (PRdto.getNickname().equals(Nickname))
+					throw new Exception("자기자신과 채팅방을 생성 하실 수 없습니다.");
+				else if (Nickname.equals(""))
+					throw new Exception("공백을 친구의 닉네임으로 할 수 없습니다.");
+				else
+					break;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
 		}
-
 		System.out.println("위의 정보로 채팅방을 생성 하시겠습니까? (Y/N)");
 		String input = cons.ConsoleDB.scanner.nextLine().trim();
 		if (input.equalsIgnoreCase("y")) {
@@ -152,7 +169,7 @@ public class MyChatroom {
 			try {
 				input = cons.ConsoleDB.scanner.nextInt();
 				cons.ConsoleDB.scanner.nextLine();
-				if (input < 1 && input > list.size())
+				if (input < 1 || input > list.size())
 					throw new InputMismatchException();
 			} catch (InputMismatchException e) {
 				System.out.println("잘못된 입력 값입니다.");
@@ -189,33 +206,37 @@ public class MyChatroom {
 		}
 
 	}
-	
-	public void CreateChatroomWithPostCreator() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("채팅방 이름을 무엇으로 하시습니까?");
-		String name = "";
-		try {
-			name = sc.nextLine();
-			if (dao.hasChatroomName(name))
-				throw new InputMismatchException();
-			else if (name.equals(""))
-				throw new Exception("공백을 채팅방의 이름으로 할 수 없습니다.");
-		} catch (InputMismatchException e) {
-			System.out.println("중복된 이름입니다.");
-		} catch (Exception e2) {
-			e2.printStackTrace();
-		}
 
+	public void CreateChatroom(String nickname) {
+		System.out.println("새로운 채팅방의 정보를 입력 해주세요.");
+		System.out.println("채팅방 이름");
+		String name = "";
+		while (true) {
+			try {
+				name = cons.ConsoleDB.scanner.nextLine();
+				if (dao.hasChatroomName(name))
+					throw new InputMismatchException();
+				else if (name.equals(""))
+					throw new Exception("공백을 채팅방의 이름으로 할 수 없습니다.");
+				else
+					break;
+			} catch (InputMismatchException e) {
+				System.out.println("중복된 이름입니다.");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
 		System.out.println("위의 정보로 채팅방을 생성 하시겠습니까? (Y/N)");
-		String input = sc.nextLine().trim();
+		String input = cons.ConsoleDB.scanner.nextLine().trim();
 		if (input.equalsIgnoreCase("y")) {
-			ChatroomDTO dto = new ChatroomDTO(PRdto.getPRid(), PRdto.getNickname(), name);
+			ChatroomDTO dto = new ChatroomDTO(PRdto.getPRid(), nickname, name);
 			if (dao.CreateChatroom(dto))
 				System.out.println("채팅방이 성공적으로 생성되었습니다.\n\n\n");
 			else
 				System.out.println("채팅방을 생성하지 못하였습니다.\n\n\n");
 		} else
 			System.out.println("채팅방 생성 작업을 취소 하였습니다.\n\n\n");
+		// 메인으로 가기 이전 화면으로 가기 추가
 	}
 
 }

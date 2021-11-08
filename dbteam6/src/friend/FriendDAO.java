@@ -1,4 +1,5 @@
 package friend;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,16 +8,18 @@ import profile.ProfileDTO;
 
 import java.sql.*;
 
-public class FriendDAO{
+public class FriendDAO {
 	private Connection conn;
-	//private Statement stmt;
+	// private Statement stmt;
 	private PreparedStatement pstmt;
 	// private CallabelStatement cstmt;
-	private ProfileDAO PRdao= new ProfileDAO();
+	private ProfileDAO PRdao = new ProfileDAO();
 	private ProfileDTO PRdto;
+
 	public FriendDAO() {
-		
+
 	}
+
 	public FriendDAO(ProfileDTO dto) {
 		// TODO Auto-generated constructor stub
 		PRdto = new ProfileDTO(dto);
@@ -50,7 +53,7 @@ public class FriendDAO{
 			System.out.println("Error in GetFriendList Function");
 			System.exit(1);
 		}
-		
+
 		return list;
 	}
 
@@ -67,8 +70,8 @@ public class FriendDAO{
 			pstmt.setInt(1, dto.getFriend_id());
 			pstmt.setInt(2, dto.getUser_id());
 			int rs2 = pstmt.executeUpdate();
-			if(rs1 > 0 && rs2 > 0) 
-				result = true;	
+			if (rs1 > 0 && rs2 > 0)
+				result = true;
 		} catch (SQLException e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -83,13 +86,40 @@ public class FriendDAO{
 		}
 		return result;
 	}
+	
+	public boolean DenyFriendRequest(FriendDTO dto) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		try {
+			conn = PRdao.getConnection();
+			String sql = "DELETE FROM FRIEND WHERE PRid = ? AND Friend_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getFriend_id());
+			pstmt.setInt(2, dto.getUser_id());
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in DenyFriendRequest Function");
+			System.exit(1);
+		}
+		return result;
+	}
 
 	public boolean hasFriend_Nickname(String nickname) {
 		// TODO Auto-generated method stub
 		boolean result = false;
 		try {
 			conn = PRdao.getConnection();
-			String sql = "(SELECT PRid FROM FRIEND NATURAL JOIN PROFILE WHERE Friend_id = ? AND Nickname = ?) INTERSECT (SELECT PRid FROM FRIEND f,PROFILE p WHERE f.Friend_id = p.PRid AND f.PRid = ? AND Nickname = ?)";
+			String sql = "(SELECT f.PRid FROM FRIEND f ,PROFILE p WHERE p.PRid = f.PRid AND f.Friend_id = ? AND p.Nickname = ? ) INTERSECT (SELECT p.PRid FROM FRIEND f,PROFILE p WHERE f.Friend_id = p.PRid AND f.PRid = ?  AND p.Nickname = ?)";
 			pstmt = conn.prepareStatement(sql);
 			int user_id = PRdto.getPRid();
 			pstmt.setInt(1, user_id);
@@ -97,8 +127,8 @@ public class FriendDAO{
 			pstmt.setInt(3, user_id);
 			pstmt.setString(4, nickname);
 			int rs = pstmt.executeUpdate();
-			if(rs > 0) 
-				result = true;	
+			if (rs > 0)
+				result = true;
 		} catch (SQLException e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -118,14 +148,14 @@ public class FriendDAO{
 		// TODO Auto-generated method stub
 		boolean result = false;
 		try {
-			conn = cons.ConsoleDB.conn;
+			conn = PRdao.getConnection();
 			String sql = "INSERT INTO FRIEND VALUES(?,?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,PRdto.getPRid());
-			pstmt.setInt(2,PRdao.getPRid_Nickname(nickname));
+			pstmt.setInt(1, PRdto.getPRid());
+			pstmt.setInt(2, PRdao.getPRid_Nickname(nickname));
 			int rs = pstmt.executeUpdate();
-			if(rs > 0)
-				result = true;	
+			if (rs > 0)
+				result = true;
 		} catch (SQLException e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -168,7 +198,7 @@ public class FriendDAO{
 			System.out.println("Error in getFriendRequestList Function");
 			System.exit(1);
 		}
-		
+
 		return list;
 	}
 
@@ -179,11 +209,11 @@ public class FriendDAO{
 			conn = PRdao.getConnection();
 			String sql = "INSERT INTO FRIEND VALUES(?,?)";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1,dto.getUser_id());
-			pstmt.setInt(2,dto.getFriend_id());
+			pstmt.setInt(1, dto.getUser_id());
+			pstmt.setInt(2, dto.getFriend_id());
 			int rs = pstmt.executeUpdate();
-			if(rs > 0)
-				result = true;	
+			if (rs > 0)
+				result = true;
 		} catch (SQLException e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
@@ -198,5 +228,87 @@ public class FriendDAO{
 		}
 		return result;
 	}
+
+	public boolean hasFriend() {
+		boolean result = false;
+		try {
+			conn = PRdao.getConnection();
+			String sql = "(SELECT Friend_id FROM FRIEND WHERE PRid = ?) INTERSECT (SELECT PRid AS Friend_id FROM FRIEND WHERE Friend_id = ?)";
+			int PRid = PRdto.getPRid();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, PRid);
+			pstmt.setInt(2, PRid);
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in getFriendRequestList Function");
+			System.exit(1);
+		}
+		return result;
+	}
+
+	public boolean hasFriendRequest() {
+		boolean result = false;
+		try {
+			conn = PRdao.getConnection();
+			String sql = "(SELECT PRid FROM FRIEND WHERE Friend_id = ?) MINUS (SELECT Friend_id AS PRid FROM FRIEND WHERE PRid = ?)";
+			int PRid = PRdto.getPRid();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, PRid);
+			pstmt.setInt(2, PRid);
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in getFriendRequestList Function");
+			System.exit(1);
+		}
+		return result;
+	}
+	
+	public boolean hasFriendRequest(String nickname) {
+		boolean result = false;
+		try {
+			conn = PRdao.getConnection();
+			String sql = "SELECT PRid FROM FRIEND WHERE Friend_id = ?";
+			int PRid = PRdto.getPRid();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, new ProfileDAO().getPRid_Nickname(nickname));
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in getFriendRequestList Function");
+			System.exit(1);
+		}
+		return result;
+	}
+	
+	
 
 }

@@ -17,7 +17,7 @@ public class ChatroomListPage {
 			try {
 				String input2 = cons.ConsoleDB.scanner.nextLine();
 				input = Integer.parseInt(input2);
-				if (input < 1 && input > 5)
+				if (input < 1 || input > 5)
 					throw new InputMismatchException();
 				else
 					break;

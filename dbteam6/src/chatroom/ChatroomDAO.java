@@ -122,7 +122,7 @@ public class ChatroomDAO{
 		boolean result = false;
 		try {
 			conn = cons.ConsoleDB.conn;
-			String sql = "SELECT * FROM CHAT_ROOM WHERE Host_id = ? OR Participant_id = ? AND CRname = ?";
+			String sql = "SELECT * FROM CHAT_ROOM WHERE (Host_id = ? OR Participant_id = ?) AND CRname = ?";
 			pstmt = conn.prepareStatement(sql);
 			int user_id = PRdto.getPRid();
 			pstmt.setInt(1, user_id);
@@ -179,10 +179,10 @@ public class ChatroomDAO{
 		try {
 			conn = PRdao.getConnection();
 			String sql = "SELECT * FROM CHAT_ROOM WHERE Host_id = ? OR Participant_id = ?";
-			int CRId = PRdto.getPRid();
+			int PRId = PRdto.getPRid();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, CRId);
-			pstmt.setInt(2, CRId);
+			pstmt.setInt(1, PRId);
+			pstmt.setInt(2, PRId);
 			int rs = pstmt.executeUpdate();
 			if(rs >0)
 				result = true;
@@ -200,6 +200,34 @@ public class ChatroomDAO{
 		}
 		return result;
 	}
-
+	
+	public boolean hasChatroom(String nickname) {
+		boolean result = false;
+		try {
+			conn = PRdao.getConnection();
+			String sql = "WITH IDT AS (SELECT Host_id, Participant_id FROM CHAT_ROOM WHERE Host_id = ? OR Participant_id = ?) (SELECT Host_id  AS id FROM IDT,PROFILE WHERE Host_id = PRid AND Nickname = ? ) UNION ALL (SELECT Participant_id AS id FROM IDT,PROFILE WHERE Participant_id = PRid AND Nickname = ?)";
+			int PRId = PRdto.getPRid();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, PRId);
+			pstmt.setInt(2, PRId);
+			pstmt.setString(3, nickname);
+			pstmt.setString(4, nickname);
+			int rs = pstmt.executeUpdate();
+			if(rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in getFriendRequestList Function");
+			System.exit(1);
+		}
+		return result;
+	}
 	
 }

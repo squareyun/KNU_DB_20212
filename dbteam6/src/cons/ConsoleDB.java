@@ -109,7 +109,8 @@ public class ConsoleDB {
 		System.out.println("1. 내 정보 페이지"); // 5
 		System.out.println("2. 나의 채팅방 페이지"); //
 		System.out.println("3. 게시판 페이지");//
-		System.out.println("4. 로그아웃 하기");// 0
+		System.out.println("4. 친구 페이지");
+		System.out.println("5. 로그아웃 하기");// 0
 		System.out.println();
 		System.out.print("입력(번호) : ");
 		int nextStep;
@@ -121,7 +122,7 @@ public class ConsoleDB {
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
 			return accountPage;
 		}
-		if (nextStep != 1 && nextStep != 2 && nextStep != 3 && nextStep != 4) {
+		if (nextStep != 1 && nextStep != 2 && nextStep != 3 && nextStep != 4 && nextStep != 5) {
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
 			return mainPage;// 메인페이지로
 		}
@@ -131,7 +132,10 @@ public class ConsoleDB {
 			return CHATROOMLISTPAGE;
 		} else if (nextStep == 3) {
 			return CATEGORYPAGE;
-		} else { // 로그아웃
+		} else if (nextStep == 4) {
+			return FRIENDMANAGEMENTPAGE;
+		}
+		else { // 로그아웃
 			currentUser = null;
 			System.out.println();
 			System.out.println("로그아웃 되었습니다..");

@@ -109,7 +109,7 @@ public class MessageDAO {
 			int N = 0;
 			while(rs.next())
 				N = rs.getInt("M_N");
-			if(newreplymlist.size() > N)
+			if(newreplymlist.size() < N)
 				result = true;
 		} catch (SQLException e) {
 			e.getStackTrace();
@@ -141,7 +141,9 @@ public class MessageDAO {
 			
 			MessageDTO dto= new MessageDTO();
 			ResultSet rs = pstmt.executeQuery();
+			int n = 0;
 			while (rs.next()) {
+				n++;
 				int Mid = rs.getInt("Mid");
 				int CRid = rs.getInt("CRid");
 				int Sender_id = rs.getInt("Sender_id");
@@ -150,7 +152,7 @@ public class MessageDAO {
 				String Contents = rs.getString("Contents");
 				Timestamp Create_date = rs.getTimestamp("Create_date");
 				dto = new MessageDTO(Mid,CRid,Sender_id,CR_Host_id,CR_participant_id,Contents,Create_date);
-				if(newreplymlist == null || !newreplymlist.contains(dto))
+				if(newreplymlist != null && newreplymlist.size() < n)
 					list.add(dto);
 			}
 		} catch (SQLException e) {
@@ -166,7 +168,6 @@ public class MessageDAO {
 			System.exit(1);
 		}
 		return list;
-
 	}
 
 }

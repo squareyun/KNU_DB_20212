@@ -3,6 +3,7 @@ package page;
 import java.util.List;
 import java.util.Scanner;
 
+import chatroom.ChatroomDAO;
 import friend.FriendDAO;
 import function.MyChatroom;
 import post.PostDAO;
@@ -168,8 +169,13 @@ public class PostContentPage {
 
 			case 3:
 				MyChatroom cr = new MyChatroom(cons.ConsoleDB.currentUser);
-				cr.CreateChatroomWithPostCreator();
-				System.out.println("채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
+				if(new ChatroomDAO(cons.ConsoleDB.currentUser).hasChatroom(post_creator_nicname))
+					System.out.println("이미 글쓴이와의 채팅방이 존재합니다.");
+				else
+				{
+					cr.CreateChatroom(post_creator_nicname);
+					System.out.println("채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
+				}
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 
 			case 4:
@@ -212,16 +218,23 @@ public class PostContentPage {
 				
 			case 2:
 				MyChatroom cr = new MyChatroom(cons.ConsoleDB.currentUser);
-				cr.CreateChatroomWithPostCreator();
-				System.out.println("채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
+				if(new ChatroomDAO(cons.ConsoleDB.currentUser).hasChatroom(post_creator_nicname))
+					System.out.println("이미 글쓴이와의 채팅방이 존재합니다.");
+				else
+				{
+					cr.CreateChatroom(post_creator_nicname);
+					System.out.println("채팅을 하려면 메인페이지에서 채팅방 목록으로 이동하세요.");
+				}
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 				
 			case 3:
 				FriendDAO fr = new FriendDAO(cons.ConsoleDB.currentUser);
-				fr.CreateFriendRequest(post_creator_nicname);
-				
-				System.out.println("★★ 친구추가 신청을 성공적으로 전송하었습니다. ★★");
-				
+				if(fr.hasFriendRequest(post_creator_nicname))
+					System.out.println("이미 글쓴이에게 친구요청을 보냈거나 이미 친구 입니다.");
+				else {
+					fr.CreateFriendRequest(post_creator_nicname);
+					System.out.println("★★ 친구추가 신청을 성공적으로 전송하었습니다. ★★");
+				}
 				return cons.ConsoleDB.POSTCONTENTPAGE;
 				
 			case 4:
