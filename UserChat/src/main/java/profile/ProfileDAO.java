@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+
 public class ProfileDAO {
 	//dao:데이터베이스 접근 객체의 약자로
 	//실질적으로 db에서 회원정보 불러오거나 db에 회원정보를 넣을때
@@ -18,6 +19,9 @@ public class ProfileDAO {
 	private static String dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
 	private static String dbID = "userchat";
 	private static String dbPassword = "1234";
+	
+	private ProfileDTO currentUser = null;
+	
 	//Oracle에 접속 해주는 부분
 	public ProfileDAO() {//생성자 실행될때마다 자동으로 db연결이 이루어질수 있도록함
 		//ㄴㅇㅁ
@@ -44,6 +48,102 @@ public class ProfileDAO {
 			
 		
 	}
+	public static ProfileDTO getUserByEmail(String userEmail) {
+
+		ProfileDTO user = null;
+
+		String SQL = "SELECT * FROM PROFILE WHERE Email = ?";
+
+		try {
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, userEmail);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+
+				String Email = rs.getString("Email");
+				String Password = rs.getString("Password");
+				String Fname = rs.getString("Fname");
+				String Lname = rs.getString("Lname");
+				String Gender = rs.getString("Gender");
+				String Phone_num = rs.getString("Phone_num");
+				String Nickname = rs.getString("Nickname");
+				String Country = rs.getString("Country");
+				String State = rs.getString("State");
+				String City = rs.getString("City");
+				String Street = rs.getString("Street");
+				String ProfileImg = rs.getString("ProfileImg");
+				int Restriction = rs.getInt("Restriction");
+				int Role_id = rs.getInt("Role_id");
+				int PRid = rs.getInt("PRid");
+				Timestamp Create_date = rs.getTimestamp("Create_date");
+				user = new ProfileDTO(Fname, Lname, PRid, Email, Password, Restriction, Phone_num, Create_date, Country,
+						State, City, Street, Nickname, Gender, ProfileImg, Role_id);
+			}
+
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("로그인에 실패 하였습니다..");
+			System.exit(1);
+		}
+
+		return user;
+	}
+
+	public static ProfileDTO getUserByPRid(int user_PRid) {
+
+		ProfileDTO user = null;
+
+
+		String SQL = "SELECT * FROM PROFILE WHERE prid = ?";
+
+		try {
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, user_PRid);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+
+				String Email = rs.getString("Email");
+				String Password = rs.getString("Password");
+				String Fname = rs.getString("Fname");
+				String Lname = rs.getString("Lname");
+				String Gender = rs.getString("Gender");
+				String Phone_num = rs.getString("Phone_num");
+				String Nickname = rs.getString("Nickname");
+				String Country = rs.getString("Country");
+				String State = rs.getString("State");
+				String City = rs.getString("City");
+				String Street = rs.getString("Street");
+				String ProfileImg = rs.getString("ProfileImg");
+				int Restriction = rs.getInt("Restriction");
+				int Role_id = rs.getInt("Role_id");
+				int PRid = rs.getInt("PRid");
+				Timestamp Create_date = rs.getTimestamp("Create_date");
+				user = new ProfileDTO(Fname, Lname, PRid, Email, Password, Restriction, Phone_num, Create_date, Country,
+						State, City, Street, Nickname, Gender, ProfileImg, Role_id);
+			}
+
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("로그인에 실패 하였습니다..");
+			System.exit(1);
+		}
+
+		return user;
+	}
 	 public int login(String Email, String Password) {
 		 String SQL = "SELECT Password FROM PROFILE WHERE Email = ?";
 		 
@@ -52,13 +152,14 @@ public class ProfileDAO {
 			 pstmt = conn.prepareStatement(SQL);
 			 //sql인젝션 같은 해킹기법을 방해하는것 pstmt를 이용해 하나의 문장을 미리 준비해서 (물음표사용)
 			 //물음표에 해당하는 내용을 유저 아이디로, 매개변수로 이용 1)존재하는지 2)비번 무엇인지
+			 currentUser = getUserByEmail(Email);
 			 pstmt.setString(1, Email);
 			 //rs:result set에 결과보관
 			 rs = pstmt.executeQuery();
 			 //결과가 존재한다면 실행
 			 if(rs.next()) {
 				 //패스워드 일치한다면 실행
-				 if(rs.getString(1).equals(Password)) {
+				 if(rs.getString("Password").equals(Password)) {
 					 return 1;//로긴성공
 				 }
 				 else

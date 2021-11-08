@@ -1,130 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/custom.css?after" />
-    <title>JSP AJax 실시간 회원제 채팅</title>
-    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <!-- 자바스크립트 시작 -->
-    <script type="text/javascript">
-    
-	  function showTimerAlert(str) {
-	  	  Swal.fire({
-	            icon: 'fail',
-	            title: str,
-	            showConfirmButton: false,
-	            timer: 1500
-	          });
-	  }
-      function registerCheckFunction() {
-        var Email = $("#Email").val();
-        // ajax 비동기 통신
-        $.ajax({
-          type: "POST",
-          //아래의 url로 보내줌
-          url: "./ProfileRegisterCheckServlet",
-          data: { Email: Email },
-          //성공했다면 result 값을 반환받음
-          success: function (result) {
-        	console.log(result);
-            if (result == 1) {
-              console.log("중복되지 않는 아이디 입니다.");
-              Swal.fire({
-                  icon: 'success',
-                  title: `중복되지 않는 아이디 입니다.`,
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-            } else {
-              console.log("중복되는 아이디 입니다.");
-              Swal.fire({
-                  icon: 'fail',
-                  title: `중복되는 아이디 입니다.`,
-                  showConfirmButton: true
-                });
-            }
-          }
-        });
-      }
-      // javascript 비밀번호 체크 기능
-      function passwordCheckFunction() {
-        var Password1 = document.getElementById("Password1").value;
-        var Password2 = document.getElementById("Password2").value;
-        if (Password1 != Password2) {
-          document.getElementById("passwordCheckMessage").innerHTML =
-            "비밀번호가 틀립니다. 확인해주세요.";
-        } else {
-          document.getElementById("passwordCheckMessage").innerHTML =
-            "";
-        }
-      }
-
-    </script>
-  </head>
+  <%@ include file = "views/header.jsp" %>
+  
   <body>
-    <!-- 부트스트랩을 이용하여 메뉴를 만들어 주도록 하겠씁니다. -->
-     <% 
-     String Email= null; 
-     if (session.getAttribute("Email")!= null) { 
-    	 Email = (String) session.getAttribute("Email"); 
-     } 
-    
-     if (Email!= null) {
-    	 String msg = "현재 로그인 되어 있는 상태 입니다."; 
-    	 %>
-    	 <script>showTimerAlert("현재 로그인 되어 있는 상태 입니다.");</script> 
-    <% 
-    	response.sendRedirect("index.jsp");
-    	return;
-     }  
-     %>
-    <nav class="navbar navbar-default">
-      <div class="navbar-header">
-        <button
-          class="navbar navbar-toggle collapsed"
-          data-toggle="collapsed"
-          data-target="#bs-example-navbar-collapse-1"
-          aria-expanded="false"
-        >
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="index.jsp">실시간 회원제 채팅 서비스</a>
-      </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="index.jsp">메인</a></li>
-        </ul>
-        <% if(Email == null) { %>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a
-              href="#"
-              class="dropdown-toggle"
-              data-toggle="dropdown"
-              role="button"
-              aria-haspop="true"
-              aria-expanded="false"
-            >
-              접속하기 
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="index.jsp">메인</a></li>
-              <li><a href="Login.jsp">로그인</a></li>
-              <li><a href="Join.jsp">회원가입</a></li>
-            </ul>
-          </li>
-        </ul>
-		<% } %>
-      </div>
-    </nav>
+    <%@ include file = "views/navigation.jsp" %>
     <div class="container">
       <form method="post" action="./ProfileRegisterServlet">
         <table
@@ -338,5 +218,59 @@ pageEncoding="UTF-8"%> <!DOCTYPE html>
         </table>
       </form>
     </div>
+    <script type="text/javascript">
+    
+	  function showTimerAlert(str) {
+	  	  Swal.fire({
+	            icon: 'fail',
+	            title: str,
+	            showConfirmButton: false,
+	            timer: 1500
+	          });
+	  }
+      function registerCheckFunction() {
+        var Email = $("#Email").val();
+        // ajax 비동기 통신
+        $.ajax({
+          type: "POST",
+          //아래의 url로 보내줌
+          url: "./ProfileRegisterCheckServlet",
+          data: { Email: Email },
+          //성공했다면 result 값을 반환받음
+          success: function (result) {
+        	console.log(result);
+            if (result == 1) {
+              console.log("중복되지 않는 아이디 입니다.");
+              Swal.fire({
+                  icon: 'success',
+                  title: `중복되지 않는 아이디 입니다.`,
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+            } else {
+              console.log("중복되는 아이디 입니다.");
+              Swal.fire({
+                  icon: 'error',
+                  title: `중복되는 아이디 입니다.`,
+                  showConfirmButton: true
+                });
+            }
+          }
+        });
+      }
+      // javascript 비밀번호 체크 기능
+      function passwordCheckFunction() {
+        var Password1 = document.getElementById("Password1").value;
+        var Password2 = document.getElementById("Password2").value;
+        if (Password1 != Password2) {
+          document.getElementById("passwordCheckMessage").innerHTML =
+            "비밀번호가 틀립니다. 확인해주세요.";
+        } else {
+          document.getElementById("passwordCheckMessage").innerHTML =
+            "";
+        }
+      }
+
+    </script>
   </body>
 </html>
