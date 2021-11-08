@@ -129,8 +129,8 @@ public class Friends {
 				nickname = cons.ConsoleDB.scanner.nextLine().trim();
 				if (!PRdao.hasNickname(nickname))
 					throw new Exception("해당 닉네임이 존재하지 않습니다.");
-				else if (dao.hasFriend_Nickname(nickname))
-					throw new Exception("중복된 친구입니다.");
+				else if (dao.hasFriendRequest(nickname))
+					throw new Exception("이미 친구이거나 친구 추가 요청을 보냈습니다. 아니라면 친구추가 요청확인페이지를 확인하세요");
 				else if (PRdto.getNickname().equals(nickname))
 					throw new Exception("자기 자신과 친구를 맺을 수 없습니다.");
 				else if (nickname.equals(""))

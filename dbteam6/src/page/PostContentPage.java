@@ -230,7 +230,7 @@ public class PostContentPage {
 			case 3:
 				FriendDAO fr = new FriendDAO(cons.ConsoleDB.currentUser);
 				if(fr.hasFriendRequest(post_creator_nicname))
-					System.out.println("이미 글쓴이에게 친구요청을 보냈거나 이미 친구 입니다.");
+					System.out.println("이미 글쓴이에게 친구요청을 보냈거나 이미 친구 입니다. 아니라면 친구추가 요청확인페이지를 확인하세요");
 				else {
 					fr.CreateFriendRequest(post_creator_nicname);
 					System.out.println("★★ 친구추가 신청을 성공적으로 전송하었습니다. ★★");

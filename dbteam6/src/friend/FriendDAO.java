@@ -287,10 +287,13 @@ public class FriendDAO {
 		boolean result = false;
 		try {
 			conn = PRdao.getConnection();
-			String sql = "SELECT PRid FROM FRIEND WHERE Friend_id = ?";
+			String sql = "(SELECT PRid FROM FRIEND WHERE PRid = ? AND Friend_id = ?) UNION ALL (SELECT PRid FROM FRIEND WHERE PRid = ? AND Friend_id = ?)";
 			int PRid = PRdto.getPRid();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, new ProfileDAO().getPRid_Nickname(nickname));
+			pstmt.setInt(1, PRid);
+			pstmt.setInt(2, new ProfileDAO().getPRid_Nickname(nickname));
+			pstmt.setInt(3, new ProfileDAO().getPRid_Nickname(nickname));
+			pstmt.setInt(4, PRid);
 			int rs = pstmt.executeUpdate();
 			if (rs > 0)
 				result = true;
