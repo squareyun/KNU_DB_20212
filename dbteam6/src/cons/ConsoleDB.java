@@ -14,9 +14,9 @@ import profile.ProfileDTO;
 
 public class ConsoleDB {
 
-	public static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	public static final String USER_NAME = "test";
-	public static final String USER_PASSWD = "test";
+	public static final String URL = "jdbc:oracle:thin:@192.168.219.105:1521:orcl";
+	public static final String USER_NAME = "userchat";
+	public static final String USER_PASSWD = "1234";
 	public static Connection conn = null; // Connection object
 	public static Statement stmt = null; // Statement object
 	public static PreparedStatement pstmt;
@@ -120,7 +120,7 @@ public class ConsoleDB {
 		} catch (Exception e) {
 			scanner.next();
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");
-			return accountPage;
+			return mainPage;
 		}
 		if (nextStep != 1 && nextStep != 2 && nextStep != 3 && nextStep != 4 && nextStep != 5) {
 			System.out.println("잘못된 입력 값 입니다. 다시 입력하세요.");

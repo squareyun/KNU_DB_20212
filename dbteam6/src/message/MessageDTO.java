@@ -3,6 +3,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 import chatroom.ChatroomDTO;
+import profile.ProfileDAO;
 
 public class MessageDTO {
 	private int Mid;
@@ -39,11 +40,13 @@ public class MessageDTO {
 	}
 
 	public void getInfo(int cur_user_id) {
-		// TODO Auto-generated method stub
-		if(Sender_id == cur_user_id)
-			System.out.printf("%30s\n",Contents);
-		else
-			System.out.printf("%-30s\n",Contents);
+	      // TODO Auto-generated method stub
+	      String sender_nickname = new ProfileDAO().getNickname_PRid(Sender_id);
+	      sender_nickname = "["+ sender_nickname + "]님";
+	      if(Sender_id == cur_user_id)
+	         System.out.printf("%-20s : %-20s\n",sender_nickname,Contents);
+	      else
+	         System.out.printf("%-20s : %-20s\n",sender_nickname,Contents);
 	}
 	public int getMid() {
 		return Mid;

@@ -45,6 +45,7 @@ public class FriendDAO {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
 			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in GetFriendList SQLException Function");
 			System.exit(1);
 		} catch (Exception e) {
 			e.getStackTrace();

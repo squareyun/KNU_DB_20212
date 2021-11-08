@@ -1,8 +1,8 @@
 package page;
 
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
+import cons.ConsoleDB;
 import function.MyChatroom;
 
 public class ChatroomListPage {
@@ -11,7 +11,16 @@ public class ChatroomListPage {
 		
 		System.out.println("---------------------------------");
 		cr.showMyChatroomList();
-		System.out.println("1.채팅방 들어가기 2.채팅방 이름 수정 3.채팅방 삭제하기 4.채팅방 생성하기 5.메인으로 돌아가기");
+		System.out.println();
+		System.out.println("---------------------------------");
+		System.out.println();
+		System.out.println("1.채팅방 들어가기");
+		System.out.println("2.채팅방 이름 수정");
+		System.out.println("3.채팅방 삭제하기");
+		System.out.println("4.채팅방 생성하기");
+		System.out.println("5.메인으로 돌아가기");
+		System.out.println();
+		System.out.print("입력(번호) : ");
 		int input = 0;
 		while(true) {
 			try {
@@ -23,8 +32,10 @@ public class ChatroomListPage {
 					break;
 			} catch (InputMismatchException e) {
 				System.out.println("잘못된 값입니다.");
+				return cons.ConsoleDB.CHATROOMLISTPAGE;
 			} catch (Exception e) {
 				System.out.println("잘못된 값입니다.");
+				return cons.ConsoleDB.CHATROOMLISTPAGE;
 			}
 		}
 		switch (input) {

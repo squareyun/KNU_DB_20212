@@ -36,7 +36,6 @@ public class PostPage {
 		System.out.print("입력(번호) : ");
 
 		int choosen;
-		int choosen2;
 
 		try {
 			choosen = sc.nextInt();
@@ -76,8 +75,12 @@ public class PostPage {
 			
 		case 3:
 			return cons.ConsoleDB.CATEGORYPAGE;
+			
+		default:
+			System.out.println("1~3번 숫자를 다시 입력하세요.");
+			System.out.println("");
+			return cons.ConsoleDB.POSTPAGE;
 		}
-		return 0;
 
 	}
 }

@@ -12,9 +12,9 @@ public class ProfileDAO {
 	// private Statement stmt;
 	private PreparedStatement pstmt;
 	// private CallabelStatement cstmt;
-	public static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
-	public static final String USER_NAME = "test";
-	public static final String USER_PASSWD = "test";
+	public static final String URL = cons.ConsoleDB.URL;
+	public static final String USER_NAME = cons.ConsoleDB.USER_NAME;
+	public static final String USER_PASSWD = cons.ConsoleDB.USER_PASSWD;
 
 	public ProfileDAO() {
 		// TODO Auto-generated constructor stub
@@ -373,18 +373,17 @@ public class ProfileDAO {
 			System.out.println("잘못된 입력 값 입니다.");
 			return;// myAccountInfo
 		}
-		scanner.nextLine();
 		if (chosen == 1) {
 			System.out.print("변경할 비밀번호 : ");
-			ChangedVal = scanner.nextLine();
+			ChangedVal = scanner.nextLine().trim();
 			SQL = "UPDATE PROFILE SET PASSWORD = ? WHERE EMAIL = ?";
 		} else if (chosen == 2) {
 			System.out.print("변경할 핸드폰 번호 : ");
-			ChangedVal = scanner.nextLine();
+			ChangedVal = scanner.nextLine().trim();
 			SQL = "UPDATE PROFILE SET PHONE_NUM = ? WHERE EMAIL = ?";
 		} else if (chosen == 3) {
 			System.out.print("변경할 성별 (남자,여자) : ");
-			ChangedVal = scanner.nextLine();
+			ChangedVal = scanner.nextLine().trim();
 			SQL = "UPDATE PROFILE SET GENDER = ? WHERE EMAIL = ?";
 		} else {
 			System.out.println();
