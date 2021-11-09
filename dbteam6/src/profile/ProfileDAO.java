@@ -228,6 +228,14 @@ public class ProfileDAO {
 				if (rs.getString(1).equals(Password)) {
 
 					ConsoleDB.currentUser = getUserByEmail(Email);
+					
+					if(ConsoleDB.currentUser.getRole_id() == 3 ) {
+						cons.ConsoleDB.currentUser = null;
+						System.out.println();
+						System.out.println("Restricted User는 로그인이 제한됩니다!");
+						return nextStep;
+					}
+					
 					System.out.println();
 					System.out.println("로그인을 성공하였습니다!");
 					System.out.println("메인 페이지로 이동합니다.");

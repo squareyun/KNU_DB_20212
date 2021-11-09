@@ -14,7 +14,7 @@ import profile.ProfileDTO;
 
 public class ConsoleDB {
 
-	public static final String URL = "jdbc:oracle:thin:@192.168.219.105:1521:orcl";
+	public static final String URL = "jdbc:oracle:thin:@localhost:1521:orcl";
 	public static final String USER_NAME = "userchat";
 	public static final String USER_PASSWD = "1234";
 	public static Connection conn = null; // Connection object
