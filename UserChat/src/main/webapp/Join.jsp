@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%> <!DOCTYPE html>
 <html>
-  <%@ include file = "views/header.jsp" %>
+  <%@ include file = "layout/header.jsp" %>
   
   <body>
-    <%@ include file = "views/navigation.jsp" %>
+    <%@ include file = "layout/navigation.jsp" %>
     <div class="container">
       <form method="post" action="./ProfileRegisterServlet">
         <table

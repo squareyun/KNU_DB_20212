@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-  <%@ include file = "views/header.jsp" %>
+  <%@ include file = "layout/header.jsp" %>
   <body>
     <% session.invalidate(); %>
     <script>

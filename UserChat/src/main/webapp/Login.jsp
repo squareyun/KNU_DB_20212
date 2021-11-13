@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <html>
-  <%@ include file = "views/header.jsp" %>
+  <%@ include file = "layout/header.jsp" %>
 
   <body>
-    <%@ include file = "views/navigation.jsp" %>
+    <%@ include file = "layout/navigation.jsp" %>
     <%
 	    if (session.getAttribute("messageType")!= null) {
 	      String Error = "오류 메세지";

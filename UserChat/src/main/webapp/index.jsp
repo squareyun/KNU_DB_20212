@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-  <%@ include file = "views/header.jsp" %>
+  <%@ include file = "layout/header.jsp" %>
   <body>
   	<%
 	    if (session.getAttribute("messageType")!= null) {
@@ -25,7 +25,7 @@ pageEncoding="UTF-8"%>
 	  	  }
    	}    
     %>
-    <%@ include file = "views/navigation.jsp" %>
+    <%@ include file = "layout/navigation.jsp" %>
     <%
 		 if (session.getAttribute("messageType")!= null) { 
 			 session.removeAttribute("messageType");
