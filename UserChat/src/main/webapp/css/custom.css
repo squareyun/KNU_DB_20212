@@ -1,0 +1,70 @@
+@charset "UTF-8";
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/hanna.css);
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+* {
+  font-family: "Nanum Gothic";
+}
+.login-container {
+	display : flex;
+    justify-content: center; /*수평정렬*/
+    align-items: center;
+    width:100%;
+    height : 50%;
+}
+.login-container-innner {
+	display : flex;
+	width : 100% !important;
+    justify-content: center; /*수평정렬*/
+    align-items: center;
+    width:100%;
+    height : 100%;
+}
+h5 {
+  font-family: "Noto Sans KR";
+  font-size: 15px;
+}
+h4 {
+  font-family: "Noto Sans KR";
+}
+h3 {
+  font-family: "Hanna";
+}
+h2 {
+  font-family: "Hanna";
+}
+h1 {
+  font-family: "Hanna";
+}
+/* 테이블 관련 디자인 처리 */
+table {
+  border: none;
+}
+thead th {
+  background-color: #006dcc;
+  color: white;
+  text-align: center;
+  border: none;
+}
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border: 1px solid rgba(116, 114, 114, 0.2);
+}
+tr th:first-child,
+tr th:first-child {
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border: none;
+}
+tr th:first-child,
+tr th:first-child {
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.swal2-title{
+    font-family: Dotum, 돋움, Helvetica, sans-serif !important;
+}

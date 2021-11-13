@@ -1,11 +1,4 @@
-*.woff
-*.woff2
-*.svg
-*.eot
-*.ttf
-*.js
-*.map
-*.css
+
 
 .classpath
 .project
