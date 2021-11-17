@@ -20,7 +20,7 @@ public class ProfileDAO {
 	private static String dbID = "userchat";
 	private static String dbPassword = "1234";
 	
-	private ProfileDTO currentUser = null;
+	//private ProfileDTO currentUser = null;
 	
 	//Oracle에 접속 해주는 부분
 	public ProfileDAO() {//생성자 실행될때마다 자동으로 db연결이 이루어질수 있도록함
@@ -51,7 +51,7 @@ public class ProfileDAO {
 	public static ProfileDTO getUserByEmail(String userEmail) {
 
 		ProfileDTO user = null;
-
+		userEmail.trim();
 		String SQL = "SELECT * FROM PROFILE WHERE Email = ?";
 
 		try {
@@ -59,7 +59,6 @@ public class ProfileDAO {
 			pstmt.setString(1, userEmail);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-
 				String Email = rs.getString("Email");
 				String Password = rs.getString("Password");
 				String Fname = rs.getString("Fname");
@@ -83,14 +82,9 @@ public class ProfileDAO {
 		} catch (SQLException e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
-			System.out.println(e.getLocalizedMessage());
-			System.exit(1);
 		} catch (Exception e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
-			System.out.println(e.getLocalizedMessage());
-			System.out.println("로그인에 실패 하였습니다..");
-			System.exit(1);
 		}
 
 		return user;
@@ -133,13 +127,10 @@ public class ProfileDAO {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
 			System.out.println(e.getLocalizedMessage());
-			System.exit(1);
 		} catch (Exception e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
 			System.out.println(e.getLocalizedMessage());
-			System.out.println("로그인에 실패 하였습니다..");
-			System.exit(1);
 		}
 
 		return user;
@@ -152,7 +143,7 @@ public class ProfileDAO {
 			 pstmt = conn.prepareStatement(SQL);
 			 //sql인젝션 같은 해킹기법을 방해하는것 pstmt를 이용해 하나의 문장을 미리 준비해서 (물음표사용)
 			 //물음표에 해당하는 내용을 유저 아이디로, 매개변수로 이용 1)존재하는지 2)비번 무엇인지
-			 currentUser = getUserByEmail(Email);
+			 //currentUser = getUserByEmail(Email);
 			 pstmt.setString(1, Email);
 			 //rs:result set에 결과보관
 			 rs = pstmt.executeQuery();

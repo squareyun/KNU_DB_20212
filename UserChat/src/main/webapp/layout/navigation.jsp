@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
     <% 
-     String Email= null; 
+     String Email= null;
      if (session.getAttribute("Email")!= null) { 
     	 Email = (String) session.getAttribute("Email"); 
     	 String path = request.getServletPath();
@@ -9,6 +9,13 @@ pageEncoding="UTF-8"%>
         	 response.sendRedirect("index.jsp");
          }
      }
+     else {
+    	 String path = request.getServletPath();
+         if( !path.equals("/Login.jsp") && !path.equals("/Join.jsp")){
+        	 response.sendRedirect("Login.jsp");
+         }
+     }
+     
      %>
     <nav class="navbar navbar-default">
       <div class="navbar-header">
@@ -22,7 +29,7 @@ pageEncoding="UTF-8"%>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.jsp">실시간 회원제 채팅 서비스</a>
+        <a class="navbar-brand" href="index.jsp">DataBase App</a>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
@@ -65,6 +72,9 @@ pageEncoding="UTF-8"%>
               <span class="caret"></span>
             </a>
              <ul class="dropdown-menu">
+              <li>
+                <a href="UserInfo.jsp">회원정보 수정</a>
+              </li>
             	<li>
             		<a href = "logoutAction.jsp">로그아웃</a>
             	</li>

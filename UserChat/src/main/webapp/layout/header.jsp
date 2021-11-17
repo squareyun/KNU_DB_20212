@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/custom.css?after" />
     <link rel="stylesheet" href="css/login.css?after" />
-    <title>JSP AJax 실시간 회원제 채팅</title>
+    <title>DataBase App</title>
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
