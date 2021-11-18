@@ -1,5 +1,6 @@
 package profile;
 
+import java.io.File;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +17,7 @@ public class ProfileUpdateServlet extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset = UTF-8");
+		
 		String Fname = request.getParameter("Fname");
 		String Lname = request.getParameter("Lname");
 		String Password = request.getParameter("Password");
@@ -25,8 +27,9 @@ public class ProfileUpdateServlet extends HttpServlet {
 		String City = request.getParameter("City");
 		String Street = request.getParameter("Street");
 		String Gender = request.getParameter("Gender");
-		
 		String Email = request.getParameter("Email");
+		
+		System.out.println(Fname+Lname+Password+Phone_num+Country+State+City+Street+Gender+Email);
 		
 		if(Fname == null || Fname.equals("") 
 				|| Lname == null || Lname.equals("")
@@ -40,7 +43,7 @@ public class ProfileUpdateServlet extends HttpServlet {
 				) {
 			request.getSession().setAttribute("messageType","오류 메세지");
 			request.getSession().setAttribute("messageContent","모든 내용을 입력하세요!");
-			response.sendRedirect("join.jsp");
+			response.sendRedirect("UserInfo.jsp");
 			return;		
 		}
 		int result = new ProfileDAO().update(Email,Fname,Lname,Password,Phone_num,Country,State,City,Street,Gender);

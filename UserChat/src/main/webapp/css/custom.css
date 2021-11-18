@@ -6,19 +6,19 @@
   font-family: "Nanum Gothic";
 }
 .login-container {
-	display : flex;
-    justify-content: center; /*수평정렬*/
-    align-items: center;
-    width:100%;
-    height : 50%;
+  display: flex;
+  justify-content: center; /*수평정렬*/
+  align-items: center;
+  width: 100%;
+  height: 50%;
 }
 .login-container-innner {
-	display : flex;
-	width : 100% !important;
-    justify-content: center; /*수평정렬*/
-    align-items: center;
-    width:100%;
-    height : 100%;
+  display: flex;
+  width: 100% !important;
+  justify-content: center; /*수평정렬*/
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 h5 {
   font-family: "Noto Sans KR";
@@ -46,6 +46,9 @@ thead th {
   text-align: center;
   border: none;
 }
+td {
+  vertical-align: middle !important;
+}
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,
 .table-bordered > tfoot > tr > th,
@@ -65,6 +68,14 @@ tr th:first-child {
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
 }
-.swal2-title{
-    font-family: Dotum, 돋움, Helvetica, sans-serif !important;
+.swal2-title {
+  font-family: Dotum, 돋움, Helvetica, sans-serif !important;
+}
+.userProfileImg {
+  border: 5px solid #2e3133;
+  color: #2e3133;
+  border-radius: 100%;
+  cursor: pointer;
+  margin: 20px;
+  padding: 5px;
 }

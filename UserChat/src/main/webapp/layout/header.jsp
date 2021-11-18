@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/custom.css?after" />
+    <link rel="stylesheet" href="css/custom.css"/>
     <link rel="stylesheet" href="css/login.css?after" />
     <title>DataBase App</title>
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>

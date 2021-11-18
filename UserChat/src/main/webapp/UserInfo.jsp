@@ -3,6 +3,7 @@ pageEncoding="UTF-8"%>
 <%@ page import = "profile.ProfileDAO" %>
 <%@ page import = "profile.ProfileDTO" %>
 <%@ page import = "java.sql.SQLException" %>
+<%@ page import = "java.io.*" %>
 <!DOCTYPE html>
 <html>
   <%@ include file = "layout/header.jsp" %>
@@ -30,7 +31,7 @@ pageEncoding="UTF-8"%>
     %>
     <%@ include file = "layout/navigation.jsp" %>
     <% 
-    
+    	String changedPriofileImgUrl = null;
     	String userEmail= (String) session.getAttribute("Email");
     	ProfileDTO currentUser = null;
     	try{
@@ -44,7 +45,7 @@ pageEncoding="UTF-8"%>
      %>
      <% if(currentUser != null){ %>
     	 <div class="container">
-         <form method="post" action="./ProfileUpdateServlet">
+         <form method="post" enctype="multipart/form-data" action="./ProfileUpdateServlet">
            <table
              class="table table-bordered table-hover"
              style="text-align: center; border: 1px solid #dddddd"
@@ -55,6 +56,23 @@ pageEncoding="UTF-8"%>
                </tr>
              </thead>
              <tbody>
+               <tr>
+                 <td style="width: 110px"><h5>프로필 사진</h5></td>
+                 <td>
+                   <%if(currentUser.getProfileImg() == null){ %>
+                      <label for="ProfileImgFile">
+                   		  <img src="./image/addProfile.png" class = "userProfileImg" alt="User Profile Image" width="150" height="150">
+                      </label>
+                      <input style="display:none;" type="file" id="ProfileImgFile" name="ProfileImgFile" accept="image/*" onchange="loadFile(this)">
+                   <%}else{ %>
+                   		<label for="ProfileImgFile">
+                   		  <img src="./image/addProfile.png" class = "userProfileImg" alt="User Profile Image" width="150" height="150">
+                      </label>
+                      <input style="display:none;" type="file" id="ProfileImgFile" name="ProfileImgFile" accept="image/*" onchange="loadFile(this)">
+                   <%} %>
+                   <input style="display:none;" type="text" id="ProfileImg" name="ProfileImg" value="" />
+                 </td>
+               </tr>
                <tr>
                  <td style="width: 110px"><h5>이메일</h5></td>
                  <td>
@@ -246,5 +264,27 @@ pageEncoding="UTF-8"%>
 			 session.removeAttribute("messageContent");
 		 }; 
 	 %>
+   <script>
+   	  function loadFile(event){
+        const theFile = event.files[0];
+        var profileImgTag = document.querySelector('.userProfileImg');
+        if (theFile) {
+          const reader = new FileReader();
+          reader.readAsDataURL(theFile);
+          reader.onloadend = (finishedEvent) => {
+            const {
+              currentTarget: { result },
+            } = finishedEvent;
+            changedPriofileImgUrl = result;
+            profileImgTag.src  = changedPriofileImgUrl;
+          };
+        }
+        else{
+          showErrorMessage('파일 정보가 없습니다.');
+          profileImgTag.src  = './image/addProfile.png';
+          changedPriofileImgUrl = null;
+        }
+   	  }
+   </script>
   </body>
 </html>
