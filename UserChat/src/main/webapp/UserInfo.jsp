@@ -44,7 +44,7 @@ pageEncoding="UTF-8"%>
      %>
      <% if(currentUser != null){ %>
     	 <div class="container">
-         <form method="post" action="./ProfileRegisterServlet">
+         <form method="post" action="./ProfileUpdateServlet">
            <table
              class="table table-bordered table-hover"
              style="text-align: center; border: 1px solid #dddddd"
@@ -65,8 +65,8 @@ pageEncoding="UTF-8"%>
                      name="Email"
                      maxlength="20"
                      placeholder="이메일 입력해주세요"
-   				  disabled
-   				  value="<%= currentUser.getEmail() %>"
+                     readonly
+                     value="<%= currentUser.getEmail() %>"
                    />
                  </td>
                </tr>
@@ -76,9 +76,9 @@ pageEncoding="UTF-8"%>
                    <input
                      class="form-control"
    				  value="<%= currentUser.getPassword() %>"
-                     id="Password1"
+                     id="Password"
                      type="password"
-                     name="Password1"
+                     name="Password"
                      maxlength="20"
                      placeholder="비밀번호를 입력하세요."
                    />
@@ -90,7 +90,7 @@ pageEncoding="UTF-8"%>
                  	<div class="col-md-6 ">
        			<input class="form-control"
                      id="Fname"
-   				  value="<%= currentUser.getFname() %>"
+   				           value="<%= currentUser.getFname() %>"
                      type="text"
                      name="Fname"
                      maxlength="10"
@@ -130,7 +130,7 @@ pageEncoding="UTF-8"%>
                            name="Gender"
                            autocomplete="off"
                            value="여자"
-   						<% if(currentUser.getGender().equals("여자")) out.print("checked"); %>
+   					              	<% if(currentUser.getGender().equals("여자")) out.print("checked"); %>
                          />여자
                        </label>
                      </div>
@@ -142,7 +142,7 @@ pageEncoding="UTF-8"%>
                  <td colspan="2">
                    <input
                      class="form-control"
-   				  value="<%= currentUser.getPhone_num() %>"
+   				           value="<%= currentUser.getPhone_num() %>"
                      id="Phone_num"
                      type="text"
                      name="Phone_num"
@@ -179,7 +179,7 @@ pageEncoding="UTF-8"%>
                   	<div class="col-md-2" id = "form-input3">
    	                <input
    	                  class="form-control"
-   					  value="<%= currentUser.getCity() %>"
+   					          value="<%= currentUser.getCity() %>"
    	                  id="City"
    	                  type="text"
    	                  name="City"
@@ -190,7 +190,7 @@ pageEncoding="UTF-8"%>
                   	<div class="col-md-2" id = "form-input4">
                  		<input
    	                  class="form-control"
-   					  value="<%= currentUser.getStreet() %>"
+   					          value="<%= currentUser.getStreet() %>"
    	                  id="Street"
    	                  type="text"
    	                  name="Street"
@@ -205,8 +205,8 @@ pageEncoding="UTF-8"%>
                  <td colspan="2">
                    <input
                      class="form-control" 
-   				  value="<%= currentUser.getNickname() %>"
-   				  disabled
+                     value="<%= currentUser.getNickname() %>"
+                     readonly
                      id="Nickname"
                      type="text"
                      name="Nickname"

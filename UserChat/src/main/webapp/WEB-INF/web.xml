@@ -19,12 +19,20 @@
   	<url-pattern>/ProfileRegister</url-pattern>
   </servlet-mapping>
   <servlet> 
-   <servlet-name>ProfileRegisterCheckServlet</servlet-name>
-   <servlet-class>profile.ProfileRegisterCheckServlet</servlet-class>
+   <servlet-name>ProfileRegisterEmailCheckServlet</servlet-name>
+   <servlet-class>profile.ProfileRegisterEmailCheckServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-   <servlet-name>ProfileRegisterCheckServlet</servlet-name>
-   <url-pattern>/ProfileRegisterCheck</url-pattern>
+   <servlet-name>ProfileRegisterEmailCheckServlet</servlet-name>
+   <url-pattern>/ProfileRegisterEmailCheck</url-pattern>
+  </servlet-mapping>
+  <servlet> 
+   <servlet-name>ProfileRegisterNicknameCheckServlet</servlet-name>
+   <servlet-class>profile.ProfileRegisterNicknameCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>ProfileRegisterNicknameCheckServlet</servlet-name>
+   <url-pattern>/ProfileRegisterNicknameCheck</url-pattern>
   </servlet-mapping>
   <servlet> 
    <servlet-name>ProfileLoginServlet</servlet-name>
@@ -33,5 +41,13 @@
   <servlet-mapping>
    <servlet-name>ProfileLoginServlet</servlet-name>
    <url-pattern>/ProfileLogin</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
+  <servlet> 
+   <servlet-name>ProfileUpdateServlet</servlet-name>
+   <servlet-class>profile.ProfileUpdateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>ProfileUpdateServlet</servlet-name>
+   <url-pattern>/ProfileUpdate</url-pattern>
+  </servlet-mapping>
 </web-app>

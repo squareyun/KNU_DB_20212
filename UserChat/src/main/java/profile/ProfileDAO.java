@@ -185,7 +185,7 @@ public class ProfileDAO {
 		 return -2;//데이터베이스 오류를 의미
 	 }
 	 
-	 public int registerCheck(String Email) {
+	 public int registerEmailCheck(String Email) {
 		 
 		 String SQL = "SELECT Password FROM PROFILE WHERE Email = ?";
 		 
@@ -199,6 +199,51 @@ public class ProfileDAO {
 			 rs = pstmt.executeQuery();
 			 //결과가 존재한다면 실행
 			 if(rs.next() || Email.equals("")) {
+					 return 0;//이미 존재하는 회
+			 }				 
+			 else
+				 return 1;// 가입가능 
+			 
+		 }catch(Exception e) {
+			 e.printStackTrace();
+		 }
+		 finally {
+			try {
+				if(rs!=null) {
+					rs.close();
+				}
+				if(pstmt!=null) {
+					pstmt.close();
+				}
+				if(conn!=null) {
+					conn.close();
+				}
+			}catch(SQLException e) {
+				System.out.println(e.toString());
+			} 
+			catch (Exception e) {
+				// TODO: handle exception
+				System.out.println(e.toString());
+			}
+			
+		}
+		 
+		 return -2;//데이터베이스 오류를 의미
+	 }
+public int registerNicknameCheck(String Nickname) {
+		 
+		 String SQL = "SELECT Password FROM PROFILE WHERE Nickname = ?";
+		 
+		 try {
+			 //pstmt: prepared statement 정해진 sql문장을 db에 삽입하는 형식으로 인스턴스가져옴
+			 pstmt = conn.prepareStatement(SQL);
+			 //sql인젝션 같은 해킹기법을 방해하는것 pstmt를 이용해 하나의 문장을 미리 준비해서 (물음표사용)
+			 //물음표에 해당하는 내용을 유저 아이디로, 매개변수로 이용 1)존재하는지 2)비번 무엇인지
+			 pstmt.setString(1, Nickname);
+			 //rs:result set에 결과보관
+			 rs = pstmt.executeQuery();
+			 //결과가 존재한다면 실행
+			 if(rs.next() || Nickname.equals("")) {
 					 return 0;//이미 존재하는 회
 			 }				 
 			 else
@@ -263,6 +308,58 @@ public class ProfileDAO {
 			 
 			 if(res==1){ 
 				 return 1; //가입 가능한 회원 아이디 
+			 }
+			 else { 
+				 return 0; //실패 
+			 } 
+		  } 
+		 catch(Exception e){
+			  e.printStackTrace(); 
+		  } finally {
+				try {
+					if(rs!=null) {
+						rs.close();
+					}
+					if(pstmt!=null) {
+						pstmt.close();
+					}
+					if(conn!=null) {
+						conn.close();
+					}
+				} 
+				catch (Exception e) {
+					// TODO: handle exception
+					System.out.println(e.toString());
+				}
+				
+		}
+		return -1; // DB 오류 
+	 }
+public int update(String Email,String Fname, String Lname, String Password, String Phone_num, String Country, String State ,String City, String Street, String Gender)  {
+
+		 
+		 String SQL = "UPDATE Profile Set Fname = ?, Lname = ?, Password = ?, Phone_num = ?,Country = ? , State = ?, City = ?, Street = ?,Gender = ? where Email = ?";
+		 
+		 try {
+			 
+			 pstmt = conn.prepareStatement(SQL); 
+			
+			 pstmt.setString(1, Fname.trim()); 
+			 pstmt.setString(2, Lname.trim()); 
+			 pstmt.setString(3, Password.trim()); 
+			 pstmt.setString(4, Phone_num.trim());
+			 pstmt.setString(5, Country.trim()); 
+			 pstmt.setString(6, State.trim()); 
+			 pstmt.setString(7, City.trim()); 
+			 pstmt.setString(8, Street.trim()); 
+			 pstmt.setString(9, Gender.trim());
+			 pstmt.setString(10, Email.trim()); 
+
+			 int res = pstmt.executeUpdate(); 
+			 
+			 if(res==1){ 
+				 System.out.println("유저 업데이트 완료");
+				 return 1; //업데이트 완료
 			 }
 			 else { 
 				 return 0; //실패 

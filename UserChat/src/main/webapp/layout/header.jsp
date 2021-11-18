@@ -28,7 +28,7 @@
 			        icon: 'success',
 			        title: msg,
 			        showConfirmButton: false,
-			        timer: 1500
+			        timer: 1000
 			     })  
 		 	return;      
 		}

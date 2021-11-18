@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/ProfileRegisterCheckServlet")
-public class ProfileRegisterCheckServlet extends HttpServlet {
+@WebServlet("/ProfileRegisterEmailCheckServlet")
+public class ProfileRegisterEmailCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
    
@@ -17,7 +17,7 @@ public class ProfileRegisterCheckServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset = UTF-8");
 		String Email = request.getParameter("Email");
-		response.getWriter().write(new ProfileDAO().registerCheck(Email) + "");
+		response.getWriter().write(new ProfileDAO().registerEmailCheck(Email) + "");
 	}
 
 }

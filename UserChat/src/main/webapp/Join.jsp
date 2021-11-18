@@ -32,7 +32,7 @@ pageEncoding="UTF-8"%> <!DOCTYPE html>
               <td style="width: 110px">
                 <button
                   class="btn btn-primary"
-                  onclick="registerCheckFunction();"
+                  onclick="registerEmailCheckFunction();"
                   type="button"
                 >
                   중복체크
@@ -178,7 +178,7 @@ pageEncoding="UTF-8"%> <!DOCTYPE html>
             </tr>
             <tr>
               <td style="width: 110px"><h5>닉네임</h5></td>
-              <td colspan="2">
+              <td>
                 <input
                   class="form-control" 
                   id="Nickname"
@@ -188,19 +188,14 @@ pageEncoding="UTF-8"%> <!DOCTYPE html>
                   placeholder="닉네임 입력해 주세요."
                 />
               </td>
-            </tr>
-            <tr>
-            <tr>
-              <td style="width: 110px"><h5>Profile</h5></td>
-              <td colspan="2">
-                <input
-                  class="form-control"
-                  id="ProfileImg"
-                  type="text"
-                  name="ProfileImg"
-                  maxlength="20"
-                  placeholder="ProfileImg 입력해 주세요."
-                />
+              <td style="width: 110px">
+                <button
+                  class="btn btn-primary"
+                  onclick="registerNicknameCheckFunction();"
+                  type="button"
+                >
+                  중복체크
+                </button>
               </td>
             </tr>
             <tr>
@@ -228,30 +223,54 @@ pageEncoding="UTF-8"%> <!DOCTYPE html>
 	            timer: 1500
 	          });
 	  }
-      function registerCheckFunction() {
+      function registerEmailCheckFunction(){
         var Email = $("#Email").val();
         // ajax 비동기 통신
         $.ajax({
           type: "POST",
           //아래의 url로 보내줌
-          url: "./ProfileRegisterCheckServlet",
+          url: "./ProfileRegisterEmailCheckServlet",
           data: { Email: Email },
           //성공했다면 result 값을 반환받음
           success: function (result) {
-        	console.log(result);
             if (result == 1) {
-              console.log("중복되지 않는 아이디 입니다.");
               Swal.fire({
                   icon: 'success',
-                  title: `중복되지 않는 아이디 입니다.`,
+                  title: `중복되지 않는 이메일입니다.`,
                   showConfirmButton: false,
                   timer: 1500
                 });
             } else {
-              console.log("중복되는 아이디 입니다.");
               Swal.fire({
                   icon: 'error',
-                  title: `중복되는 아이디 입니다.`,
+                  title: `중복되는 이메일입니다.`,
+                  showConfirmButton: true
+                });
+            }
+          }
+        });
+      }
+      function registerNicknameCheckFunction() {
+        var Nickname = $("#Nickname").val();
+        // ajax 비동기 통신
+        $.ajax({
+          type: "POST",
+          //아래의 url로 보내줌
+          url: "./ProfileRegisterNicknameCheckServlet",
+          data: { Nickname: Nickname },
+          //성공했다면 result 값을 반환받음
+          success: function (result) {
+            if (result == 1) {
+              Swal.fire({
+                  icon: 'success',
+                  title: `중복되지 않는 닉네임입니다.`,
+                  showConfirmButton: false,
+                  timer: 1500
+                });
+            } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: `중복되는 닉네임입니다.`,
                   showConfirmButton: true
                 });
             }
