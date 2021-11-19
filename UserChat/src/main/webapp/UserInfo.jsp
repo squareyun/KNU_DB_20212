@@ -47,7 +47,7 @@ pageEncoding="UTF-8"%>
      %>
      <% if(currentUser != null){ %>
     	 <div class="container">
-         <form method="post" enctype="multipart/form-data" action="./ProfileUpdateServlet" onSubmit = "return uploadImg();">
+         <form id = "updateForm" method="post" enctype="multipart/form-data" action="./ProfileUpdateServlet">
            <table
              class="table table-bordered table-hover"
              style="text-align: center; border: 1px solid #dddddd"
@@ -68,7 +68,7 @@ pageEncoding="UTF-8"%>
                       <input style="display:none;" type="file" id="ProfileImgFile" name="ProfileImgFile" accept="image/*" onchange="loadFile(this)">
                    <%}else{ %>
                    		<label for="ProfileImgFile">
-                   		  <img src="./image/addProfile.png" class = "userProfileImg" alt="User Profile Image" width="150" height="150">
+                   		  <img src="<%=currentUser.getProfileImg() %>" class = "userProfileImg" alt="User Profile Image" width="150" height="150">
                       </label>
                       <input style="display:none;" type="file" id="ProfileImgFile" name="ProfileImgFile" accept="image/*" onchange="loadFile(this)">
                    <%} %>
@@ -250,6 +250,7 @@ pageEncoding="UTF-8"%>
              </tbody>
            </table>
          </form>
+         <div style="width:100%; opacity:0.8; color:red;"><h2 class ="uploadMsg" style="text-align:center;"></h2></div> 
        </div>
     	 
      <% } else{ %>
@@ -267,8 +268,8 @@ pageEncoding="UTF-8"%>
 		 }; 
 	 %>
    <script>
-    
       var currentImgFile = null;
+      var updateForm = document.getElementById("updateForm");
    	  function loadFile(event){
         const theFile = event.files[0];
         currentImgFile = theFile;
@@ -290,30 +291,35 @@ pageEncoding="UTF-8"%>
           changedPriofileImgUrl = null;
         }
    	  }
-    function uploadImg() {
-        if(currentImgFile == undefined || currentImgFile == null){
-          return true;
-        }
-        var profileImg = document.querySelector('.ProfileImg');
-        var profileImgTag = document.querySelector('.userProfileImg');
-        var imageUrl = profileImgTag.src;
-        var form = new FormData();
-        form.append("filename", currentImgFile.name);
-        form.append("image", currentImgFile);
-        var settings = {
-          "url": "https://api.imgbb.com/1/upload?key=544aaa8b87c8d0918576b49f664d1333",
-          "method": "POST",
-          "timeout": 0,
-          "processData": false,
-          "mimeType": "multipart/form-data",
-          "contentType": false,
-          "data": form
-        };
-        return $.ajax(settings).done(function (response) {
-          var jx = JSON.parse(response);
-          $(".ProfileImg").val(jx.data.url);       
-        });
-    }
+
+      $("#updateForm").submit(function(e) {
+          e.preventDefault();
+          if(currentImgFile == undefined || currentImgFile == null){
+            updateForm.submit(); 
+          }
+          $(".uploadMsg").html('Upload 중입니다 ... 조금만 기다려주세요.');
+          var profileImg = document.querySelector('.ProfileImg');
+          var profileImgTag = document.querySelector('.userProfileImg');
+          var imageUrl = profileImgTag.src;
+          var form = new FormData();
+          form.append("filename", currentImgFile.name);
+          form.append("image", currentImgFile);
+          var settings = {
+            "url": "https://api.imgbb.com/1/upload?key=544aaa8b87c8d0918576b49f664d1333",
+            "method": "POST",
+            "timeout": 0,
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": form
+          };
+          $.ajax(settings).done(function (response) {
+            var jx = JSON.parse(response);
+            $(".ProfileImg").val(jx.data.url);
+            updateForm.submit();    
+          });
+      });
+      
    </script>
   </body>
 </html>

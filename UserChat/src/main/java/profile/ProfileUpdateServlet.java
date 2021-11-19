@@ -42,8 +42,6 @@ public class ProfileUpdateServlet extends HttpServlet {
 		String Email = request.getParameter("Email");
 		String ProfileImg = request.getParameter("ProfileImg");
 		
-		System.out.println(Email);
-		System.out.println(ProfileImg);
 		
 //		Part filePart = request.getPart("ProfileImgFile");
 //		
