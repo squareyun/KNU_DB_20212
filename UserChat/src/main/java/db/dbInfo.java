@@ -30,6 +30,7 @@ public class dbInfo {
 	public void setDbPassword(String dbPassword) {
 		this.dbPassword = dbPassword;
 	}
+	asdasd
 
 	
 	
