@@ -11,23 +11,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import db.dbInfo;
 import profile.ProfileDAO;
 
 public class PostDAO {
 	private Connection conn;
 	private ResultSet rs;
 	private PreparedStatement pstmt;
-	private static String driverName = ProfileDAO.getDriverName();
-	private static String dbURL = ProfileDAO.getDbURL();
-	private static String dbID = ProfileDAO.getDbID();
-	private static String dbPassword = ProfileDAO.getDbPassword();
 
 	public boolean hasPageNext = true;
 	
 	public PostDAO() {
 		try {
-			Class.forName(driverName);
-			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
+			dbInfo db = new dbInfo();
+			Class.forName(db.getDriverName());
+			conn = DriverManager.getConnection(db.getDbURL(), db.getDbID(), db.getDbPassword());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
