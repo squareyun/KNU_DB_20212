@@ -1,6 +1,8 @@
 package profile;
 
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,31 +11,24 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import db.dbInfo;
+
 public class ProfileDAO {
 	//dao:데이터베이스 접근 객체의 약자로
 	//실질적으로 db에서 회원정보 불러오거나 db에 회원정보를 넣을때
 	private static Connection conn; //connection db에 접근하게 해주는 객체
 	private static PreparedStatement pstmt;
 	private static ResultSet rs;
-	private static String driverName = "oracle.jdbc.driver.OracleDriver";
-	private static String dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
-	private static String dbID = "userchat";
-	private static String dbPassword = "1234";
 	
 	//private ProfileDTO currentUser = null;
 	
 	//Oracle에 접속 해주는 부분
 	public ProfileDAO() {//생성자 실행될때마다 자동으로 db연결이 이루어질수 있도록함
-		//ㄴㅇㅁ
-		try {
-			driverName = "oracle.jdbc.driver.OracleDriver";
-			dbURL = "jdbc:oracle:thin:@localhost:1521:xe";
-			dbID = "userchat";
-			dbPassword = "1234";
-			
-			Class.forName(driverName);
-			conn = DriverManager.getConnection(dbURL, dbID, dbPassword);
-			
+		
+		try {	
+			dbInfo db = new dbInfo();
+			Class.forName(db.getDriverName());
+			conn = DriverManager.getConnection(db.getDbURL(), db.getDbID(), db.getDbPassword());
 			System.out.println("DB에 연결 되었습니다.\n");
 			
 		}catch(ClassNotFoundException e) {
@@ -44,9 +39,7 @@ public class ProfileDAO {
 			System.out.println("Unkonwn error");
 			e.printStackTrace();
 		}
-		
-			
-		
+
 	}
 	public static ProfileDTO getUserByEmail(String userEmail) {
 
@@ -230,7 +223,7 @@ public class ProfileDAO {
 		 
 		 return -2;//데이터베이스 오류를 의미
 	 }
-public int registerNicknameCheck(String Nickname) {
+	 public int registerNicknameCheck(String Nickname) {
 		 
 		 String SQL = "SELECT Password FROM PROFILE WHERE Nickname = ?";
 		 
@@ -335,10 +328,10 @@ public int registerNicknameCheck(String Nickname) {
 		}
 		return -1; // DB 오류 
 	 }
-public int update(String Email,String Fname, String Lname, String Password, String Phone_num, String Country, String State ,String City, String Street, String Gender)  {
+	 public int update(String Email,String Fname, String Lname, String Password, String Phone_num, String Country, String State ,String City, String Street, String Gender,String profileImg)  {
 
 		 
-		 String SQL = "UPDATE Profile Set Fname = ?, Lname = ?, Password = ?, Phone_num = ?,Country = ? , State = ?, City = ?, Street = ?,Gender = ? where Email = ?";
+		 String SQL = "UPDATE Profile Set Fname = ?, Lname = ?, Password = ?, Phone_num = ?,Country = ? , State = ?, City = ?, Street = ?,Gender = ?,profileImg = ? where Email = ?";
 		 
 		 try {
 			 
@@ -353,7 +346,8 @@ public int update(String Email,String Fname, String Lname, String Password, Stri
 			 pstmt.setString(7, City.trim()); 
 			 pstmt.setString(8, Street.trim()); 
 			 pstmt.setString(9, Gender.trim());
-			 pstmt.setString(10, Email.trim()); 
+			 pstmt.setString(10, profileImg.trim());
+			 pstmt.setString(11, Email.trim()); 
 
 			 int res = pstmt.executeUpdate(); 
 			 

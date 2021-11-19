@@ -34,18 +34,20 @@ pageEncoding="UTF-8"%>
     	String changedPriofileImgUrl = null;
     	String userEmail= (String) session.getAttribute("Email");
     	ProfileDTO currentUser = null;
+
     	try{
       		 currentUser = new ProfileDAO().getUserByEmail(userEmail);
+
     	} catch (Exception e) {
 			e.getStackTrace();
 			System.out.println(e.getMessage());
 			%><script>location.href = "logoutAction.jsp"</script><%
 		}
-   
+
      %>
      <% if(currentUser != null){ %>
     	 <div class="container">
-         <form method="post" enctype="multipart/form-data" action="./ProfileUpdateServlet">
+         <form method="post" enctype="multipart/form-data" action="./ProfileUpdateServlet" onSubmit = "return uploadImg();">
            <table
              class="table table-bordered table-hover"
              style="text-align: center; border: 1px solid #dddddd"
@@ -70,7 +72,7 @@ pageEncoding="UTF-8"%>
                       </label>
                       <input style="display:none;" type="file" id="ProfileImgFile" name="ProfileImgFile" accept="image/*" onchange="loadFile(this)">
                    <%} %>
-                   <input style="display:none;" type="text" id="ProfileImg" name="ProfileImg" value="" />
+                      <input style="display:none;" type="text" class = "ProfileImg" id="ProfileImg" name="ProfileImg" value="">
                  </td>
                </tr>
                <tr>
@@ -265,8 +267,11 @@ pageEncoding="UTF-8"%>
 		 }; 
 	 %>
    <script>
+    
+      var currentImgFile = null;
    	  function loadFile(event){
         const theFile = event.files[0];
+        currentImgFile = theFile;
         var profileImgTag = document.querySelector('.userProfileImg');
         if (theFile) {
           const reader = new FileReader();
@@ -285,6 +290,30 @@ pageEncoding="UTF-8"%>
           changedPriofileImgUrl = null;
         }
    	  }
+    function uploadImg() {
+        if(currentImgFile == undefined || currentImgFile == null){
+          return true;
+        }
+        var profileImg = document.querySelector('.ProfileImg');
+        var profileImgTag = document.querySelector('.userProfileImg');
+        var imageUrl = profileImgTag.src;
+        var form = new FormData();
+        form.append("filename", currentImgFile.name);
+        form.append("image", currentImgFile);
+        var settings = {
+          "url": "https://api.imgbb.com/1/upload?key=544aaa8b87c8d0918576b49f664d1333",
+          "method": "POST",
+          "timeout": 0,
+          "processData": false,
+          "mimeType": "multipart/form-data",
+          "contentType": false,
+          "data": form
+        };
+        return $.ajax(settings).done(function (response) {
+          var jx = JSON.parse(response);
+          $(".ProfileImg").val(jx.data.url);       
+        });
+    }
    </script>
   </body>
 </html>
