@@ -1,6 +1,7 @@
 package profile;
 
 import java.io.IOException;
+import java.sql.Blob;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

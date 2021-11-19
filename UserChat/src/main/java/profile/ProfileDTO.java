@@ -1,4 +1,5 @@
 package profile;
+import java.sql.Blob;
 import java.sql.Timestamp;
 
 public class ProfileDTO {
