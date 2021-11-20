@@ -113,7 +113,7 @@
 					<tr>
 						<td>내용</td>
 						<td colspan="2" style="min-height: 200px; text-align: left;">
-						<%=postDTO.getContents().replaceAll(" ", "&nbsp;").replaceAll("<", "%lt;").replaceAll(">", "%gt;").replaceAll("\n", "<br>") %>
+						<%=postDTO.getContents() %>
 						</td>
 					</tr>
 				</tbody>
