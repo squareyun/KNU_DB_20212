@@ -33,9 +33,9 @@ pageEncoding="UTF-8"%>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="index.jsp">메인</a></li>
-          <li><a href="postpage.jsp?category=1">게시판</a></li>
-          <li><a href="Friends.jsp">친구</a></li>
+          <li id="mainActiveId"><a href="index.jsp">메인</a></li>
+          <li id="postpageActiveId"><a href="postpage.jsp?category=1">게시판</a></li>
+          <li id="friendActiveId"><a href="Friends.jsp">친구</a></li>
         </ul>
         <% if(Email == null) { %>
         <ul class="nav navbar-nav navbar-right">

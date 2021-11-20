@@ -66,11 +66,15 @@ a, a:hover {
 			String cname = clist.get(i).getCname();
 			%>
 			<div class="btn-group" role="group">
-				<button type="button" class="btn btn-default category"
-					onclick="location.href='postpage.jsp?category=<%=i + 1%>'">
-					<img src="image/<%=cname%>.png " alt="<%=i + 1%>"
-						class="img-responsive"><span><%=cname%></span>
+				<% if(category == i + 1) { %>
+				<button type="button" class="btn btn-default category active" onclick="location.href='postpage.jsp?category=<%=i + 1%>'">
+				<img src="image/<%=cname%>.png " alt="<%=i + 1%>" class="img-responsive"><span><%=cname%></span>
 				</button>
+				<%} else { %>
+					<button type="button" class="btn btn-default category" onclick="location.href='postpage.jsp?category=<%=i + 1%>'">
+					<img src="image/<%=cname%>.png " alt="<%=i + 1%>" class="img-responsive"><span><%=cname%></span>
+				</button>
+				<%} %>
 			</div>
 			<%
 			}
@@ -130,6 +134,6 @@ a, a:hover {
 	</div>
 </body>
 <script>
-$(#selectedCateogory)
+$('#postpageActiveId').addClass("active")
 </script>
 </html>

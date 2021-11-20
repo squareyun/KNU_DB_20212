@@ -114,4 +114,7 @@
 		 }; 
 	 %>
 </body>
+<script>
+$('#friendActiveId').addClass("active")
+</script>
 </html>

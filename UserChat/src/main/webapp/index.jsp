@@ -33,4 +33,7 @@ pageEncoding="UTF-8"%>
 		 }; 
 	 %>
   </body>
+  <script>
+$('#mainActiveId').addClass("active")
+</script>
 </html>
