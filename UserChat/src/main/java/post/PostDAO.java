@@ -5,14 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import db.dbInfo;
-import profile.ProfileDAO;
 
 public class PostDAO {
 	private Connection conn;
@@ -31,22 +29,27 @@ public class PostDAO {
 		}
 	}
 
-//	public int makePost(int prid, String input_title, String input_contents) {
-//		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//		try {
-//			Statement stmt = conn.createStatement();
-//			
-//			String sql = String.format(
-//					"insert into post values(Post_SEQ.nextval, %d, '%s', '%s', to_date('%s', 'yyyy-mm-dd hh24:mi:ss'), %d)",
-//					prid, input_contents, input_title, sdf.format(timeStamp).toString(), cons.ConsoleDB.choosenCategory);
-//			stmt.executeUpdate(sql);
-//		} catch (SQLException e) {
-//			System.out.println("PostDAO.makePost() 오류");
-//			e.printStackTrace();
-//		}
-//	}
+	public int write(int category, int creator_id, String postTitle, String postContent) {
+//		currentUser = new ProfileDAO().getUserByEmail(userEmail)
+		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		try {
+			String sql = "insert into post values(Post_SEQ.nextval, ?, ?, ?, to_date(?, 'yyyy-mm-dd hh24:mi:ss'), ?)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, creator_id);
+			pstmt.setString(2, postContent);
+			pstmt.setString(3, postTitle);
+			pstmt.setString(4, sdf.format(timeStamp).toString());
+			pstmt.setInt(5, category);
+			
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1; // 작성 오류
+	}
 
 	public List<PostDTO> getPostListInCategory(int category, int page) {
 		List<PostDTO> list = new ArrayList<>();
