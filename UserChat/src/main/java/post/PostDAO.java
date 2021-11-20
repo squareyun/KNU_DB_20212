@@ -1,5 +1,8 @@
 package post;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,13 +35,16 @@ public class PostDAO {
 	public int write(int category, int creator_id, String postTitle, String postContent) {
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+		
 		try {
 			String sql = "insert into post values(Post_SEQ.nextval, ?, ?, ?, to_date(?, 'yyyy-mm-dd hh24:mi:ss'), ?)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, creator_id);
-			pstmt.setString(2, postContent);
+			
+			pstmt.setCharacterStream(2, new StringReader(postContent));
+			
+			
 			pstmt.setString(3, postTitle);
 			pstmt.setString(4, sdf.format(timeStamp).toString());
 			pstmt.setInt(5, category);
@@ -85,7 +91,7 @@ public class PostDAO {
 		return list;
 	}
 	
-	public PostDTO getPost(int pid) {
+	public PostDTO getPost(int pid) throws IOException {
 		try {
 			String sql = "select p.*, pr.nickname, pr.email from profile pr, post p where p.creator_id = pr.prid and pid = ?";
 
@@ -97,7 +103,7 @@ public class PostDAO {
 				PostDTO post = new PostDTO();
 				post.setPid(rs.getInt(1));
 				post.setCreator_id(rs.getInt(2));
-				post.setContents(rs.getString(3));
+				post.setContents(readClobData(rs.getCharacterStream(3)));
 				post.setTitle(rs.getString(4));
 				post.setCreate_date(rs.getTimestamp(5).toString());
 				post.setCategory_id(rs.getInt(6));
@@ -110,5 +116,19 @@ public class PostDAO {
 			e.printStackTrace();
 		}
 		return null;
-	}	
+	}
+	
+	public static String readClobData(Reader reader) throws IOException {
+        StringBuffer data = new StringBuffer();
+        char[] buf = new char[1024];
+        int cnt = 0;
+        if (null != reader) {
+            while ( (cnt = reader.read(buf)) != -1) {
+                data.append(buf, 0, cnt);
+            }
+        }
+        return data.toString();
+//        출처: https://rainny.tistory.com/87 [긍정적 사고방식^^]
+	}
+	
 }
