@@ -6,7 +6,7 @@ pageEncoding="UTF-8"%>
   <body>
     <% session.invalidate(); %>
     <script>
-      location.href = "index.jsp";
+      location.href = "Login.jsp";
     </script>
   </body>
 </html>
