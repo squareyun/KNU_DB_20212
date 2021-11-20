@@ -30,7 +30,6 @@ public class PostDAO {
 	}
 
 	public int write(int category, int creator_id, String postTitle, String postContent) {
-//		currentUser = new ProfileDAO().getUserByEmail(userEmail)
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -55,7 +54,7 @@ public class PostDAO {
 		List<PostDTO> list = new ArrayList<>();
 
 		try {
-			String sql = "select * from (SELECT ROW_NUMBER() OVER(ORDER BY p.create_date desc) row_num, p.* FROM post p where category_id = ? ORDER BY p.create_date desc) WHERE row_num BETWEEN ? AND ?";
+			String sql = "select * from (SELECT ROW_NUMBER() OVER(ORDER BY p.create_date desc) row_num, p.*, pr.nickname FROM post p join profile pr on p.creator_id = pr.prid where category_id = ? ORDER BY p.create_date desc) WHERE row_num BETWEEN ? AND ?";
 			int start = 10 * page - 9;
 			int end = 10 * page;
 
@@ -73,6 +72,7 @@ public class PostDAO {
 				post.setTitle(rs.getString(5));
 				post.setCreate_date(rs.getTimestamp(6).toString());
 				post.setCategory_id(rs.getInt(7));
+				post.setNickname(rs.getString(8));
 				list.add(post);
 			}
 			rs.close();
@@ -84,4 +84,31 @@ public class PostDAO {
 
 		return list;
 	}
+	
+	public PostDTO getPost(int pid) {
+		try {
+			String sql = "select p.*, pr.nickname, pr.email from profile pr, post p where p.creator_id = pr.prid and pid = ?";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pid);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				PostDTO post = new PostDTO();
+				post.setPid(rs.getInt(1));
+				post.setCreator_id(rs.getInt(2));
+				post.setContents(rs.getString(3));
+				post.setTitle(rs.getString(4));
+				post.setCreate_date(rs.getTimestamp(5).toString());
+				post.setCategory_id(rs.getInt(6));
+				post.setNickname(rs.getString(7));
+				post.setEmail(rs.getString(8));
+				return post;
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}	
 }

@@ -7,7 +7,15 @@ public class PostDTO {
 	private String title;
 	private String create_date;
 	private int category_id;
+	private String nickname;
+	private String email;
 	
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 	public int getPid() {
 		return pid;
 	}
@@ -43,5 +51,11 @@ public class PostDTO {
 	}
 	public void setCategory_id(int category_id) {
 		this.category_id = category_id;
-	}	
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 }

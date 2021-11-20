@@ -77,7 +77,7 @@
 		</div>
 		<div class="row">
 		
-			<form method="post" action="writeAction.jsp?category=<%=category%>">
+			<form method="post" action="writePostAction.jsp?category=<%=category%>">
 				<table class="table table-striped"
 					style="text-align: center; border: 1px solid #dddddd">
 					<thead>
@@ -91,6 +91,7 @@
 						</tr>
 						<tr>
 							<td> <textarea id="summernote" name="contents" style="all: none;" ></textarea> </td>
+						</tr>
 					</tbody>
 				</table>
 				<input type="submit" class="btn btn-primary pull-right" value="게시물 등록">

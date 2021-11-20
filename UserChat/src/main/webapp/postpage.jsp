@@ -100,8 +100,8 @@ a, a:hover {
 					for (int i = 0; i < list.size(); i++) {
 					%>
 					<tr>
-						<td><a href="view.jsp?postId=<%=list.get(i).getPid()%>"><%=list.get(i).getTitle()%></a></td>
-						<td><%=list.get(i).getCreator_id()%></td>
+						<td><a href="viewpost.jsp?category=<%=category%>&pid=<%=list.get(i).getPid()%>"><%=list.get(i).getTitle()%></a></td>
+						<td><%=list.get(i).getNickname()%></td>
 						<td><%=list.get(i).getCreate_date().substring(0, 11) + list.get(i).getCreate_date().substring(11, 13) + ":"
 		+ list.get(i).getCreate_date().substring(14, 16)%></td>
 					</tr>
@@ -128,7 +128,7 @@ a, a:hover {
 			<%
 			}
 			%>
-			<a href="write.jsp?category=<%=category%>"
+			<a href="writepost.jsp?category=<%=category%>"
 				class="btn btn-primary pull-right">글쓰기</a>
 		</div>
 	</div>
