@@ -31,21 +31,6 @@ public class PostDAO {
 		}
 	}
 
-//	public String getDate(String format) {
-//		// format이 YYYY-MM-DD이라면 2021-11-19와 같이 반환됨
-//		String sql = "SELECT TO_CHAR(SYSDATE, '" + format + "') FROM DUAL";
-//		try {
-//			PreparedStatement pstmt = conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//			if (rs.next()) {
-//				return rs.getString(1);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return "";
-//	}
-
 //	public int makePost(int prid, String input_title, String input_contents) {
 //		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -76,7 +61,7 @@ public class PostDAO {
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, end);
 
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				PostDTO post = new PostDTO();
 				post.setPid(rs.getInt(2));

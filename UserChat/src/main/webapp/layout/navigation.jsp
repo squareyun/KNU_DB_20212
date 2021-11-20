@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li class="active"><a href="index.jsp">메인</a></li>
-          <li><a href="postpage.jsp">게시판</a></li>
+          <li><a href="postpage.jsp?category=1">게시판</a></li>
           <li><a href="Friends.jsp">친구</a></li>
         </ul>
         <% if(Email == null) { %>
