@@ -35,7 +35,7 @@ public class PostDAO {
 	public int write(int category, int creator_id, String postTitle, String postContent) {
 		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
+ 		
 		try {
 			String sql = "insert into post values(Post_SEQ.nextval, ?, ?, ?, to_date(?, 'yyyy-mm-dd hh24:mi:ss'), ?)";
 			pstmt = conn.prepareStatement(sql);
@@ -117,6 +117,36 @@ public class PostDAO {
 		}
 		return null;
 	}
+	
+	public int update(int pid, String postTitle, String postContent) {
+		try {
+			String sql = "UPDATE post SET title = ?, content = ? where pid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, postTitle);
+			pstmt.setCharacterStream(2, new StringReader(postContent));
+			pstmt.setInt(3, pid);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1; // 오류
+	}
+	
+	public int delete(int pid) {
+		try {
+			conn.setAutoCommit(false);
+			String sql = "delete from post where pid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pid);
+			conn.commit();
+			conn.setAutoCommit(true);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1; // 오류
+	}
+	
 	
 	public static String readClobData(Reader reader) throws IOException {
         StringBuffer data = new StringBuffer();

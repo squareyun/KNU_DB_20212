@@ -7,10 +7,14 @@
 <%@ page import="profile.ProfileDAO"%>
 <%@ page import="profile.ProfileDTO"%>
 <%@ page import="java.util.List"%>
-<%@ page import="java.io.PrintWriter" %>
+<%@page import="java.io.PrintWriter"%>
 <!DOCTYPE html>
 <html>
 <%@ include file="layout/header.jsp"%>
+	
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+	
 <style>
 .category span {
 	font-family: "Hanna";
@@ -19,21 +23,16 @@
 </style>
 <body>
 	<%
-	if (session.getAttribute("messageType") != null) {
-		String Error = "오류 메세지";
-		String messageType = (String) session.getAttribute("messageType");
-		String msg = (String) session.getAttribute("messageContent");
-		if (messageType.equals(Error)) {
-	%>
-	<script>showErrorMessage('<%=msg%>');</script>
-	<%
-	} else {
-	%>
-	<script>showSuccessMessage('<%=msg%>
-		');
-	</script>
-	<%
+	String userEmail = null;
+	if (session.getAttribute("Email") != null) {
+		userEmail = (String) session.getAttribute("Email"); 
 	}
+	if (userEmail == null) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인을 하세요')");
+		script.println("location.href = 'Login.jsp");
+		script.println("</script>");
 	}
 	int pid = -1;
 	int category = -1;
@@ -51,13 +50,21 @@
 		script.println("history.back()");
 		script.println("</script>");
 	}
+	PostDTO postDTO = new PostDAO().getPost(pid);
+	if(!userEmail.equals(postDTO.getEmail())) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('권한이 없습니다.')");
+		script.println("history.back()");
+		script.println("</script>");
+	}
 	%>
 	<%@ include file="layout/navigation.jsp"%>
 	<%
 	if (session.getAttribute("messageType") != null) {
 		session.removeAttribute("messageType");
 		session.removeAttribute("messageContent");
-	}
+	} ;
 	%>
 
 	<div class="container">
@@ -86,48 +93,38 @@
 			}
 			%>
 		</div>
-		<% PostDTO postDTO = new PostDAO().getPost(pid); %>
 		<div class="row">
-			<table class="table table-striped"
-				style="text-align: center; border: 1px solid #dddddd">
-				<thead>
-					<tr>
-						<th colspan="3" style="background-color: #eeeeee; text-align: center; color: #000000;">게시글 정보</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td style="width: 20%;">글 제목</td>
-						<td colspan="2">
-						<%=postDTO.getTitle().replaceAll(" ", "&nbsp;").replaceAll("<", "%lt;").replaceAll(">", "%gt;").replaceAll("\n", "<br>") %>
-						</td>
-					</tr>
-					<tr>
-						<td>작성자</td>
-						<td colspan="2"><%=postDTO.getNickname() %></td>
-					</tr>
-					<tr>
-						<td>작성일자</td>
-						<td colspan="2"><%=postDTO.getCreate_date().substring(0, 11) + postDTO.getCreate_date().substring(11, 13) + ":" + postDTO.getCreate_date().substring(14, 16)%></td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td colspan="2" style="min-height: 200px; text-align: left;">
-						<%=postDTO.getContents() %>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<a href="postpage.jsp?category=<%=category%>" class="btn btn-primary">목록</a>
-			<%
-				if(session.getAttribute("Email").toString().equals(postDTO.getEmail())) {
-			%>
-				<a href="updatepost.jsp?category=<%=category %>&pid=<%=pid %>" class="btn btn-primary">수정</a>
-				<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="deletePostAction.jsp?category=<%=category %>&pid=<%=pid %>" class="btn btn-primary">삭제</a>
-			<%
-				}
-			%>
+		
+			<form method="post" action="updatePostAction.jsp?category=<%=category%>&pid=<%=pid%>">
+				<table class="table table-striped"
+					style="text-align: center; border: 1px solid #dddddd">
+					<thead>
+						<tr>
+							<th style="background-color: #eeeeee; text-align: center; color: #000000;">글수정</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="text" class="form-control" placeholder="글 제목" name="title" value="<%=postDTO.getTitle()%>"></td>
+						</tr>
+						<tr>
+							<td> <textarea id="summernote" name="contents" style="all: none;" ><%=postDTO.getContents()%></textarea> </td>
+						</tr>
+					</tbody>
+				</table>
+				<input type="submit" class="btn btn-primary pull-right" value="게시물 수정">
+			</form>
 		</div>
 	</div>
 </body>
+<script>
+$('#postpageActiveId').addClass("active");
+
+$('#summernote').summernote({
+	tabsize: 2,
+	height: 500,
+	minHeight: 500,
+	lang: "ko_KR",
+});
+</script>
 </html>
