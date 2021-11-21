@@ -10,7 +10,7 @@
 }
 .user-component {
   display: flex;
-  padding: 10px 0px;
+  padding: 10px 10px;
   justify-content: space-between;
 }
 .user-component__column {
@@ -51,7 +51,7 @@
 .user-component__subtitle {
   font-weight: 500;
   font-size: 15px;
-  opacity: 0.5;
+  opacity: 0.75;
 }
 .user-component__subtitle-icon {
   opacity: 1;
@@ -59,16 +59,16 @@
   margin-left: 5px;
 }
 .user-component__avatar--xl {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
 }
 .user-component__avatar--xs {
   width: 60px;
   height: 60px;
-  border-radius: 25px;
+  border-radius: 50%;
 }
 .user-component__column:last-child {
-  color: rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0.6);
   font-weight: 500;
   display: flex;
   justify-content: center;
@@ -85,44 +85,9 @@
   display: block;
   margin-bottom: 5px;
 }
-
-#friends-display-link {
-  background-color: #fafafa;
-  display: block;
+.firends-list {
   width: 100%;
-  text-align: center;
-  padding: 15px 0px;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-#friends-display-link i {
-  margin-right: 5px;
-  margin-left: 15px;
-  opacity: 0.2;
-}
-.friends-display-link__title {
-  font-weight: 500;
-  opacity: 0.7;
-}
-@keyframes hideSplashScreen {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-#splash-screen {
-  position: absolute;
-  top: 0;
-  background-color: var(--yellow);
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 70px;
-  animation: hideSplashScreen 0.4s ease-in-out forwards;
-  animation-delay: 1s;
+  height: 25vh;
+  overflow-y: scroll;
+  box-sizing: border-box;
 }

@@ -2,8 +2,12 @@
     pageEncoding="UTF-8"%>
 <%@ page import = "profile.ProfileDAO" %>
 <%@ page import = "profile.ProfileDTO" %>
+<%@ page import = "friend.FriendDAO" %>
+<%@ page import = "friend.FriendDTO"%>
 <%@ page import = "java.sql.SQLException" %>
-<%@ page import = "java.io.*" %>
+<%@ page import = "java.util.ArrayList"%>
+<%@ page import = "java.util.List"%>
+
 <!DOCTYPE html>
 <html>
 <%@ include file = "layout/header.jsp" %>
@@ -33,6 +37,8 @@
     <% 
     	String userEmail= (String) session.getAttribute("Email");
     	ProfileDTO currentUser = null;
+		List<FriendDTO> friendsDtoList = new ArrayList<FriendDTO>();
+		List<ProfileDTO> profileDtoList = new ArrayList<ProfileDTO>();
     	try{
       		 currentUser = new ProfileDAO().getUserByEmail(userEmail);
 
@@ -41,63 +47,86 @@
 			System.out.println(e.getMessage());
 			%><script>location.href = "logoutAction.jsp"</script><%
 		}
+		if(currentUser != null) {
+			try{
+				friendsDtoList = new FriendDAO().GetFriendList(currentUser.getPRid());
 
+			} catch (Exception e) {
+				e.getStackTrace();
+				System.out.println(e.getMessage());
+				%><script>location.href = "logoutAction.jsp"</script><%
+			}
+			if(friendsDtoList.isEmpty()== false){
+				for(FriendDTO friend : friendsDtoList){
+					ProfileDTO friend_profile =  new ProfileDAO().getUserByPRid(friend.getFriend_id());
+					profileDtoList.add(friend_profile);
+				}
+			}
+		}
+		
      %>
     <% if(currentUser != null){ %>
         <section class = "friends-screen">
 			<h2>친구 페이지</h2>
             <header>
                 <h3>나</h3>
+	            <div class="user-component">
+	                <div class="user-component__column">
+						<%if(currentUser.getProfileImg() != null){ %>
+							<img
+								src="<%= currentUser.getProfileImg() %>"
+								alt="user"
+								class="user-component__avatar user-component__avatar--xs"
+							/>
+						<% } else { %>
+							<img
+								src="./image/profile.png"
+								alt="user"
+								class="user-component__avatar user-component__avatar--xs"
+							/>
+						<% } %>
+	                    <div class="user-component__text">
+	                        <h4 class="user-component__title"><%= currentUser.getNickname() %></h4>
+	                        <h6 class="user-component__subtitle"><%= currentUser.getPhone_num() %></h6>
+	                    </div>
+	                </div>
+	            </div>
             </header>
-            <div class="user-component">
-                <div class="user-component__column">
-                    <img
-                        src="<%= currentUser.getProfileImg() %>"
-                        alt="user"
-                        class="user-component__avatar user-component__avatar--xl"
-                    />
-                    <div class="user-component__text">
-                        <h4 class="user-component__title"><%= currentUser.getNickname() %></h4>
-                        <h6 class="user-component__subtitle"><%= currentUser.getPhone_num() %></h6>
-                    </div>
-                </div>
-            </div>
             <main>
 				<hr/>
 				<h3>친구 목록</h3>
 				<ul class="firends-list" style="margin-top : 3%;">
-          			<li class="firend-one" style="list-style : none; margin-left : 0.7%;">
-						<div class="user-component">
-							<div class="user-component__column">
-								<img
-									src="<%= currentUser.getProfileImg() %>"
-									alt="user"
-									class="user-component__avatar user-component__avatar--xl"
-								/>
-								<div class="user-component__text">
-									<h4 class="user-component__title"><%= currentUser.getNickname() %></h4>
-									<h6 class="user-component__subtitle"><%= currentUser.getPhone_num() %></h6>
+					<% for (ProfileDTO profile : profileDtoList) { %>
+						<li class="firend-one" style="list-style : none; margin-left : 0.7%;">
+							<div class="user-component">
+								<div class="user-component__column">
+									<%if(profile.getProfileImg() != null){ %>
+										<img
+											src="<%= profile.getProfileImg() %>"
+											alt="user"
+											class="user-component__avatar user-component__avatar--xs"
+										/>
+									<% } else { %>
+										<img
+											src="./image/profile.png"
+											alt="user"
+											class="user-component__avatar user-component__avatar--xs"
+										/>
+									<% } %>
+									<div class="user-component__text">
+										<h4 class="user-component__title"><%= profile.getNickname() %></h4>
+										<h6 class="user-component__subtitle"><%= profile.getPhone_num() %></h6>
+									</div>
 								</div>
 							</div>
-						</div>
-					</li>
-					<li class="firend-one" style="list-style : none; margin-left : 0.7%;">
-						<div class="user-component">
-							<div class="user-component__column">
-								<img
-									src="<%= currentUser.getProfileImg() %>"
-									alt="user"
-									class="user-component__avatar user-component__avatar--xl"
-								/>
-								<div class="user-component__text">
-									<h4 class="user-component__title"><%= currentUser.getNickname() %></h4>
-									<h6 class="user-component__subtitle"><%= currentUser.getPhone_num() %></h6>
-								</div>
-							</div>
-						</div>
-					</li>
-				<ul>
+						</li>
+					<% } %>
+				</ul>
             </main>
+			<footer>
+				<hr/>
+				<h3>친구 추가</h3>
+			</footer>
         </section>
     <% } else{ %>
      	<div>

@@ -68,7 +68,7 @@ a, a:hover {
 			<div class="btn-group" role="group">
 				<% if(category == i + 1) { %>
 				<button type="button" class="btn btn-default category active" onclick="location.href='postpage.jsp?category=<%=i + 1%>'">
-				<img src="image/<%=cname%>.png " alt="<%=i + 1%>" class="img-responsive"><span><%=cname%></span>
+				<img src="image/<%=cname%>.png" alt="<%=i + 1%>" class="img-responsive"><span><%=cname%></span>
 				</button>
 				<%} else { %>
 					<button type="button" class="btn btn-default category" onclick="location.href='postpage.jsp?category=<%=i + 1%>'">
