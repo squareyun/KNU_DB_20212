@@ -7,30 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import profile.ProfileDAO;
-import profile.ProfileDTO;
-
-
-@WebServlet("/FriendNicknameCheckServlet")
-public class FriendNicknameCheckServlet extends HttpServlet {
+@WebServlet("/RequestDenyServlet")
+public class RequestDenyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset = UTF-8");
-		String Nickname = request.getParameter("FriendNickname");
-		if(Nickname ==null || Nickname =="") {
-			response.getWriter().write(0+ "");
-		}else {
-			ProfileDTO user = new ProfileDAO().getUserByNickname(Nickname);
-			int res=0; // 실패
-			if(user!=null) {
-				res = 1; // 존재하는 유저
-			} else {
-				res = 0; //실패
-			}
-			response.getWriter().write(res+ "");
-		}
+		String friendPRid = request.getParameter("friendPRid");
+		String userPRid = request.getParameter("userPRid");
+		Boolean result = new FriendDAO().DenyFriendRequest(Integer.parseInt(userPRid), Integer.parseInt(friendPRid));
+		int res = (result == true) ? 1 : 0; 
+		response.getWriter().write(res+ "");
 	}
 
 }

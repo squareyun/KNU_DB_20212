@@ -298,36 +298,44 @@
 	function friendRequestFunction() {
         var FriendNickname = $("#FriendNickname").val();
         // ajax 비동기 통신
-		console.log(FriendNickname);
-        $.ajax({
-          type: "POST",
-          //아래의 url로 보내줌
-          url: "./FriendRequestServlet",
-          data: { 
-			  FriendNickname: FriendNickname,
-			  userPrid : <%= currentUser.getPRid() %>
-		  },
-          //성공했다면 result 값을 반환받음
-          success: function (result) {
-            if (result == 1) {
-              Swal.fire({
-                  icon: 'success',
-                  title: `친구요청을 완료했습니다.`,
-                  showConfirmButton: false,
-                  timer: 1500
-                });
-            } else {
-              Swal.fire({
+		var CurrentUserNickname = "<%= currentUser.getNickname() %>";
+		console.log(FriendNickname,CurrentUserNickname);
+		if(FriendNickname == CurrentUserNickname){
+			Swal.fire({
                   icon: 'error',
-                  title: `친구요청에 실패했습니다.`,
+                  title: `자신에게는 친구요청을 보낼 수 없습니다.`,
                   showConfirmButton: true
                 });
-            }
-          }
-        });
+		}else{
+        	$.ajax({
+			type: "POST",
+			//아래의 url로 보내줌
+			url: "./FriendRequestServlet",
+			data: { 
+				FriendNickname: FriendNickname,
+				userPrid : <%= currentUser.getPRid() %>
+			},
+			//성공했다면 result 값을 반환받음
+			success: function (result) {
+				if (result == 1) {
+				Swal.fire({
+					icon: 'success',
+					title: `친구요청을 완료했습니다.`,
+					showConfirmButton: false,
+					timer: 1500
+					});
+				} else {
+				Swal.fire({
+					icon: 'error',
+					title: `친구요청에 실패했습니다.`,
+					showConfirmButton: true
+					});
+				}
+			}
+			});
+		}
     }
 	function requestAcceptFunction(friendPRid) {
-       console.log("Request Accept Function : ",friendPRid);
 	   $.ajax({
           type: "POST",
           //아래의 url로 보내줌
@@ -361,7 +369,36 @@
 		
 	}
 	function denyAcceptFunction(friendPRid) {
-       console.log("Deny Accept Function : ",friendPRid);
+		$.ajax({
+          type: "POST",
+          //아래의 url로 보내줌
+          url: "./RequestDenyServlet",
+          data: { 
+        	  friendPRid : friendPRid,
+			  userPRid : <%= currentUser.getPRid() %>
+		  },
+          //성공했다면 result 값을 반환받음
+          success: function (result) {
+            if (result == 1) {
+              Swal.fire({
+                  icon: 'success',
+                  title: `요청 삭제에 성공했습니다.`,
+                  showConfirmButton: false,
+                  timer: 1500
+                }).then(
+					()=>{
+						window.location.reload();
+					}
+				)
+            } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: `요청 삭제에 실패했습니다.`,
+                  showConfirmButton: true
+                });
+            }
+          }
+        });
 	}
     
 </script>

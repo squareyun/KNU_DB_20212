@@ -89,31 +89,6 @@ public class FriendDAO {
 //		return result;
 //	}
 	
-//	public boolean DenyFriendRequest(FriendDTO dto) {
-//		// TODO Auto-generated method stub
-//		boolean result = false;
-//		try {
-//			String sql = "DELETE FROM FRIEND WHERE PRid = ? AND Friend_id = ?";
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setInt(1, dto.getFriend_id());
-//			pstmt.setInt(2, dto.getUser_id());
-//			int rs = pstmt.executeUpdate();
-//			if (rs > 0)
-//				result = true;
-//		} catch (SQLException e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.exit(1);
-//		} catch (Exception e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.out.println("Error in DenyFriendRequest Function");
-//			System.exit(1);
-//		}
-//		return result;
-//	}
 
 //	public boolean hasFriend_Nickname(String nickname) {
 //		// TODO Auto-generated method stub
@@ -227,6 +202,31 @@ public class FriendDAO {
 		}
 		return result;
 	}
+	public boolean DenyFriendRequest(int userPRid,int friendPRid) {
+	// TODO Auto-generated method stub
+	boolean result = false;
+	try {
+		String sql = "DELETE FROM FRIEND WHERE PRid = ? AND Friend_id = ?";
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setInt(1, friendPRid);
+		pstmt.setInt(2, userPRid);
+		int rs = pstmt.executeUpdate();
+		if (rs > 0)
+			result = true;
+	} catch (SQLException e) {
+		e.getStackTrace();
+		System.out.println(e.getMessage());
+		System.out.println(e.getLocalizedMessage());
+		result = false;
+	} catch (Exception e) {
+		e.getStackTrace();
+		System.out.println(e.getMessage());
+		System.out.println(e.getLocalizedMessage());
+		System.out.println("Error in DenyFriendRequest Function");
+		result = false;
+	}
+	return result;
+}
 
 //	public boolean hasFriend() {
 //		boolean result = false;

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import profile.ProfileDAO;
+
 @WebServlet("/FriendRequestServlet")
 public class FriendRequestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -16,10 +18,15 @@ public class FriendRequestServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset = UTF-8");
 		String userPrid = request.getParameter("userPrid");
-		String Nickname = request.getParameter("FriendNickname");
-		Boolean result = new FriendDAO().CreateFriendRequest(Integer.parseInt(userPrid.trim()), Nickname.trim());
-		int res = (result == true) ? 1 : 0; 
-		response.getWriter().write(res+ "");
+		String FriendNickname = request.getParameter("FriendNickname");
+		
+		if(FriendNickname == "" || FriendNickname == null || userPrid == "" || userPrid == null) {
+			response.getWriter().write(0+ "");
+		}else {
+			Boolean result = new FriendDAO().CreateFriendRequest(Integer.parseInt(userPrid.trim()), FriendNickname.trim());
+			int res = (result == true) ? 1 : 0; 
+			response.getWriter().write(res+ "");
+		}
 	}
 
 }

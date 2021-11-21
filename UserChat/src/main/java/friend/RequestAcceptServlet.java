@@ -20,7 +20,6 @@ public class RequestAcceptServlet extends HttpServlet {
 		response.setContentType("text/html;charset = UTF-8");
 		String friendPRid = request.getParameter("friendPRid");
 		String userPRid = request.getParameter("userPRid");
-		System.out.println(friendPRid + userPRid);
 		Boolean result = new FriendDAO().AcceptFriendRequest(Integer.parseInt(userPRid), Integer.parseInt(friendPRid));
 		int res = (result == true) ? 1 : 0; 
 		response.getWriter().write(res+ "");
