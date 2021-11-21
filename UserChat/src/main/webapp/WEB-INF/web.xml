@@ -9,7 +9,7 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <display-name>UserChat</display-name>
-  
+  <!-- Profile -->
   <servlet>
   	<servlet-name>ProfileRegisterServlet</servlet-name>
   	<servlet-class>profile.ProfileRegisterServlet</servlet-class>
@@ -49,5 +49,22 @@
   <servlet-mapping>
    <servlet-name>ProfileUpdateServlet</servlet-name>
    <url-pattern>/ProfileUpdate</url-pattern>
+  </servlet-mapping>
+  <!-- Friend -->
+  <servlet> 
+   <servlet-name>FriendNicknameCheckServlet</servlet-name>
+   <servlet-class>friend.FriendNicknameCheckServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>FriendNicknameCheckServlet</servlet-name>
+   <url-pattern>/FriendNicknameCheck</url-pattern>
+  </servlet-mapping>
+  <servlet> 
+   <servlet-name>FriendRequestServlet</servlet-name>
+   <servlet-class>friend.FriendRequestServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>FriendRequestServlet</servlet-name>
+   <url-pattern>/FriendRequest</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -128,6 +128,50 @@ public class ProfileDAO {
 
 		return user;
 	}
+	public static ProfileDTO getUserByNickname(String user_Nickname) {
+
+		ProfileDTO user = null;
+
+		String SQL = "SELECT * FROM PROFILE WHERE Nickname = ?";
+
+		try {
+			pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, user_Nickname);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+
+				String Email = rs.getString("Email");
+				String Password = rs.getString("Password");
+				String Fname = rs.getString("Fname");
+				String Lname = rs.getString("Lname");
+				String Gender = rs.getString("Gender");
+				String Phone_num = rs.getString("Phone_num");
+				String Nickname = rs.getString("Nickname");
+				String Country = rs.getString("Country");
+				String State = rs.getString("State");
+				String City = rs.getString("City");
+				String Street = rs.getString("Street");
+				String ProfileImg = rs.getString("ProfileImg");
+				int Restriction = rs.getInt("Restriction");
+				int Role_id = rs.getInt("Role_id");
+				int PRid = rs.getInt("PRid");
+				Timestamp Create_date = rs.getTimestamp("Create_date");
+				user = new ProfileDTO(Fname, Lname, PRid, Email, Password, Restriction, Phone_num, Create_date, Country,
+						State, City, Street, Nickname, Gender, ProfileImg, Role_id);
+			}
+
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+		}
+
+		return user;
+	}
 	 public int login(String Email, String Password) {
 		 String SQL = "SELECT Password FROM PROFILE WHERE Email = ?";
 		 

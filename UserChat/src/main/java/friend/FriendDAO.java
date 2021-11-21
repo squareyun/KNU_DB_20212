@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.dbInfo;
+import profile.ProfileDAO;
+import profile.ProfileDTO;
 
 import java.sql.*;
 
@@ -142,31 +144,35 @@ public class FriendDAO {
 //		return result;
 //	}
 
-//	public boolean CreateFriendRequest(String nickname) {
-//		// TODO Auto-generated method stub
-//		boolean result = false;
-//		try {
-//			String sql = "INSERT INTO FRIEND VALUES(?,?)";
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setInt(1, PRdto.getPRid());
-//			pstmt.setInt(2, PRdao.getPRid_Nickname(nickname));
-//			int rs = pstmt.executeUpdate();
-//			if (rs > 0)
-//				result = true;
-//		} catch (SQLException e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.exit(1);
-//		} catch (Exception e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.out.println("Error in CreateFriendRequest Function");
-//			System.exit(1);
-//		}
-//		return result;
-//	}
+	public boolean CreateFriendRequest(int userPrid,String firendNickname) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		ProfileDTO friend = new ProfileDAO().getUserByNickname(firendNickname);
+		if(friend == null)
+			return result;
+		
+		try {
+			String sql = "INSERT INTO FRIEND VALUES(?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userPrid);
+			pstmt.setInt(2, friend.getPRid());
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			result = false;
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in CreateFriendRequest Function");
+			result = false;
+		}
+		return result;
+	}
 //
 //	public List<FriendDTO> getFriendRequestList() {
 //		// TODO Auto-generated method stub
