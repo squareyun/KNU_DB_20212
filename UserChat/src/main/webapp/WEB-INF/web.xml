@@ -67,4 +67,12 @@
    <servlet-name>FriendRequestServlet</servlet-name>
    <url-pattern>/FriendRequest</url-pattern>
   </servlet-mapping>
+  <servlet> 
+   <servlet-name>RequestAcceptServlet</servlet-name>
+   <servlet-class>friend.RequestAcceptServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>RequestAcceptServlet</servlet-name>
+   <url-pattern>/RequestAccept</url-pattern>
+  </servlet-mapping>
 </web-app>

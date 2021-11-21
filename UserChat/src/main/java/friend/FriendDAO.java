@@ -173,62 +173,60 @@ public class FriendDAO {
 		}
 		return result;
 	}
-//
-//	public List<FriendDTO> getFriendRequestList() {
-//		// TODO Auto-generated method stub
-//		List<FriendDTO> list = new ArrayList<FriendDTO>();
-//		try {
-//			String sql = "(SELECT PRid FROM FRIEND WHERE Friend_id = ?) MINUS (SELECT Friend_id AS PRid FROM FRIEND WHERE PRid = ?)";
-//			int user_id = PRdto.getPRid();
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setInt(1, user_id);
-//			pstmt.setInt(2, user_id);
-//			ResultSet rs = pstmt.executeQuery();
-//			while (rs.next()) {
-//				int FriendRequest_id = rs.getInt("PRid");
-//				list.add(new FriendDTO(user_id, FriendRequest_id));
-//			}
-//		} catch (SQLException e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.exit(1);
-//		} catch (Exception e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.out.println("Error in getFriendRequestList Function");
-//			System.exit(1);
-//		}
-//
-//		return list;
-//	}
 
-//	public boolean AcceptFriendRequest(FriendDTO dto) {
-//		// TODO Auto-generated method stub
-//		boolean result = false;
-//		try {
-//			String sql = "INSERT INTO FRIEND VALUES(?,?)";
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setInt(1, dto.getUser_id());
-//			pstmt.setInt(2, dto.getFriend_id());
-//			int rs = pstmt.executeUpdate();
-//			if (rs > 0)
-//				result = true;
-//		} catch (SQLException e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.exit(1);
-//		} catch (Exception e) {
-//			e.getStackTrace();
-//			System.out.println(e.getMessage());
-//			System.out.println(e.getLocalizedMessage());
-//			System.out.println("Error in AcceptFriendRequest Function");
-//			System.exit(1);
-//		}
-//		return result;
-//	}
+	public List<Integer> getFriendRequestList(int userPrid) {
+		// TODO Auto-generated method stub
+		List<Integer> friendRequesList = new ArrayList<Integer>();
+		try {
+			String sql = "(SELECT PRid FROM FRIEND WHERE Friend_id = ?) MINUS (SELECT Friend_id AS PRid FROM FRIEND WHERE PRid = ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userPrid);
+			pstmt.setInt(2, userPrid);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				int FriendRequest_id = rs.getInt("PRid");
+				friendRequesList.add(FriendRequest_id);
+			}
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in getFriendRequestList Function");
+			System.exit(1);
+		}
+		return friendRequesList;
+	}
+
+	public boolean AcceptFriendRequest(int userPRid,int friendPRid) {
+		// TODO Auto-generated method stub
+		boolean result = false;
+		try {
+			String sql = "INSERT INTO FRIEND VALUES(?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userPRid);
+			pstmt.setInt(2, friendPRid);
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			result = false;
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in AcceptFriendRequest Function");
+			result = false;
+		}
+		return result;
+	}
 
 //	public boolean hasFriend() {
 //		boolean result = false;

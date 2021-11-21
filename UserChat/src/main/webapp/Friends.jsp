@@ -39,6 +39,8 @@
     	ProfileDTO currentUser = null;
 		List<FriendDTO> friendsDtoList = new ArrayList<FriendDTO>();
 		List<ProfileDTO> profileDtoList = new ArrayList<ProfileDTO>();
+		List<Integer> friendRequestList = new ArrayList<Integer>();
+		List<ProfileDTO> requestedProfileDtoList = new ArrayList<ProfileDTO>();
     	try{
       		 currentUser = new ProfileDAO().getUserByEmail(userEmail);
 
@@ -47,6 +49,7 @@
 			System.out.println(e.getMessage());
 			%><script>location.href = "logoutAction.jsp"</script><%
 		}
+		//getFriendList
 		if(currentUser != null) {
 			try{
 				friendsDtoList = new FriendDAO().GetFriendList(currentUser.getPRid());
@@ -61,6 +64,24 @@
 				for(FriendDTO friend : friendsDtoList){
 					ProfileDTO friend_profile =  connProfileDao.getUserByPRid(friend.getFriend_id());
 					profileDtoList.add(friend_profile);
+				}
+			}
+		}
+		//getFriendRequestList()
+		if(currentUser != null) {
+			try{
+				friendRequestList = new FriendDAO().getFriendRequestList(currentUser.getPRid());
+
+			} catch (Exception e) {
+				e.getStackTrace();
+				System.out.println(e.getMessage());
+				%><script>location.href = "logoutAction.jsp"</script><%
+			}
+			if(friendRequestList.isEmpty()== false){
+				ProfileDAO connProfileDao = new ProfileDAO();
+				for(Integer friend_prid : friendRequestList){
+					ProfileDTO friend_profile =  connProfileDao.getUserByPRid(friend_prid);
+					requestedProfileDtoList.add(friend_profile);
 				}
 			}
 		}
@@ -96,7 +117,7 @@
 				<hr/>
 				<h3>친구 목록</h3>
 				<% if(profileDtoList.isEmpty() == false) { %>
-					<ul class="firends-list" style="margin-top : 3%;">
+					<ul class="friends-list" style="margin-top : 3%;">
 						<% for (ProfileDTO profile : profileDtoList) { %>
 							<li class="firend-one" style="list-style : none; margin-left : 0.7%;">
 								<div class="user-component">
@@ -127,7 +148,7 @@
 					<div style="width : 100%; height : 25vh; display : flex; justify-content:center; align-items:center;">
 						<img
 							src="./image/empty.png"
-							style="width: 200px; height : 200px;"
+							style="width: 13vw; height : 13vw;"
 							alt="empty"
 						/>
 					</div>
@@ -135,7 +156,7 @@
             </main>
 			<footer>
 				<hr/>
-				<h3>친구 요청</h3>
+				<h3>친구 추가</h3>
 				<form id = "addFriendForm">
 					<table
 						class="table table-bordered table-hover"
@@ -184,6 +205,49 @@
 					</table>
 					<hr/>
 					<h3>받은 친구 요청</h3>
+					<% if(requestedProfileDtoList.isEmpty() == false) { %>
+						<ul class="friends-list" style="margin-top : 1%; padding-inline-start: 0px;">
+							<% for (ProfileDTO requestedProfile : requestedProfileDtoList) { %>
+								<li style="list-style : none;">
+									<div style="display : flex; border: 1px solid #F0F0EF;" >
+										<div class = "flex-center border-gray" style=" flex-grow :2; flex-shrink : 0; flex-basis : 2;">
+											<h5>닉네임</h5>
+										</div>
+										<div class ="flex-center border-gray" style ="flex-grow :6 ; flex-shrink:1; flex-basis : 6;">
+											<span style = "font-weight: 700;font-size : 1.5vw" >
+												<%= requestedProfile.getNickname() %>
+											</span>
+										</div>
+										<div class ="flex-center border-gray" style="flex-grow :0.5 ; flex-shrink : 0;flex-basis : 0.5; padding : 7px 20px;">
+											<button
+												class="btn btn-success"
+												onclick="requestAcceptFunction(<%= requestedProfile.getPRid() %>)"
+												type="button"
+												/>
+												확인
+											</button>
+											<button
+												class="btn btn-danger"
+												style = "margin-left : 5px"
+												onclick="denyAcceptFunction(<%= requestedProfile.getPRid() %>)"
+												type="button"
+												/>
+												삭제 
+											</button>
+										</div>
+									</div>
+								</li>
+							<% } %>
+						</ul>
+					<% } else { %>
+						<div style="width : 100%; height : 15vh; display : flex; justify-content:center; align-items:center;">
+							<img
+								src="./image/empty.png"
+								style="width: 13vw; height : 13vw;"
+								alt="empty"
+							/>
+						</div>
+					<%} %>
 			</footer>
         </section>
     <% } else{ %>
@@ -262,5 +326,43 @@
           }
         });
     }
+	function requestAcceptFunction(friendPRid) {
+       console.log("Request Accept Function : ",friendPRid);
+	   $.ajax({
+          type: "POST",
+          //아래의 url로 보내줌
+          url: "./RequestAcceptServlet",
+          data: { 
+        	  friendPRid : friendPRid,
+			  userPRid : <%= currentUser.getPRid() %>
+		  },
+          //성공했다면 result 값을 반환받음
+          success: function (result) {
+            if (result == 1) {
+              Swal.fire({
+                  icon: 'success',
+                  title: `친구요청을 수락했습니다.`,
+                  showConfirmButton: false,
+                  timer: 1500
+                }).then(
+					()=>{
+						window.location.reload();
+					}
+				)
+            } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: `친구요청 수락에 실패했습니다.`,
+                  showConfirmButton: true
+                });
+            }
+          }
+        });
+		
+	}
+	function denyAcceptFunction(friendPRid) {
+       console.log("Deny Accept Function : ",friendPRid);
+	}
+    
 </script>
 </html>
