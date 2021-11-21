@@ -63,7 +63,7 @@ a, a:hover {
 			for (int i = 0; i < clist.size(); i++) {
 			%>
 			<%
-			String cname = clist.get(i).getCname();
+			String cname = clist.get(i).getCname().toLowerCase();
 			%>
 			<div class="btn-group" role="group">
 				<% if(category == i + 1) { %>

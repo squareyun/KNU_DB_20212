@@ -83,4 +83,12 @@
    <servlet-name>RequestDenyServlet</servlet-name>
    <url-pattern>/RequestDeny</url-pattern>
   </servlet-mapping>
+  <servlet> 
+   <servlet-name>DeleteFriendServlet</servlet-name>
+   <servlet-class>friend.DeleteFriendServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>DeleteFriendServlet</servlet-name>
+   <url-pattern>/DeleteFriend</url-pattern>
+  </servlet-mapping>
 </web-app>

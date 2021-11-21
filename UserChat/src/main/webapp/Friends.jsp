@@ -121,23 +121,34 @@
 						<% for (ProfileDTO profile : profileDtoList) { %>
 							<li class="firend-one" style="list-style : none; margin-left : 0.7%;">
 								<div class="user-component">
-									<div class="user-component__column">
-										<%if(profile.getProfileImg() != null){ %>
-											<img
-												src="<%= profile.getProfileImg() %>"
-												alt="user"
-												class="user-component__avatar user-component__avatar--xs"
-											/>
-										<% } else { %>
-											<img
-												src="./image/profile.png"
-												alt="user"
-												class="user-component__avatar user-component__avatar--xs"
-											/>
-										<% } %>
-										<div class="user-component__text">
-											<h4 class="user-component__title"><%= profile.getNickname() %></h4>
-											<h6 class="user-component__subtitle"><%= profile.getPhone_num() %></h6>
+									<div class="user-component__column space-between">
+										<div class="user-component__column-left">
+											<%if(profile.getProfileImg() != null){ %>
+												<img
+													src="<%= profile.getProfileImg() %>"
+													alt="user"
+													class="user-component__avatar user-component__avatar--xs"
+												/>
+											<% } else { %>
+												<img
+													src="./image/profile.png"
+													alt="user"
+													class="user-component__avatar user-component__avatar--xs"
+												/>
+											<% } %>
+											<div class="user-component__text">
+												<h4 class="user-component__title"><%= profile.getNickname() %></h4>
+												<h6 class="user-component__subtitle"><%= profile.getPhone_num() %></h6>
+											</div>
+										</div>
+										<div>
+											<button
+												class="btn btn-danger"
+												style = ""
+												onclick="deleteFriendFunction(<%= profile.getPRid() %>)"
+												type="button"/>
+												삭제 
+											</button>
 										</div>
 									</div>
 								</div>
@@ -299,6 +310,7 @@
         var FriendNickname = $("#FriendNickname").val();
         // ajax 비동기 통신
 		var CurrentUserNickname = "<%= currentUser.getNickname() %>";
+		
 		console.log(FriendNickname,CurrentUserNickname);
 		if(FriendNickname == CurrentUserNickname){
 			Swal.fire({
@@ -327,7 +339,7 @@
 				} else {
 				Swal.fire({
 					icon: 'error',
-					title: `친구요청에 실패했습니다.`,
+					title: `1. 이미 친구인 유저.\n2. 친구요청에 포함되는 유저.\n3. 존재하지 않는 유저.`,
 					showConfirmButton: true
 					});
 				}
@@ -394,6 +406,38 @@
               Swal.fire({
                   icon: 'error',
                   title: `요청 삭제에 실패했습니다.`,
+                  showConfirmButton: true
+                });
+            }
+          }
+        });
+	}
+	function deleteFriendFunction(friendPRid){
+		$.ajax({
+          type: "POST",
+          //아래의 url로 보내줌
+          url: "./DeleteFriendServlet",
+          data: { 
+        	  friendPRid : friendPRid,
+			  userPRid : <%= currentUser.getPRid() %>
+		  },
+          //성공했다면 result 값을 반환받음
+          success: function (result) {
+            if (result == 1) {
+              Swal.fire({
+                  icon: 'success',
+                  title: `친구 삭제에 성공했습니다.`,
+                  showConfirmButton: false,
+                  timer: 1500
+                }).then(
+					()=>{
+						window.location.reload();
+					}
+				)
+            } else {
+              Swal.fire({
+                  icon: 'error',
+                  title: '친구 삭제에 실패했습니다.',
                   showConfirmButton: true
                 });
             }
