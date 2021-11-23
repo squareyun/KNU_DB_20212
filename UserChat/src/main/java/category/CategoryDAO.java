@@ -51,4 +51,30 @@ public class CategoryDAO {
 		
 		return list;
 	}
+
+	public boolean updatePostCategory(int pid, String cname) {
+		boolean result = false;
+		
+		try {
+			String sql = "UPDATE POST SET CATEGORY_ID = (SELECT CID FROM CATEGORY WHERE CNAME = ?)  WHERE PID = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cname);
+			pstmt.setInt(2, pid);
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			result = false;
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in category.updatePostCategory Function");
+			result = false;
+		}
+		return result;
+	}
 }

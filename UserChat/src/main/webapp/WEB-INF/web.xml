@@ -91,6 +91,15 @@
    <servlet-name>DeleteFriendServlet</servlet-name>
    <url-pattern>/DeleteFriend</url-pattern>
   </servlet-mapping>
+<!-- Category -->
+<servlet>
+  	<servlet-name>UpdatePostCategoryServlet</servlet-name>
+  	<servlet-class>category.UpdatePostCategoryServlet</servlet-class>
+  </servlet>
+<servlet-mapping>
+   <servlet-name>UpdatePostCategoryServlet</servlet-name>
+   <url-pattern>/UpdatePostCategory</url-pattern>
+  </servlet-mapping>
 <!-- Reply -->
 <servlet>
   	<servlet-name>DeleteReplyServlet</servlet-name>

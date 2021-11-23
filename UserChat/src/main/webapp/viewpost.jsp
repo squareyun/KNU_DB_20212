@@ -206,6 +206,10 @@ table th {
 					onclick="deletePostConfirm()"
 					class="btn btn-primary">삭제
 				</button>
+				<button
+					onclick="updatePostCategory()"
+					class="btn btn-primary">카테고리 변경
+				</button>
 			<%
 				} else {
 			%>
@@ -292,7 +296,6 @@ async function updateReply(rids) {
 			  },
 		  showCancelButton: true
 	})
-	console.log(contents);
 		if (contents) {
 			$.ajax({
 			      type: "POST",
@@ -431,13 +434,11 @@ function friendRequest() {
 		  if (result.isConfirmed) {
 			  $.ajax({
 					type: "POST",
-					//아래의 url로 보내줌
 					url: "./FriendRequestServlet",
 					data: { 
 						FriendNickname: '<%=postDTO.getNickname()%>',
 						userPrid : '<%=session.getAttribute("PRid").toString()%>'
 					},
-					//성공했다면 result 값을 반환받음
 					success: function (result) {
 						if (result == 1) {
 						Swal.fire({
@@ -449,7 +450,7 @@ function friendRequest() {
 						} else {
 						Swal.fire({
 							icon: 'error',
-							title: `이미 친구이거나,\n 친구요청을 보낸적이 있어요.\n`,
+							title: `이미 친구이거나,\n 친구요청을 보낸적이 있어요.`,
 							showConfirmButton: true
 							});
 						}
@@ -458,5 +459,41 @@ function friendRequest() {
 		  }
 		})
 }
+
+async function updatePostCategory() {
+	const { value: cname } = await Swal.fire({
+		  input: 'text',
+		  inputLabel: '카테고리 변경',
+		  inputPlaceholder: '정확한 카테고리 이름을 작성하세요(소문자)',
+		  showCancelButton: true
+	})
+		if (cname) {
+			$.ajax({
+				type: "POST",
+				url: "./UpdatePostCategoryServlet",
+				data: { 
+					pid: '<%=postDTO.getPid()%>',
+					cname : cname
+				},
+				success: function (result) {
+					if (result == 1) {
+					Swal.fire({
+						icon: 'success',
+						title: `카테고리 변경을 성공했습니다.`,
+						showConfirmButton: false,
+						timer: 1500
+						});
+					} else {
+					Swal.fire({
+						icon: 'error',
+						title: '이름을 정확하게 입력하세요!',
+						showConfirmButton: true
+						});
+					}
+				}
+				})
+		}
+}
+
 </script>
 </html>
