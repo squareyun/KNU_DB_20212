@@ -29,8 +29,11 @@ public class ProfileLoginServlet extends HttpServlet {
 		}
 		int result = new ProfileDAO().login(Email,Password);
 		if (result == 1) {
+			ProfileDTO currentUser = new ProfileDAO().getUserByEmail(Email);
 			System.out.println("로그인 성공 ");
 			request.getSession().setAttribute("Email",Email);
+			request.getSession().setAttribute("PRid",currentUser.getPRid());
+			request.getSession().setAttribute("Role",currentUser.getRole_id());
 			request.getSession().setAttribute("messageType","성공 메세지");
 			request.getSession().setAttribute("messageContent","로그인 성공");
 			response.sendRedirect("index.jsp");

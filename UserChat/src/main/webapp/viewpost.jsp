@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="post.PostDAO"%>
 <%@ page import="post.PostDTO"%>
+<%@ page import="profile.ProfileDAO"%>
+<%@ page import="profile.ProfileDTO"%>
 <%@ page import="category.CategoryDAO"%>
 <%@ page import="category.CategoryDTO"%>
 <%@ page import="reply.ReplyDAO"%>
@@ -156,7 +158,7 @@ table th {
 								<img src="./image/write.png " alt="수정" width="15px" height="15px">
 								</button>
 								<button style="all: unset;"
-									onclick="if(confirm('댓글을 삭제하시겠습니까?')) deleteReply('<%=rlist.get(i).getRid()%>')"
+									onclick="deleteReplyConfirm(<%=rlist.get(i).getRid()%>)"
 									type="button">
 								<img src="./image/delete.png " alt="삭제" width="15px" height="15px">
 								</button>
@@ -193,17 +195,25 @@ table th {
 			</table>
 			<a href="postpage.jsp?category=<%=category%>" class="btn btn-primary ">목록</a>
 			<%
-				if(session.getAttribute("Email").toString().equals(postDTO.getEmail())) {
+			boolean isWriter = session.getAttribute("Email").toString().equals(postDTO.getEmail());
+			boolean isAdmin = session.getAttribute("Role").toString().equals("2");
+				if(isWriter || isAdmin) {
+					if(isWriter) {
 			%>
 				<a href="updatepost.jsp?category=<%=category %>&pid=<%=pid %>" class="btn btn-primary">수정</a>
-				<a
-					onclick="return confirm('게시글을 삭제하시겠습니까?')"
-					href="deletePostAction.jsp?category=<%=category %>&pid=<%=pid %>"
+				<%} %>
+				<button
+					onclick="deletePostConfirm()"
 					class="btn btn-primary">삭제
-				</a>
+				</button>
 			<%
-				}
+				} else {
 			%>
+				<button
+					onclick="friendRequest()"
+					class="btn btn-primary">글쓴이에게 친구요청
+				</button>
+			<%} %>
 		</div>
 	</div>
 </body>
@@ -355,6 +365,98 @@ function displayBytes( sz, id )
   }
   obj.value = fnCut(obj.value , sz);
  }
+}
+
+function deleteReplyConfirm(rid) {
+	const swalWithBootstrapButtons = Swal.mixin({
+		  customClass: {
+		    confirmButton: 'btn btn-success',
+		    cancelButton: 'btn btn-danger'
+		  },
+		  buttonsStyling: false
+		})
+
+		swalWithBootstrapButtons.fire({
+		  title: '정말로 삭제하시겠어요?',
+		  text: "삭제하면 되돌릴 수 없습니다.",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonText: '네',
+		  cancelButtonText: '아니오',
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			deleteReply(rid)
+		  }
+		})
+}
+
+function deletePostConfirm() {
+	const swalWithBootstrapButtons = Swal.mixin({
+		  customClass: {
+		    confirmButton: 'btn btn-success',
+		    cancelButton: 'btn btn-danger'
+		  },
+		  buttonsStyling: false
+		})
+
+		swalWithBootstrapButtons.fire({
+		  title: '정말로 삭제하시겠어요?',
+		  text: "삭제하면 되돌릴 수 없습니다.",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonText: '네',
+		  cancelButtonText: '아니오',
+		}).then((result) => {
+		  if(result.isConfirmed) {
+			  location.href = 'deletePostAction.jsp?category=<%=category %>&pid=<%=pid %>';
+		  }
+		})
+}
+
+function friendRequest() {
+	const swalWithBootstrapButtons = Swal.mixin({
+		  customClass: {
+		    confirmButton: 'btn btn-success',
+		    cancelButton: 'btn btn-danger'
+		  },
+		  buttonsStyling: false
+		})
+
+		swalWithBootstrapButtons.fire({
+		  title: '글 작성자 [<%=postDTO.getNickname()%>]님에게 친구 요청을 하시겠습니까?',
+		  showCancelButton: true,
+		  confirmButtonText: '네',
+		  cancelButtonText: '아니오',
+		}).then((result) => {
+		  if (result.isConfirmed) {
+			  $.ajax({
+					type: "POST",
+					//아래의 url로 보내줌
+					url: "./FriendRequestServlet",
+					data: { 
+						FriendNickname: '<%=postDTO.getNickname()%>',
+						userPrid : '<%=session.getAttribute("PRid").toString()%>'
+					},
+					//성공했다면 result 값을 반환받음
+					success: function (result) {
+						if (result == 1) {
+						Swal.fire({
+							icon: 'success',
+							title: `친구요청을 완료했습니다.`,
+							showConfirmButton: false,
+							timer: 1500
+							});
+						} else {
+						Swal.fire({
+							icon: 'error',
+							title: `이미 친구이거나,\n 친구요청을 보낸적이 있어요.\n`,
+							showConfirmButton: true
+							});
+						}
+					}
+					});
+		  }
+		})
 }
 </script>
 </html>
