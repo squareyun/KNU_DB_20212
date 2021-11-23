@@ -108,4 +108,12 @@
    <servlet-name>WriteReplyServlet</servlet-name>
    <url-pattern>/WriteReply</url-pattern>
   </servlet-mapping>
+<servlet>
+  	<servlet-name>UpdateReplyServlet</servlet-name>
+  	<servlet-class>reply.UpdateReplyServlet</servlet-class>
+  </servlet>
+<servlet-mapping>
+   <servlet-name>UpdateReplyServlet</servlet-name>
+   <url-pattern>/UpdateReply</url-pattern>
+  </servlet-mapping>
 </web-app>

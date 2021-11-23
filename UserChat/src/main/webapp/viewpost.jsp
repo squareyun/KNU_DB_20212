@@ -129,7 +129,7 @@ table th {
 				style="text-align: center; border: 1px solid #dddddd">
 				<thead>
 					<tr>
-						<th colspan="4"
+						<th colspan="5"
 							style="background-color: #eeeeee; text-align: center; color: #000000;">댓글
 							정보</th>
 					</tr>
@@ -142,38 +142,42 @@ table th {
 					<% if(rlist.size() != 0) { %>
 					<% for (int i=0; i<rlist.size(); i++) { %>
 					<tr>
-						<td style="width: 20%;" class="ptitle"><%=i + 1%></td>
-						<td style="text-align: left"><%=rlist.get(i).getContents()%></td>
-						<td style="width: 150px;"><%=rlist.get(i).getCreate_date().substring(0, 11) + rlist.get(i).getCreate_date().substring(11, 13) + ":"
-								+ rlist.get(i).getCreate_date().substring(14, 16)%></td>
+						<td style="width: 5%;" class="ptitle"><%=i + 1%></td>
+						<td style="width: 10%;" class="ptitle"><%=rlist.get(i).getNickname()%></td>
+						<td style="text-align: left; word-break:break-all;"><%=rlist.get(i).getContents()%></td>
+						<td style="width: 160px; text-align: left; padding: 0">
+						<%=rlist.get(i).getCreate_date().substring(0, 11) + rlist.get(i).getCreate_date().substring(11, 13) + ":"
+								+ rlist.get(i).getCreate_date().substring(14, 16)%>
 						<% if(session.getAttribute("Email").toString().equals(rlist.get(i).getEmail())) { %>
-						<td style="width: 70px;">
-						<div style="display: flex;">
-							<button style="all: unset; margin-right: 10px"
-								onclick=""
-								type="button">
-							<img src="./image/write.png " alt="수정" width="30px" height="30px">
-							</button>
-							<button style="all: unset;"
-								onclick="if(confirm('댓글을 삭제하시겠습니까?')) deleteReply('<%=rlist.get(i).getRid()%>')"
-								type="button">
-							<img src="./image/delete.png " alt="삭제" width="25px" height="25px">
-							</button>
-						</div>
-						</td>
+							
+								<button style="all: unset; margin: 10px 0"
+									onclick="updateReply('<%=rlist.get(i).getRid()%>')"
+									type="button">
+								<img src="./image/write.png " alt="수정" width="15px" height="15px">
+								</button>
+								<button style="all: unset;"
+									onclick="if(confirm('댓글을 삭제하시겠습니까?')) deleteReply('<%=rlist.get(i).getRid()%>')"
+									type="button">
+								<img src="./image/delete.png " alt="삭제" width="15px" height="15px">
+								</button>
 						<%
 						}
 						%>
+						</td>
 					</tr>
 					
 					<%
 					}
-					}
+					} else {
 					%>
+					<tr>
+						<td>등록된 댓글이 없습니다 😥</td>
+					</tr>
+					<%} %>
 					<tr>
 						<td colspan="4">
 							<div style="display: flex;">
-								<input type="text" class="form-control" placeholder="댓글을 입력하세요." id="reply">
+								<input type="text" onkeyup="javascript:displayBytes(100,'reply');" class="form-control" placeholder="댓글을 입력하세요." id="reply">
 								<button
 								style="margin-left: 10px;"
 								class="btn btn-success"
@@ -266,6 +270,91 @@ function writeReply() {
 	            });
 	        }
 	      }});
+}
+
+async function updateReply(rids) {
+	const { value: contents } = await Swal.fire({
+		  input: 'textarea',
+		  inputLabel: '댓글 수정',
+		  inputPlaceholder: '댓글 내용을 입력하세요.',
+		  inputAttributes: {
+			    'aria-label': '댓글 내용을 입력하세요.'
+			  },
+		  showCancelButton: true
+	})
+	console.log(contents);
+		if (contents) {
+			$.ajax({
+			      type: "POST",
+			      url: "./UpdateReplyServlet",
+			      data: { 
+			    	  rid: rids,
+			    	  content: contents,
+			      },
+			      success: function (result) {
+			        if (result == 1) {
+			          Swal.fire({
+			              icon: 'success',
+			              title: '댓글을 수정했습니다.',
+			              showConfirmButton: false,
+			              timer: 1000
+			          })
+			          .then(
+			          ()=>{
+							window.location.reload();
+						})
+			        } else {
+			          Swal.fire({
+			              icon: 'error',
+			              title: '댓글 수정에 실패했습니다.',
+			              showConfirmButton: true
+			            });
+			        }
+			      }});
+	}
+}
+
+// 출처: https://javafactory.tistory.com/840
+function fnCut(str,lengths)
+{
+      var len = 0;
+      var newStr = '';
+  
+      for (var i=0;i<str.length; i++) 
+      {
+        var n = str.charCodeAt(i);
+        
+       var nv = str.charAt(i);
+        
+
+        if ((n>= 0)&&(n<256)) len ++;
+        else len += 2;
+        
+        if (len>lengths) break;
+        else newStr = newStr + nv;
+      }
+      return newStr;
+}
+
+function displayBytes( sz, id )
+{
+ var obj = document.getElementById( id );
+ var e_index = 0;
+ 
+ var byteLength = (function(s, b,i,c){
+		for(b=i=0;c=s.charCodeAt(i++);b+=c>>11?3:c>>7?2:1);
+	    return b
+	})(obj.value);
+ 
+ if (byteLength > sz)
+ { 
+  if (event.keyCode != '8')
+  {
+ var chkdgsoweg =  ( sz / 2 );
+ alert('한글은 ' + chkdgsoweg + '자 , 영문은 ' + sz + '자 까지 입력이 가능합니다.');
+  }
+  obj.value = fnCut(obj.value , sz);
+ }
 }
 </script>
 </html>

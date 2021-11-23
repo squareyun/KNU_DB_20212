@@ -1,6 +1,5 @@
 package reply;
 
-import java.io.StringReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import db.dbInfo;
-import post.PostDTO;
 
 public class ReplyDAO {
 	private Connection conn;
@@ -120,17 +118,28 @@ public class ReplyDAO {
 		return result;
 	}
 	
-//	public static void makeReply(String input_contents, PostDTO dto) {
-//		Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//		
-//		try {
-//			String sql = String.format(
-//					"insert into reply values(Reply_SEQ.nextval, %d, %d, %d, '%s', to_date('%s', 'yyyy-mm-dd hh24:mi:ss'))", dto.getPid(),dto.getCreator_id(), cons.ConsoleDB.currentUser.getPRid(), input_contents, sdf.format(timeStamp).toString());
-//			cons.ConsoleDB.stmt.executeUpdate(sql);
-//		} catch (SQLException e) {
-//			System.out.println("PostDAO.makeReply() 오류");
-//			e.printStackTrace();
-//		}
-//	}
+	public boolean update(int rid, String contents) {
+		boolean result = false;
+		try {
+			String sql = "UPDATE REPLY SET CONTENTS = ? WHERE RID = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, contents);
+			pstmt.setInt(2, rid);
+			int rs = pstmt.executeUpdate();
+			if (rs > 0)
+				result = true;
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			result = false;
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in Reply update Function");
+			result = false;
+		}
+		return result;
+	}
 }
