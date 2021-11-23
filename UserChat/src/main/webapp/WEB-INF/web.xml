@@ -91,4 +91,21 @@
    <servlet-name>DeleteFriendServlet</servlet-name>
    <url-pattern>/DeleteFriend</url-pattern>
   </servlet-mapping>
+<!-- Reply -->
+<servlet>
+  	<servlet-name>DeleteReplyServlet</servlet-name>
+  	<servlet-class>reply.DeleteReplyServlet</servlet-class>
+  </servlet>
+<servlet-mapping>
+   <servlet-name>DeleteReplyServlet</servlet-name>
+   <url-pattern>/DeleteReply</url-pattern>
+  </servlet-mapping>
+<servlet>
+  	<servlet-name>WriteReplyServlet</servlet-name>
+  	<servlet-class>reply.WriteReplyServlet</servlet-class>
+  </servlet>
+<servlet-mapping>
+   <servlet-name>WriteReplyServlet</servlet-name>
+   <url-pattern>/WriteReply</url-pattern>
+  </servlet-mapping>
 </web-app>

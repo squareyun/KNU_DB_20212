@@ -158,7 +158,7 @@ public class PostDAO {
             }
         }
         return data.toString();
-//        출처: https://rainny.tistory.com/87 [긍정적 사고방식^^]
+        // 출처: https://rainny.tistory.com/87
 	}
 	
 }

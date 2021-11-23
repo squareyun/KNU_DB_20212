@@ -277,7 +277,9 @@
 	 %>
 </body>
 <script>
-	// $('#friendActiveId').addClass("active");
+	// Friends.jsp 들어왔을 때 nav 버튼 활성화
+	$('#friendActiveId').addClass("active"); 
+	
 	function friendNicknameCheckFunction() {
         var FriendNickname = $("#FriendNickname").val();
         // ajax 비동기 통신
