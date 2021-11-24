@@ -52,13 +52,13 @@ public class CategoryDAO {
 		return list;
 	}
 
-	public boolean updatePostCategory(int pid, String cname) {
+	public boolean updatePostCategory(int pid, int cid) {
 		boolean result = false;
 		
 		try {
-			String sql = "UPDATE POST SET CATEGORY_ID = (SELECT CID FROM CATEGORY WHERE CNAME = ?)  WHERE PID = ?";
+			String sql = "UPDATE POST SET CATEGORY_ID = ?  WHERE PID = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, cname);
+			pstmt.setInt(1, cid);
 			pstmt.setInt(2, pid);
 			int rs = pstmt.executeUpdate();
 			if (rs > 0)

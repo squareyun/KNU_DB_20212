@@ -16,8 +16,8 @@ public class UpdatePostCategoryServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset = UTF-8");
 		String pid = request.getParameter("pid");
-		String cname = request.getParameter("cname");
-		Boolean result = new CategoryDAO().updatePostCategory(Integer.parseInt(pid), cname);
+		String cname = request.getParameter("cname");		
+		Boolean result = new CategoryDAO().updatePostCategory(Integer.parseInt(pid), Integer.parseInt(cname));
 		int res = (result == true) ? 1 : 0; 
 		response.getWriter().write(res+ "");
 	}

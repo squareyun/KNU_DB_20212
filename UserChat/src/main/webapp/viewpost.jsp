@@ -461,39 +461,58 @@ function friendRequest() {
 }
 
 async function updatePostCategory() {
-	const { value: cname } = await Swal.fire({
-		  input: 'text',
-		  inputLabel: '카테고리 변경',
-		  inputPlaceholder: '정확한 카테고리 이름을 작성하세요(소문자)',
-		  showCancelButton: true
-	})
-		if (cname) {
-			$.ajax({
-				type: "POST",
-				url: "./UpdatePostCategoryServlet",
-				data: { 
-					pid: '<%=postDTO.getPid()%>',
-					cname : cname
-				},
-				success: function (result) {
-					if (result == 1) {
-					Swal.fire({
-						icon: 'success',
-						title: `카테고리 변경을 성공했습니다.`,
-						showConfirmButton: false,
-						timer: 1500
-						});
-					} else {
-					Swal.fire({
+	await Swal.fire({
+		  title: '카테고리 변경',
+		  input: 'select',
+		  inputOptions: {
+		    <%for(int i=0; i<clist.size(); i++) {
+		    %>
+		    <%=i+1%>: '<%=clist.get(i).getCname()%>', 
+		    <%
+		    }
+		    %>
+		  },
+		  inputPlaceholder: '변경할 카테고리를 선택하세요.',
+		  showCancelButton: true,
+		  inputValidator: (value) => {
+		    return new Promise((resolve, reject) => {
+		      if (value == '<%=postDTO.getCategory_id()%>') {
+		    	  Swal.fire({
 						icon: 'error',
-						title: '이름을 정확하게 입력하세요!',
+						title: '현재 속한 카테고리에요!',
 						showConfirmButton: true
 						});
+		      } else {
+			        resolve(value)
+		      }
+		    }).then(function(data) {
+		    	$.ajax({
+					type: "POST",
+					url: "./UpdatePostCategoryServlet",
+					data: { 
+						pid: '<%=postDTO.getPid()%>',
+						cname : data
+					},
+					success: function (result) {
+						if (result == 1) {
+						Swal.fire({
+							icon: 'success',
+							title: `카테고리 변경을 성공했습니다.`,
+							showConfirmButton: false,
+							timer: 1500
+							});
+						} else {
+						Swal.fire({
+							icon: 'error',
+							title: '카테고리 변경에 실패했어요.',
+							showConfirmButton: true
+							});
+						}
 					}
-				}
-				})
-		}
+					})
+		    })
+		  }
+		})
 }
-
 </script>
 </html>
