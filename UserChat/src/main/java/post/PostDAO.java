@@ -43,8 +43,9 @@ public class PostDAO {
 		try {
 			// empty_clob()을 통해 공간을 확보
 			String sql = "insert into post values(Post_SEQ.nextval, ?, empty_clob(), ?, to_date(?, 'yyyy-mm-dd hh24:mi:ss'), ?)";
-
-			conn.setAutoCommit(false); // 다른 프로세스의 접근을 막음
+			
+			// 트랜잭션 시작
+			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(sql);
 
 			pstmt.setInt(1, creator_id);
@@ -64,7 +65,7 @@ public class PostDAO {
 			}
 
 			// for update를 통해 CLOB column을 lock한다.
-			String sql3 = " select content from post where pid = ? for update";
+			String sql3 = " select content from post where pid = ? for update wait 5";
 			pstmt = conn.prepareStatement(sql3);
 			pstmt.setInt(1, prid);
 			rs = pstmt.executeQuery();
@@ -89,6 +90,12 @@ public class PostDAO {
 
 			return 1;
 		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 		return -1; // 작성 오류
@@ -192,18 +199,4 @@ public class PostDAO {
 		}
 		return -1; // 오류
 	}
-
-	public static String readClobData(Reader reader) throws IOException {
-		StringBuffer data = new StringBuffer();
-		char[] buf = new char[1024];
-		int cnt = 0;
-		if (null != reader) {
-			while ((cnt = reader.read(buf)) != -1) {
-				data.append(buf, 0, cnt);
-			}
-		}
-		return data.toString();
-		// 출처: https://rainny.tistory.com/87
-	}
-
 }

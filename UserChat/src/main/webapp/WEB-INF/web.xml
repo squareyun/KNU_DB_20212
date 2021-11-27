@@ -50,6 +50,14 @@
    <servlet-name>ProfileUpdateServlet</servlet-name>
    <url-pattern>/ProfileUpdate</url-pattern>
   </servlet-mapping>
+    <servlet> 
+   <servlet-name>ProfileRestrictionServlet</servlet-name>
+   <servlet-class>profile.ProfileRestrictionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>ProfileRestrictionServlet</servlet-name>
+   <url-pattern>/ProfileRestriction</url-pattern>
+  </servlet-mapping>
   <!-- Friend -->
   <servlet> 
    <servlet-name>FriendNicknameCheckServlet</servlet-name>

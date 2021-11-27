@@ -205,12 +205,18 @@ table th {
 				<%} %>
 				<button
 					onclick="deletePostConfirm()"
-					class="btn btn-primary">삭제
+					class="btn btn-danger">삭제
 				</button>
 				<button
 					onclick="updatePostCategory()"
 					class="btn btn-primary">카테고리 변경
 				</button>
+				<% if(!isWriter && isAdmin) {%>
+				<button
+					onclick="giveRestriction()"
+					class="btn btn-danger">작성자 정지
+				</button>
+				<%} %>
 			<%
 				} else {
 			%>
@@ -512,6 +518,51 @@ async function updatePostCategory() {
 					}
 					})
 		    })
+		  }
+		})
+}
+
+function giveRestriction() {
+	const swalWithBootstrapButtons = Swal.mixin({
+		  customClass: {
+		    confirmButton: 'btn btn-success',
+		    cancelButton: 'btn btn-danger'
+		  },
+		  buttonsStyling: false
+		})
+
+		swalWithBootstrapButtons.fire({
+		  title: '정말로 정지를 주시겠습니까?',
+		  text: "관리자 메뉴를 통해 취소할 수 있습니다.",
+		  icon: 'warning',
+		  showCancelButton: true,
+		  confirmButtonText: '네',
+		  cancelButtonText: '아니오',
+		}).then((result) => {
+		  if(result.isConfirmed) {
+			  $.ajax({
+					type: "POST",
+					url: "./ProfileRestrictionServlet",
+					data: { 
+						prid: '<%=postDTO.getCreator_id()%>',
+					},
+					success: function (result) {
+						if (result == 1) {
+						Swal.fire({
+							icon: 'success',
+							title: `성공적으로 수행했습니다.`,
+							showConfirmButton: false,
+							timer: 1500
+							});
+						} else {
+						Swal.fire({
+							icon: 'error',
+							title: `실패했습니다.`,
+							showConfirmButton: true
+							});
+						}
+					}
+					});
 		  }
 		})
 }

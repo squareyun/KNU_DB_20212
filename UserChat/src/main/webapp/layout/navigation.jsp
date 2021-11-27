@@ -32,10 +32,11 @@ pageEncoding="UTF-8"%>
         <a class="navbar-brand" href="index.jsp">DataBase App</a>
       </div>
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" id="nav_bar_id">
           <li id="mainActiveId"><a href="index.jsp">메인</a></li>
           <li id="postpageActiveId"><a href="postpage.jsp?category=1">게시판</a></li>
           <li id="friendActiveId"><a href="Friends.jsp">친구</a></li>
+          
         </ul>
         <% if(Email == null) { %>
         <ul class="nav navbar-nav navbar-right">
@@ -60,6 +61,15 @@ pageEncoding="UTF-8"%>
         </ul>
 
         <% } else { %>
+        <% boolean isAdmin = session.getAttribute("Role").toString().equals("2");
+          if(isAdmin) {
+        	  %>
+        	  <script>
+        	  $('#nav_bar_id').append("<li id='adminActiveId'><a href='adminpage.jsp'>관리자 메뉴</a></li>");
+        	  </script>
+       		<%
+          }
+          %>
         <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
             <a
