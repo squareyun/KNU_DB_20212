@@ -430,5 +430,30 @@ public class ProfileDAO {
 		}
 		return -1; // DB 오류 
 	 }
+	 
+	 public boolean giveRestriction(int prid) {
+			boolean result = false;
+
+			try {
+				String sql = "UPDATE PROFILE SET ROLE_ID = 3  WHERE PRID = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, prid);
+				int rs = pstmt.executeUpdate();
+				if (rs > 0)
+					result = true;
+			} catch (SQLException e) {
+				e.getStackTrace();
+				System.out.println(e.getMessage());
+				System.out.println(e.getLocalizedMessage());
+				result = false;
+			} catch (Exception e) {
+				e.getStackTrace();
+				System.out.println(e.getMessage());
+				System.out.println(e.getLocalizedMessage());
+				System.out.println("Error in category.updatePostCategory Function");
+				result = false;
+			}
+			return result;
+	}
  }
 
