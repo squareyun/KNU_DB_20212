@@ -21,7 +21,15 @@ public class IndexUpdateServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset = UTF-8");
 		String Contents = request.getParameter("Contents");
-		response.getWriter().write( new IndexDAO().update(Contents) + "");
+		String latestTime = request.getParameter("latestTime");
+		IndexDAO indexDAO = new IndexDAO();
+		if(indexDAO.isUpdated(latestTime) == false) {
+			response.getWriter().write( indexDAO.update(Contents) + "");
+		}else {
+			response.getWriter().write( -1 + "");
+		}
+		//response.getWriter().write( indexDAO.update(Contents) + "");
+		
 	}
 
 }
