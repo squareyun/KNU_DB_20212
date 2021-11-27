@@ -125,4 +125,13 @@
    <servlet-name>UpdateReplyServlet</servlet-name>
    <url-pattern>/UpdateReply</url-pattern>
   </servlet-mapping>
+  <!-- Index-->
+  <servlet>
+  	<servlet-name>IndexUpdateServlet</servlet-name>
+  	<servlet-class>post.IndexUpdateServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>IndexUpdateServlet</servlet-name>
+   <url-pattern>/IndexUpdate</url-pattern>
+  </servlet-mapping>
 </web-app>

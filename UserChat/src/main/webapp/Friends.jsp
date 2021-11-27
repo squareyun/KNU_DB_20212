@@ -115,7 +115,7 @@
             </header>
             <main>
 				<hr/>
-				<h3>친구 목록</h3>
+				<h3>친구</h3>
 				<% if(profileDtoList.isEmpty() == false) { %>
 					<ul class="friends-list" style="margin-top : 3%;">
 						<% for (ProfileDTO profile : profileDtoList) { %>

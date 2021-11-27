@@ -54,7 +54,7 @@ pageEncoding="UTF-8"%>
            >
              <thead>
                <tr>
-                 <th colspan="3"><h4>회원 정보 수정</h4></th>
+                 <th colspan="3"></th>
                </tr>
              </thead>
              <tbody>
