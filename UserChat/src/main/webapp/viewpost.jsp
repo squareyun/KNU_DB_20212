@@ -112,16 +112,17 @@ table th {
 						</td>
 					</tr>
 					<tr>
-						<td style="border-right: 2px #000000;" class="ptitle">작성자</td>
+						<td style="width: 20%; border-right: 2px #000000;" class="ptitle">작성자</td>
 						<td colspan="2"><%=postDTO.getNickname() %></td>
 					</tr>
+					<tr></tr>
+					<tr></tr>
 					<tr>
-						<td class="ptitle">작성일자</td>
+						<td style="width: 20%;" class="ptitle">작성일자</td>
 						<td colspan="2"><%=postDTO.getCreate_date().substring(0, 11) + postDTO.getCreate_date().substring(11, 13) + ":" + postDTO.getCreate_date().substring(14, 16)%></td>
 					</tr>
 					<tr>
-						<td class="ptitle">내용</td>
-						<td colspan="2" style="height: 200px; text-align: left;">
+						<td colspan="3" style="height: 200px; table-layout: fixed; text-align: left;">
 						<%=postDTO.getContents() %>
 						</td>
 					</tr>

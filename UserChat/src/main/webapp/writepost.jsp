@@ -89,7 +89,7 @@
 						<tr>
 							<td><input type="text" class="form-control" placeholder="글 제목" name="title"></td>
 						</tr>
-						<tr>
+						<tr style="text-align: left">
 							<td> <textarea id="summernote" name="contents" style="all: none;" ></textarea> </td>
 						</tr>
 					</tbody>
@@ -108,6 +108,12 @@ $('#summernote').summernote({
 	height: 500,
 	minHeight: 500,
 	lang: "ko_KR",
+	maximumImageFileSize: 1024*1024, // 1MB
+    callbacks:{
+        onImageUploadError: function(msg){
+           alert(msg + ' (1 MB)');
+        }
+    }
 });
 </script>
 </html>
