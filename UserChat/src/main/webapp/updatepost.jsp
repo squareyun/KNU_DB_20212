@@ -107,8 +107,8 @@
 						<tr>
 							<td><input type="text" class="form-control" placeholder="글 제목" name="title" value="<%=postDTO.getTitle()%>"></td>
 						</tr>
-						<tr>
-							<td> <textarea id="summernote" name="contents" style="all: none;" ><%=postDTO.getContents()%></textarea> </td>
+						<tr style="text-align: left">
+							<td> <textarea id="summernote" name="contents" style="all: none;" ></textarea> </td>
 						</tr>
 					</tbody>
 				</table>
@@ -126,5 +126,7 @@ $('#summernote').summernote({
 	minHeight: 500,
 	lang: "ko_KR",
 });
+
+$('#summernote').summernote('pasteHTML', '<%=postDTO.getContents()%>');
 </script>
 </html>
