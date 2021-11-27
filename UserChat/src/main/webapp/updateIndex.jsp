@@ -40,7 +40,8 @@ pageEncoding="UTF-8"%>
 		 }; 
 	 %>
 	 <% 
-	 	PostDTO post = new IndexDAO().getIndexPost();
+	 	IndexDAO indexDao = new IndexDAO();
+	 	PostDTO post = indexDao.getIndexPost();
 	 %>
 	 
 	 <div class="main-screen" >
@@ -64,7 +65,7 @@ pageEncoding="UTF-8"%>
 							</tr>
 						</tbody>
 					</table>
-					<input type="button" class="btn btn-primary pull-right" value="게시물 수정" onclick="formSubmitFunction()">
+					<input type="button" class="btn btn-primary pull-right" value="게시물 수정" onclick="formSubmitFunction();">
 				</form>
 			</main>
 		<% }else{ %>
@@ -78,7 +79,7 @@ pageEncoding="UTF-8"%>
 	</footer>
   </body>
   <script>
-	
+  
 	function formSubmitFunction() {
         var Contents = $("#contents").val();
         // ajax 비동기 통신
@@ -86,7 +87,7 @@ pageEncoding="UTF-8"%>
           type: "POST",
           //아래의 url로 보내줌
           url: "./IndexUpdateServlet",
-          data: { Contents: Contents },
+          data: { Contents: Contents , latestTime : "<%= post.getCreate_date() %>" },
           success: function (result) {
 			  console.log(result);
             if (result == 1) {
@@ -96,6 +97,13 @@ pageEncoding="UTF-8"%>
                   showConfirmButton: false,
                   timer: 1500
                 }).then(()=>{ location.href = "index.jsp";});
+            } else if(result == -1){
+            	Swal.fire({
+                    icon: 'error',
+                    title:`기존 게시글에 수정사항이 있습니다.`,
+                    showConfirmButton: true
+                  }).then(()=>{ location.href = "index.jsp";});
+            	
             } else {
               Swal.fire({
                   icon: 'error',

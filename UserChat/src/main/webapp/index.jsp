@@ -71,11 +71,6 @@ pageEncoding="UTF-8"%>
 			</div>
 		</main>
 	 </div>
-	 <footer style = "margin-top : 8%; color : tomato; font-weight : bold; text-align : center;">
-			<h4>
-			 * 이 칠판은 공용 게시판입니다. 누군가가 수정 중 일때는 수정할 수 없습니다. *
-			</h4>
-	</footer>
 	<%
 		 if (session.getAttribute("messageType")!= null) { 
 			 session.removeAttribute("messageType");
