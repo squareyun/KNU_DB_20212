@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%> <!DOCTYPE html>
         >
           <thead>
             <tr>
-              <th colspan="3"><h4>회원 등록 양식</h4></th>
+              <th colspan="3"><h4>회원가입</h4></th>
             </tr>
           </thead>
           <tbody>

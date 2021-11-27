@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ page import="post.PostDAO"%>
+<%@ page import="post.IndexDAO"%>
+<%@ page import="post.PostDTO"%>
+<%@ page import = "java.sql.SQLException" %>
+<%@ page import = "java.io.*" %>
 <!DOCTYPE html>
 <html>
   <%@ include file = "layout/header.jsp" %>
+	
   <body>
   	<%
 	    if (session.getAttribute("messageType")!= null) {
@@ -32,8 +38,52 @@ pageEncoding="UTF-8"%>
 			 session.removeAttribute("messageContent");
 		 }; 
 	 %>
+	 <% 
+	 	PostDTO post = new IndexDAO().getIndexPost();
+	 %>
+	 
+	 <div class="main-screen" >
+	 	<header style = "margin-top:5%;">
+			<h2 style="text-align:center;">SHARE POST</h2>
+			<h3>LET US KNOW THE BIG SALE EVENT!!!</h3>
+		</header>
+		<main>
+			<div class="DiceContainer">
+				<div class="DiceOutFrame">
+				<div class="DiceInner1Frame">
+					<div class="eraser" onclick="location.href='updateIndex.jsp'">
+						<div style = "background-color : #E17B53; height : 70%;">
+						</div>
+						<div style = "background-color : #FFFFFF; height : 30%;">
+						</div>
+					</div>
+					<div class="DiceInner2Frame">
+					<div class="DiceInner3Frame" style="overflow-y: scroll;">
+						<pre style="background-color : #255f38; border:none; ">
+							<h4 style="color: white; font-family: 'Hanna'; font-size: 25px;" ><%= post.getContents() %><h4/>
+						</pre>
+						<div class="DiceArea">
+						</div>
+					</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		</main>
+	 </div>
+	 <footer style = "margin-top : 8%; color : tomato; font-weight : bold; text-align : center;">
+			<h4>
+			 * 이 칠판은 공용 게시판입니다. 누군가가 수정 중 일때는 수정할 수 없습니다. *
+			</h4>
+	</footer>
+	<%
+		 if (session.getAttribute("messageType")!= null) { 
+			 session.removeAttribute("messageType");
+			 session.removeAttribute("messageContent");
+		 }; 
+	 %>
   </body>
   <script>
-$('#mainActiveId').addClass("active")
+	$('#mainActiveId').addClass("active")
 </script>
 </html>

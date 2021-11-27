@@ -139,9 +139,9 @@ table th {
 				</thead>
 				<tbody>
 					<%
-				ReplyDAO replyDAO = new ReplyDAO();
-				List<ReplyDTO> rlist = replyDAO.getReplyListInPost(pid);
-				%>
+					ReplyDAO replyDAO = new ReplyDAO();
+					List<ReplyDTO> rlist = replyDAO.getReplyListInPost(pid);
+					%>
 					<% if(rlist.size() != 0) { %>
 					<% for (int i=0; i<rlist.size(); i++) { %>
 					<tr>
