@@ -173,22 +173,27 @@ public class ProfileDAO {
 		return user;
 	}
 	 public int login(String Email, String Password) {
-		 String SQL = "SELECT Password FROM PROFILE WHERE Email = ?";
-		 
+		 String SQL = "SELECT * FROM PROFILE WHERE Email = ? ";
+		 System.out.println(Email+Password);
 		 try {
 			 //pstmt: prepared statement 정해진 sql문장을 db에 삽입하는 형식으로 인스턴스가져옴
 			 pstmt = conn.prepareStatement(SQL);
 			 //sql인젝션 같은 해킹기법을 방해하는것 pstmt를 이용해 하나의 문장을 미리 준비해서 (물음표사용)
 			 //물음표에 해당하는 내용을 유저 아이디로, 매개변수로 이용 1)존재하는지 2)비번 무엇인지
 			 //currentUser = getUserByEmail(Email);
-			 pstmt.setString(1, Email);
+			 pstmt.setString(1, Email.trim());
 			 //rs:result set에 결과보관
-			 rs = pstmt.executeQuery();
+			 ResultSet rs = pstmt.executeQuery();
 			 //결과가 존재한다면 실행
 			 if(rs.next()) {
 				 //패스워드 일치한다면 실행
+				 System.out.println(rs.getString("Password"));
 				 if(rs.getString("Password").equals(Password)) {
-					 return 1;//로긴성공
+					if(rs.getInt("ROLE_ID")!=3) {
+						return 1;//로긴성공
+					}else {
+						return 3;//제한된 유
+					}
 				 }
 				 else
 					 return 2;//비번 불일치
@@ -425,30 +430,5 @@ public class ProfileDAO {
 		}
 		return -1; // DB 오류 
 	 }
-	 
-	 public boolean giveRestriction(int prid) {
-			boolean result = false;
-			
-			try {
-				String sql = "UPDATE PROFILE SET ROLE_ID = 3  WHERE PRID = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, prid);
-				int rs = pstmt.executeUpdate();
-				if (rs > 0)
-					result = true;
-			} catch (SQLException e) {
-				e.getStackTrace();
-				System.out.println(e.getMessage());
-				System.out.println(e.getLocalizedMessage());
-				result = false;
-			} catch (Exception e) {
-				e.getStackTrace();
-				System.out.println(e.getMessage());
-				System.out.println(e.getLocalizedMessage());
-				System.out.println("Error in category.updatePostCategory Function");
-				result = false;
-			}
-			return result;
-	}
  }
 

@@ -50,12 +50,19 @@ public class ProfileLoginServlet extends HttpServlet {
 			request.getSession().setAttribute("messageContent","아이디가 존재하지 않습니다");
 			response.sendRedirect("Login.jsp");
 		}
-		else if(result == -1) {
+		else if(result == -2) {
 			System.out.println("데이터 베이스 오류가 발생했습니다 ");
 			request.getSession().setAttribute("messageType","오류 메세지");
 			request.getSession().setAttribute("messageContent","데이터 베이스 오류가 발생했습니다");
 			response.sendRedirect("Login.jsp");
 		}
+		else if(result == 3) {
+			System.out.println("접근 제한 유저 입니다. ");
+			request.getSession().setAttribute("messageType","오류 메세지");
+			request.getSession().setAttribute("messageContent","접근 제한 유저 입니다. ");
+			response.sendRedirect("Login.jsp");
+		}
+		
 		
 	}
 
