@@ -105,9 +105,6 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><input type="text" class="form-control" placeholder="글 제목" name="title" value="<%=postDTO.getTitle()%>"></td>
-						</tr>
-						<tr>
 							<td> <textarea id="summernote" name="contents" style="all: none;" ><%=postDTO.getContents()%></textarea> </td>
 						</tr>
 					</tbody>
