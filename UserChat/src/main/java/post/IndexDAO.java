@@ -67,7 +67,7 @@ public class IndexDAO {
 			
 			if(rs.next()) {
 				System.out.println();
-				if(rs.getString("Create_date").trim().equals(latestTime.trim())) {
+				if(rs.getString("Create_date") == null || rs.getString("Create_date").trim().equals(latestTime.trim())) {
 					res = false;
 				}else {
 					res =  true;

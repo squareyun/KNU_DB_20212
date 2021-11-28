@@ -545,6 +545,7 @@ function giveRestriction() {
 					url: "./ProfileRestrictionServlet",
 					data: { 
 						prid: '<%=postDTO.getCreator_id()%>',
+						change: 3,
 					},
 					success: function (result) {
 						if (result == 1) {

@@ -10,7 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import category.CategoryDTO;
 import db.dbInfo;
 
 public class ProfileDAO {
@@ -431,13 +434,14 @@ public class ProfileDAO {
 		return -1; // DB 오류 
 	 }
 	 
-	 public boolean giveRestriction(int prid) {
+	 public boolean giveRestriction(int prid, int change) {
 			boolean result = false;
 
 			try {
-				String sql = "UPDATE PROFILE SET ROLE_ID = 3  WHERE PRID = ?";
+				String sql = "UPDATE PROFILE SET ROLE_ID = ?  WHERE PRID = ?";
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, prid);
+				pstmt.setInt(1, change);
+				pstmt.setInt(2, prid);
 				int rs = pstmt.executeUpdate();
 				if (rs > 0)
 					result = true;
@@ -455,5 +459,131 @@ public class ProfileDAO {
 			}
 			return result;
 	}
+	
+	 public List<ProfileDTO> getSearchProfile(String nickname, String gender, String country, String state, String city, String street, String fname, String lname, String startdate, String enddate) {
+			List<ProfileDTO> list = new ArrayList<>();
+			boolean checkAnd = false;
+
+			try {
+				String sql = "select * from profile where ";
+				if(!nickname.equals("")) {
+					sql += " nickname like '%" + nickname + "%' ";
+					checkAnd = true;
+				}
+				if(!gender.equals("") && !gender.equals("무관")) {
+					if(checkAnd) sql += " and ";
+					sql += " gender = '" + gender + "' ";
+					checkAnd = true;
+				}
+				if(!country.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " country like '%" + country + "%' ";
+					checkAnd = true;
+				}
+				if(!state.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " state like '%" + state + "%' ";
+					checkAnd = true;
+				}
+				if(!city.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " city like '%" + city + "%' ";
+					checkAnd = true;
+				}
+				if(!street.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " street like '%" + street + "%' ";
+					checkAnd = true;
+				}
+				if(!fname.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " fname like '%" + fname + "%' ";
+					checkAnd = true;
+				}
+				if(!lname.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " lname like '%" + lname + "%' ";
+					checkAnd = true;
+				}
+				if(!startdate.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " create_date >= '" + startdate + "' ";
+					checkAnd = true;
+				}
+				if(!enddate.equals("")) {
+					if(checkAnd) sql += " and ";
+					sql += " create_date <= '" + enddate + "' ";
+					checkAnd = true;
+				}
+				if(nickname.equals("") && gender.equals("무관") && country.equals("") && state.equals("") && city.equals("") && street.equals("") && fname.equals("") && lname.equals("") && startdate.equals("") && enddate.equals("")) {
+					sql = "select * from profile";
+				}
+				
+				System.out.println(sql);
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					ProfileDTO profile = new ProfileDTO();
+					profile.setFname(rs.getString(1));
+					profile.setLname(rs.getString(2));
+					profile.setPRid(rs.getInt(3));
+					profile.setEmail(rs.getString(4));
+					profile.setRestrction(rs.getInt(6));
+					profile.setPhone_num(rs.getString(7));
+					profile.setCreate_date(rs.getTimestamp("Create_date"));
+					profile.setCountry(rs.getString(9));
+					profile.setState(rs.getString(10));
+					profile.setCity(rs.getString(11));
+					profile.setStreet(rs.getString(12));
+					profile.setNickname(rs.getString(13));
+					profile.setGender(rs.getString(14));
+					profile.setRole_id(rs.getInt(16));
+					
+					list.add(profile);
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return list;
+		}
+	 
+	 public List<ProfileDTO> getRestrictedProfile() {
+		 List<ProfileDTO> list = new ArrayList<>();
+
+			try {
+				String sql = "select * from profile where role_id = 3";
+				
+				System.out.println(sql);
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+
+				while (rs.next()) {
+					ProfileDTO profile = new ProfileDTO();
+					profile.setFname(rs.getString(1));
+					profile.setLname(rs.getString(2));
+					profile.setPRid(rs.getInt(3));
+					profile.setEmail(rs.getString(4));
+					profile.setPhone_num(rs.getString(7));
+					profile.setCreate_date(rs.getTimestamp("Create_date"));
+					profile.setCountry(rs.getString(9));
+					profile.setState(rs.getString(10));
+					profile.setCity(rs.getString(11));
+					profile.setStreet(rs.getString(12));
+					profile.setNickname(rs.getString(13));
+					profile.setGender(rs.getString(14));
+					
+					list.add(profile);
+				}
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return list;
+		}
+	
  }
 

@@ -58,6 +58,14 @@
    <servlet-name>ProfileRestrictionServlet</servlet-name>
    <url-pattern>/ProfileRestriction</url-pattern>
   </servlet-mapping>
+   <servlet> 
+   <servlet-name>ProfileSearchServlet</servlet-name>
+   <servlet-class>profile.ProfileSearchServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>ProfileSearchServlet</servlet-name>
+   <url-pattern>/ProfileSearch</url-pattern>
+  </servlet-mapping>
   <!-- Friend -->
   <servlet> 
    <servlet-name>FriendNicknameCheckServlet</servlet-name>

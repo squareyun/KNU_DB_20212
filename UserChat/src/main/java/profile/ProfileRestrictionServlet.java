@@ -16,7 +16,8 @@ public class ProfileRestrictionServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset = UTF-8");
 		String prid = request.getParameter("prid");
-		Boolean result = new ProfileDAO().giveRestriction(Integer.parseInt(prid));
+		String change = request.getParameter("change");
+		Boolean result = new ProfileDAO().giveRestriction(Integer.parseInt(prid), Integer.parseInt(change));
 		int res = (result == true) ? 1 : 0; 
 		response.getWriter().write(res+ "");
 	}
