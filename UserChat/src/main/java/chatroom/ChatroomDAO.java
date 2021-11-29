@@ -46,6 +46,7 @@ public class ChatroomDAO {
 			e.printStackTrace();
 		}
 	}
+	
 	public ChatroomDTO getChatroomDTO(int CRid) {
 		ChatroomDTO cDTO = null;
 		try {
@@ -72,6 +73,7 @@ public class ChatroomDAO {
 		}
 		return cDTO;
 	}
+	
 	public ArrayList<ChatroomDTO> GetChatroomList(){
 		ArrayList<ChatroomDTO> list = new ArrayList<ChatroomDTO>();
 		try {
@@ -101,32 +103,6 @@ public class ChatroomDAO {
 		}
 		
 		return list;
-	}
-	
-	public boolean UpdateChatroomName(ChatroomDTO dto, String CRname) {
-		// TODO Auto-generated method stub
-		boolean result = false;
-		try {
-			String sql = "UPDATE CHAT_ROOM SET CRname = ? WHERE CRId = ?";
-			int CRId = dto.getCRId();
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1,CRname);
-			pstmt.setInt(2, CRId);
-			int rs = pstmt.executeUpdate();
-			if(rs > 0)
-				result = true;	
-		} catch (SQLException e) {
-			e.getStackTrace();
-			System.out.println(e.getMessage());
-			System.out.println(e.getLocalizedMessage());
-			System.exit(1);
-		} catch (Exception e) {
-			e.getStackTrace();
-			System.out.println(e.getMessage());
-			System.out.println(e.getLocalizedMessage());
-			System.out.println("Error in getFriendRequestList Function");
-		}
-		return result;
 	}
 	
 	public boolean DeleteChatroom(int crid) {
@@ -178,14 +154,16 @@ public class ChatroomDAO {
 		return result;
 	}
 	
-	public boolean hasChatroom() {
+	public boolean hasChatroom(int op_prid) {
 		boolean result = false;
 		try {
-			String sql = "SELECT * FROM CHAT_ROOM WHERE Host_id = ? OR Participant_id = ?";
+			String sql = "SELECT * FROM CHAT_ROOM WHERE Host_id = ? AND Participant_id = ? OR Host_id = ? AND Participant_id = ?";
 			int PRId = PRdto.getPRid();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, PRId);
-			pstmt.setInt(2, PRId);
+			pstmt.setInt(2, op_prid);
+			pstmt.setInt(3, op_prid);
+			pstmt.setInt(4, PRId);
 			int rs = pstmt.executeUpdate();
 			if(rs > 0)
 				result = true;

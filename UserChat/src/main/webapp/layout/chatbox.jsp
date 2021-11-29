@@ -108,7 +108,7 @@ if (currentUser != null) {
 				<div class="status alreadyfriend"></div>
 				<%
 				} else if ((new FriendDAO().alreadyRequestedFriend(currentUser.getPRid(), op_profileDtoList.get(i).getPRid()))) {
-				if (!(new FriendDAO().alreadySendFriendRequest(currentUser.getPRid(), op_profileDtoList.get(i).getPRid()))) {
+				if ((new FriendDAO().alreadySendFriendRequest(currentUser.getPRid(), op_profileDtoList.get(i).getPRid()))) {
 				%>
 				<div class="status friendrequested"></div>
 				<%
@@ -143,7 +143,7 @@ if (currentUser != null) {
 					<strong><%=profile.getNickname()%></strong> <span><%=profile.getPRid()%></span>
 				</p>
 				<%
-				if (new ChatroomDAO(currentUser).hasChatroom()) {
+				if (new ChatroomDAO(currentUser).hasChatroom(profile.getPRid()) == true) {
 				%>
 				<div class="status haschatroom"></div>
 				<%
@@ -251,7 +251,6 @@ function submitFunction() {
 	$("#sendmessage input").val("");
 }
 	var lastID = 0;
-	var isfirst = true;
 	function messageListFunction(listtype){
 		var CRID = $("#chatroom_profile i").html();
 		var fromID = "<%=cur_id%>";
@@ -266,21 +265,20 @@ function submitFunction() {
 				listType: listtype,
 			},
 			success: function(data){
-				if(data == "" || isfirst == true){isfirst= false; return;}
+				if(data == ""){ return;}
 				var parsed = JSON.parse(data);
 				var result = parsed.result;
+				if(!isNaN(parseInt(parsed.last)) && parseInt(parsed.last) != 0 && parseInt(parsed.last) != lastID){
+					lastID = parseInt(parsed.last);
 				for(var i in result){
 					addMessage(result[i][0].value, result[i][1].value, result[i][2].value, result[i][3].value, result[i][4].value)
 				}
-				if(!isNaN(parseInt(parsed.last))){
-					lastID = parseInt(parsed.last);
 				}
 			} 
 		});
 	}
 	
 	function addMessage(profileImg, ishost, label, chatContent, chatTime) {
-		console.log(isfirst);
 		if(label != "0")
 			$("#chat-messages").append("<label>"+ label +"</label>");
 		
@@ -302,7 +300,9 @@ function submitFunction() {
 					   '<span>' + chatTime + '</span>' +
 					   '</div>' +
 					   '</div>');
+		var objDiv = document.getElementById("chat-messages"); objDiv.scrollTop = objDiv.scrollHeight;
 	}
+	
 	function getInfiniteChat(){
 		setInterval(function(){
 			if(!isNaN(lastID))
@@ -368,7 +368,7 @@ function friendRequestFunction() {
 function createChatroomFunction() {
     var userPrid = "<%=cur_id%>";
 	var op_Prid = $("#profile span").html();
-	var chatroomName = ("#createChatroom input").val();
+	var chatroomName = $("#createChatroom input").val();
 	if(userPrid == op_Prid){
 		Swal.fire({
               icon: 'error',
@@ -562,7 +562,6 @@ function deleteFriendFunction(){
 	}
 	document.getElementById("defaultOpen").click();
 	$(document).ready(function() {
-		messageListFunction("0");
 		getInfiniteChat();
 	});	
 </script>
