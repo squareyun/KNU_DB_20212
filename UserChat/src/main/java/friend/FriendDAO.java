@@ -246,6 +246,16 @@ public class FriendDAO {
 	}
 	return result;
 }
-	
+	public boolean alreadySendFriendRequest(int userPRid , int frinedPRid) {
+		boolean result = false;
+		List<Integer> list = getFriendRequestList(userPRid);
+		for(Integer f : list) { //받은 요청중에 있는지 확인
+			if(f == frinedPRid) {
+				System.out.println("받은 친구요청 목록에 이미 존재.");
+				return true;
+			}
+		}
+		return result;
+	}
 
 }

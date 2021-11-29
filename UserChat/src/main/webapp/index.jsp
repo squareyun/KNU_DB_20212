@@ -8,7 +8,6 @@ pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <%@ include file = "layout/header.jsp" %>
-	
   <body>
   	<%
 	    if (session.getAttribute("messageType")!= null) {
@@ -41,8 +40,8 @@ pageEncoding="UTF-8"%>
 	 <% 
 	 	PostDTO post = new IndexDAO().getIndexPost();
 	 %>
-	 
-	 <div class="main-screen" >
+	 <%@ include file = "layout/chatbox.jsp" %>
+	 <div class="main-screen">
 	 	<header style = "margin-top:5%;">
 			<h2 style="text-align:center;">SHARE POST</h2>
 			<h3>LET US KNOW THE BIG SALE EVENT!!!</h3>

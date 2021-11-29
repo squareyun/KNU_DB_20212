@@ -137,6 +137,13 @@ public class ProfileDTO {
 		return ProfileImg;
 	}
 
+	public String getProfileIMG() {
+		if(ProfileImg.equals("") || ProfileImg.equals(null)) 
+			return "./image/profile.png";
+		else
+			return ProfileImg;
+	}
+
 	public void setProfileImg(String profileImg) {
 		ProfileImg = profileImg;
 	}

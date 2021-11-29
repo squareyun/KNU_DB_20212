@@ -150,4 +150,38 @@
    <servlet-name>IndexUpdateServlet</servlet-name>
    <url-pattern>/IndexUpdate</url-pattern>
   </servlet-mapping>
+<!-- Chatroom-->
+<servlet>
+  	<servlet-name>CreateChatroomServlet</servlet-name>
+  	<servlet-class>chatroom.CreateChatroomServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>CreateChatroomServlet</servlet-name>
+   <url-pattern>/createChatroomServlet</url-pattern>
+  </servlet-mapping>  
+<servlet>
+  	<servlet-name>DeleteChatroomServlet</servlet-name>
+  	<servlet-class>chatroom.DeleteChatroomServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>DeleteChatroomServlet</servlet-name>
+   <url-pattern>/deleteChatroomServlet</url-pattern>
+  </servlet-mapping>
+<!-- Message-->
+<servlet>
+  	<servlet-name>MessageSubmitServlet</servlet-name>
+  	<servlet-class>message.MessageSubmitServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>MessageSubmitServlet</servlet-name>
+   <url-pattern>/MessageSubmit</url-pattern>
+  </servlet-mapping>
+<servlet>
+  	<servlet-name>MessageListServlet</servlet-name>
+  	<servlet-class>message.MessageListServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+   <servlet-name>MessageListServlet</servlet-name>
+   <url-pattern>/MessageList</url-pattern>
+  </servlet-mapping>
 </web-app>

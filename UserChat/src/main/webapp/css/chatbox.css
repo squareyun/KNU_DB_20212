@@ -1,0 +1,679 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  font: 12px "Open Sans", sans-serif;
+  height: 100%;
+}
+
+#chat-circle {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  background: #f0f1f2;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #000000;
+  cursor: pointer;
+  text-align: center;
+}
+
+#chatbox {
+  display: none;
+  background: #fff;
+  position: fixed;
+  right: 30px;
+  bottom: 50px;
+  width: 300px;
+  height: 450px;
+  border-radius: 5px;
+  z-index : 100
+}
+
+.chat-box-toggle {
+  float: right;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.chat-box-header {
+  background: #f0f1f2;
+  height: 30px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #000000;
+  padding-top: 5px;
+}
+
+.bubble span {
+  color: #aab8c2;
+  font-size: 11px;
+  position: absolute;
+  right: 0;
+  bottom: -22px;
+}
+
+#topmenu {
+  height: 69px;
+  width: 300px;
+  border-bottom: 0px solid #d8dfe3;
+  font-size:0px;
+}
+
+#topmenu button {
+  width: 150px;
+  height: 69px;
+  font-weight: 140;
+  font-size: 48px;
+  border: 0;
+  outline: 0;
+  padding-top:-4px;
+  cursor: pointer;
+  float: left;
+}
+
+#topmenu button:hover {
+  cursor: pointer;
+  background-color: #BDBDBD;
+}
+
+#chatroomslist {
+  position: absolute;
+  left: 0;
+  width: 300px;
+  height: 340px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+}
+
+#chatroomslist::-webkit-scrollbar {
+  display: none;
+}
+
+.chatroom {
+  height: 70px;
+  border-bottom: 1px solid #e7ebee;
+  position: relative;
+}
+
+.chatroom:hover {
+  background: #f1f4f6;
+  cursor: pointer;
+}
+
+.chatroom img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 15px;
+  float: left;
+}
+
+.chatroom p {
+  padding: 15px 0 0 0;
+  float: left;
+  width: 220px;
+}
+
+.chatroom p strong {
+  font-weight: 600;
+  font-size: 15px;
+  color: #597a96;
+}
+
+.chatroom p span {
+  font-size: 13px;
+  font-weight: 400;
+  color: #aab8c2;
+}
+.chatroom p q {
+  display: none;
+}
+.chatroom p i {
+    display: none;
+}
+.chatroom p b {
+    display: none;
+}
+
+#friendslist {
+  position: absolute;
+  left: 0;
+  width: 300px;
+  height: 340px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+}
+
+#friendslist::-webkit-scrollbar {
+  display: none;
+}
+
+.friend {
+  height: 70px;
+  border-bottom: 1px solid #e7ebee;
+  position: relative;
+}
+
+.friend:hover {
+  background: #f1f4f6;
+  cursor: pointer;
+}
+
+.friend img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 15px;
+  float: left;
+}
+
+.floatingImg {
+  width: 40px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 12px;
+  border: 3px solid #fff;
+}
+
+.friend p {
+  padding: 25px 0 0 0;
+  float: left;
+  width: 220px;
+}
+
+.friend p strong {
+  font-weight: 600;
+  font-size: 15px;
+  color: #597a96;
+}
+
+#chatview {
+  width: 300px;
+  height: 450px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  background: #fff;
+}
+
+#chatroom_profile {
+  height: 50px;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+}
+
+.p1 #chatroom_profile {
+  background: #000000 0 0 no-repeat;
+}
+
+#chatroom_profile p {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 10px 0 -1px;
+  opacity: 0;
+  -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+}
+
+#chatroom_profile p.animate {
+  margin-top: 7px;
+  opacity: 1;
+  -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+}
+
+#chatroom_profile span {
+  font-weight: 400;
+  font-size: 11px;
+}
+
+#chatroom_profile i {
+  display: none;
+}
+#chatroom_profile b {
+  display: none;
+}
+
+#profileview {
+  width: 300px;
+  height: 420px;
+  position: absolute;
+  top: 30px;
+  left: 0;
+  display: none;
+  background: #fff;
+}
+
+#profile {
+  height: 153px;
+  overflow: hidden;
+  text-align: center;
+  color: #fff;
+}
+
+.p2 #profile {
+  background: #000000 0 0 no-repeat;
+}
+
+#profile .avatar {
+  width: 68px;
+  height: 68px;
+  border: 3px solid #fff;
+  margin: 30px 0 0;
+  border-radius: 50%;
+}
+
+#profile p {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 118px 0 -1px;
+  opacity: 0;
+  -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+}
+
+#profile p.animate {
+  margin-top: 97px;
+  opacity: 1;
+  -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+}
+
+#chat-messages {
+  opacity: 0;
+  margin-top: 0px;
+  width: 300px;
+  height: 340px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  padding-right: 20px;
+  -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+  transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
+}
+#chat-messages::-webkit-scrollbar {
+  display: none;
+}
+
+#chat-messages.animate {
+  opacity: 1;
+  margin-top: 0;
+}
+
+#chat-messages label {
+  font-weight: 600;
+  font-size: 12px;
+  text-align: center;
+  margin: 15px 0;
+  width: 290px;
+  display: block;
+}
+
+#chat-messages div.message {
+  padding: 0 0 30px 58px;
+  clear: both;
+  margin-bottom: 45px;
+}
+
+#chat-messages div.message.right {
+  padding: 0 58px 30px 0;
+  margin-right: -19px;
+  margin-left: 19px;
+}
+
+#chat-messages .message img {
+  float: left;
+  margin-left: -38px;
+  border-radius: 50%;
+  width: 30px;
+  margin-top: 12px;
+}
+
+#chat-messages div.message.right img {
+  float: right;
+  margin-left: 0;
+  margin-right: -38px;
+}
+
+.message .bubble {
+  background: #f0f4f7;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 13px;
+  border-radius: 5px 5px 5px 0px;
+  color: #8495a3;
+  position: relative;
+  float: left;
+}
+
+#chat-messages div.message.right .bubble {
+  background: #0084ff;
+  color: #fff;
+  float: right;
+  border-radius: 5px 5px 0px 5px;
+}
+
+#sendmessage {
+  height: 60px;
+  border-top: 1px solid #e7ebee;
+  position: absolute;
+  bottom: 0;
+  right: 0px;
+  width: 300px;
+  background: #DEDEDE;
+}
+
+#sendmessage input {
+  background: #DEDEDE;
+  margin: 21px 0 0 21px;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400px;
+  color: #000000;
+}
+
+#sendmessage input:focus {
+  outline: 0;
+}
+
+#sendmessage button {
+  background: #DEDEDE 0 -41px no-repeat;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  border: none;
+}
+
+#sendmessage button:hover {
+  cursor: pointer;
+  background-position: 0 0;
+}
+
+#sendmessage button:focus {
+  outline: 0;
+}
+
+#close {
+  position: absolute;
+  top: 8px;
+  opacity: 0.8;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#close:hover {
+  opacity: 1;
+}
+
+#profile_close {
+  position: absolute;
+  top: 8px;
+  opacity: 0.8;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+#profile_close:hover {
+  opacity: 1;
+}
+
+.cx,
+.cy {
+  background: #fff;
+  position: absolute;
+  width: 0px;
+  top: 15px;
+  right: 15px;
+  height: 3px;
+  -webkit-transition: all 250ms ease-in-out;
+  -moz-transition: all 250ms ease-in-out;
+  -ms-transition: all 250ms ease-in-out;
+  -o-transition: all 250ms ease-in-out;
+  transition: all 250ms ease-in-out;
+}
+
+.cx.s1,
+.cy.s1 {
+  right: 0;
+  width: 20px;
+  -webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+.cy.s2 {
+  -ms-transform: rotate(50deg);
+  -webkit-transform: rotate(50deg);
+  transform: rotate(50deg);
+  -webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+.cy.s3 {
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+.cx.s1 {
+  right: 0;
+  width: 20px;
+  -webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+.cx.s2 {
+  -ms-transform: rotate(140deg);
+  -webkit-transform: rotate(140deg);
+  transform: rotate(140deg);
+  -webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+.cx.s3 {
+  -ms-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  -webkit-transition: all 100ms ease-out;
+  -moz-transition: all 100ms ease-out;
+  -ms-transition: all 100ms ease-out;
+  -o-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+#createFriendrequest button {
+  display: none;
+  width: 150px;
+  height: 70px;
+  font-weight: 140;
+  font-size: 48px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  float: left;
+}
+
+#createFriendrequest.show button {
+  display: block;
+}
+
+#createFriendrequest.show button:focus {
+  cursor: pointer;
+  background-color: #BDBDBD;
+}
+
+#createChatroom button {
+  display: none;
+  width: 150px;
+  height: 70px;
+  font-weight: 140;
+  font-size: 48px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  float: left;
+}
+
+#createChatroom.show button.show {
+  display: block;
+}
+
+#createChatroom.show button.show:focus {
+  cursor: pointer;
+  background-color: #BDBDBD;
+}
+
+#createChatroom input {
+  display: none;
+  background: #c1c1c1;
+  margin: 10px 10px;
+  border: none;
+  font-size: 20px;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400px;
+  text-align: left;
+  color: #000000;
+  float: left;
+}
+#createChatroom.show input{
+  display: block;
+}
+
+#deleteChatroom button {
+  display: none;
+  width: 150px;
+  height: 70px;
+  font-weight: 140;
+  font-size: 48px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  float: left;
+}
+
+#deleteChatroom.show button {
+  display: block;
+}
+
+#deleteChatroom.show button:focus {
+  cursor: pointer;
+  background-color: #BDBDBD;
+}
+
+#deleteFriend button {
+  display: none;
+  width: 150px;
+  height: 70px;
+  font-weight: 140;
+  font-size: 48px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  float: left;
+}
+
+#deleteFriend.show button {
+  display: block;
+}
+
+#deleteFriend.show button:focus {
+  cursor: pointer;
+  background-color: #BDBDBD;
+}
+
+#deleteFriendrequest button {
+  display: none;
+  width: 150px;
+  height: 70px;
+  font-weight: 140;
+  font-size: 48px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  float: left;
+}
+
+#deleteFriendrequest.show button {
+  display: block;
+}
+
+#deleteFriendrequest.show button:focus {
+  cursor: pointer;
+  background-color: #BDBDBD;
+}
+
+#acceptFriendrequest button {
+  display: none;
+  width: 150px;
+  height: 70px;
+  font-weight: 140;
+  font-size: 48px;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  float: left;
+}
+
+#acceptFriendrequest.show button {
+  display: block;
+}
+
+#acceptFriendrequest.show button:focus {
+  cursor: pointer;
+  background-color: #BDBDBD;
+}
+
+
+#chatview,
+#sendmessage {
+  overflow: hidden;
+  border-radius: 6px;
+}
