@@ -90,8 +90,8 @@ public class MessageDTO {
 			return CR_Host_id;
 	}
 
-	public int ishost() {
-		if(Sender_id == CR_Host_id)
+	public int ishost(String fromID) {
+		if(Integer.parseInt(fromID) != Sender_id)
 			return 1;
 		else
 			return 0;

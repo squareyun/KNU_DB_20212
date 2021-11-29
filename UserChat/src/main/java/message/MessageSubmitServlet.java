@@ -24,7 +24,6 @@ public class MessageSubmitServlet extends HttpServlet {
 		String fromID = request.getParameter("fromID");
 		String toID = request.getParameter("toID");
 		String chatContent = request.getParameter("chatContent");
-		System.out.println("Sumbmit message\n");
 		if(fromID == null || fromID.equals("") || toID == null || toID.equals("")
 				|| chatContent == null || chatContent.equals("")) {
 			response.getWriter().write("0");

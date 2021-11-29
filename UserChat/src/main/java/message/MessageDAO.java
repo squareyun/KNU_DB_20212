@@ -57,7 +57,6 @@ public class MessageDAO {
 	public ArrayList<MessageDTO> getMessageListByRecent(String CRid, String fromID, String toID, String listType) {
 		// TODO Auto-generated method stub
 		ArrayList<MessageDTO> messageList = new ArrayList<MessageDTO>();
-		System.out.println("getMessageListByRecent start");
 		try {
 		String sql = "SELECT * FROM MESSAGE WHERE (CRid = ? AND (Sender_id = ? OR Sender_id = ?)) AND Mid > ? ORDER BY Create_date";
 		pstmt = conn.prepareStatement(sql);
@@ -67,7 +66,6 @@ public class MessageDAO {
 		pstmt.setInt(4, Integer.parseInt(listType));
 		ResultSet rs = pstmt.executeQuery();
 		
-		System.out.println("변수확인"+CRid+toID+fromID+listType);
 		while (rs.next()) {
 			int Mid = rs.getInt("Mid");
 			int Crid = rs.getInt("CRid");
@@ -77,7 +75,6 @@ public class MessageDAO {
 			String Contents = rs.getString("Contents");
 			Timestamp Create_date = rs.getTimestamp("Create_date");
 			messageList.add(new MessageDTO(Mid,Crid,Sender_id,CR_Host_id,CR_participant_id,Contents,Create_date));
-			System.out.println("while 문 진입");
 		}
 		}catch (SQLException e) {
 			e.getStackTrace();
@@ -89,7 +86,6 @@ public class MessageDAO {
 			System.out.println(e.getLocalizedMessage());
 			System.out.println("Error in getMessageListByRecent Function");
 		}
-		System.out.println("while 문 탈출");
 		return messageList;
 	}
 	

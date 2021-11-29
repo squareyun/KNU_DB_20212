@@ -187,7 +187,7 @@ public class ChatroomDAO {
 			pstmt.setInt(1, PRId);
 			pstmt.setInt(2, PRId);
 			int rs = pstmt.executeUpdate();
-			if(rs >0)
+			if(rs > 0)
 				result = true;
 		} catch (SQLException e) {
 			e.getStackTrace();

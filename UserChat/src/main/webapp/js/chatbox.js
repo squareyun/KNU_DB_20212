@@ -26,7 +26,10 @@ $(document).ready(function() {
   $(".chatroom").each(function() {
     $(this).click(function(e) {
       if (!$(e.target).hasClass("chatroomimg")) {
-        var childOffset = $(this).offset();
+		$("#chat-messages").empty();
+		lastID = 0;
+		isfirst = true;     
+		var childOffset = $(this).offset();
         var parentOffset = $(this).parent().parent().offset();
         var childTop = childOffset.top - parentOffset.top;
         var clone = $(this).find("img").eq(0).clone();
@@ -54,7 +57,7 @@ $(document).ready(function() {
 		$("#chatroom_profile p").html(CRname);
 		$("#chatroom_profile span").html(op_user_nick);
 		$("#chatroom_profile i").html(crid);
-		$("#chatroom_profile b").html(op_user_id)
+		$("#chatroom_profile b").html(op_user_id);
         
 		$("#chatroomslist").fadeOut();
         $("#chatview").fadeIn();
@@ -64,7 +67,6 @@ $(document).ready(function() {
           .click(function() {
             $("#chat-messages").removeClass("animate");
             $(".cx, .cy").removeClass("s1 s2 s3");
-
             setTimeout(function() {
               $("#chatview").fadeOut();
               $("#chatroomslist").fadeIn();
@@ -111,7 +113,7 @@ $(document).ready(function() {
         var status = $("this").find(".status");
         
         setTimeout(function(){
-        if(status.hasClass("alreadyfriend")){
+        if(!status.hasClass("alreadyfriend")){
         	$("#deleteFriend").addClass("show");
         }
         else{
@@ -122,7 +124,6 @@ $(document).ready(function() {
           else
           	$("#createFriendrequest").addClass("show");
         }
-        
         $("#deleteChatroom").addClass("show");
         },100);
 
@@ -204,7 +205,7 @@ $(document).ready(function() {
 	  var status = $("this").find(".status");
 
       setTimeout(function() {
-        if (status.hasClass("haschatroom"))
+        if (!status.hasClass("haschatroom"))
           $("#deleteChatroom").addClass("show");
         else
           $("#createChatroom").addClass("show");
@@ -235,7 +236,7 @@ $(document).ready(function() {
               $(".floatingImg").remove();
             }
           );
-
+	
           setTimeout(function() {
             $("#profileview").fadeOut();
             $("#friendslist").fadeIn();

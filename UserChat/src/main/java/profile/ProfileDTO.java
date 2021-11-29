@@ -138,7 +138,7 @@ public class ProfileDTO {
 	}
 
 	public String getProfileIMG() {
-		if(ProfileImg.equals("") || ProfileImg.equals(null)) 
+		if(ProfileImg == null || ProfileImg.equals("")) 
 			return "./image/profile.png";
 		else
 			return ProfileImg;

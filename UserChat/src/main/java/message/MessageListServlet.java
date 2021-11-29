@@ -39,19 +39,14 @@ public class MessageListServlet extends HttpServlet {
 	}
 
 	private String getID(String CRID, String fromID, String toID, String listType) {
-		System.out.println("get ID start");
 		StringBuffer result = new StringBuffer("");
 		result.append("{\"result\":[");
 		MessageDAO mDAO = new MessageDAO();
 		ArrayList<MessageDTO> messageList = mDAO.getMessageListByRecent(CRID, fromID, toID, listType);
-		System.out.println(messageList);
-		System.out.println(messageList.size());
 		if(messageList.size() == 0) return "";
-		System.out.println(result.toString());
 		for(int i = 0; i < messageList.size(); i++) {
-			System.out.println(i);
 			result.append("[{\"value\": \"" + new ProfileDAO().getUserByPRid(messageList.get(i).getSender_id()).getProfileIMG() + "\"},");
-			result.append("{\"value\": \"" + messageList.get(i).ishost() + "\"},");
+			result.append("{\"value\": \"" + messageList.get(i).ishost(fromID) + "\"},");
 			if(i == 0)
 				result.append("{\"value\": \"0\"},");
 			else
@@ -59,10 +54,8 @@ public class MessageListServlet extends HttpServlet {
 			result.append("{\"value\": \"" + messageList.get(i).getContents() + "\"},");
 			result.append("{\"value\": \"" + messageList.get(i).getCreate_date_str() + "\"}]");
 			if(i != messageList.size() - 1) result.append(",");
-			System.out.println(result.toString());
 		}
 		result.append("], \"last\":\"" + messageList.get(messageList.size()- 1).getMid()+"\"}");
-		System.out.println(result);
 		return result.toString();
 	}
 }

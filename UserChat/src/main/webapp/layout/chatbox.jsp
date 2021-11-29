@@ -222,11 +222,7 @@ if (currentUser != null) {
 	</div>
 </div>
 <script>
-function check(){
-	console.log("check");
-}
 function submitFunction() {
-	console.log("check");
 	var CRID = $("#chatroom_profile i").html();
 	var fromID = "<%=cur_id%>";
 	var toID = $("#chatroom_profile b").html();
@@ -242,12 +238,7 @@ function submitFunction() {
 		},
 		success: function (result) {
 			if (result == 1) {
-				Swal.fire({
-					icon: 'success',
-					title: `메시지 전송을 완료했습니다.`,
-					showConfirmButton: false,
-					timer: 1500
-					});
+				console.log(`메시지 전송을 완료했습니다.`);
 				} else {
 				Swal.fire({
 					icon: 'error',
@@ -260,6 +251,7 @@ function submitFunction() {
 	$("#sendmessage input").val("");
 }
 	var lastID = 0;
+	var isfirst = true;
 	function messageListFunction(listtype){
 		var CRID = $("#chatroom_profile i").html();
 		var fromID = "<%=cur_id%>";
@@ -274,18 +266,21 @@ function submitFunction() {
 				listType: listtype,
 			},
 			success: function(data){
-				if(data == "") return;
+				if(data == "" || isfirst == true){isfirst= false; return;}
 				var parsed = JSON.parse(data);
 				var result = parsed.result;
-				console.log(result);
 				for(var i in result){
 					addMessage(result[i][0].value, result[i][1].value, result[i][2].value, result[i][3].value, result[i][4].value)
 				}
-				lastID = Number(result.last);
+				if(!isNaN(parseInt(parsed.last))){
+					lastID = parseInt(parsed.last);
+				}
 			} 
 		});
 	}
+	
 	function addMessage(profileImg, ishost, label, chatContent, chatTime) {
+		console.log(isfirst);
 		if(label != "0")
 			$("#chat-messages").append("<label>"+ label +"</label>");
 		
@@ -310,7 +305,8 @@ function submitFunction() {
 	}
 	function getInfiniteChat(){
 		setInterval(function(){
-			messageListFunction(lastID);
+			if(!isNaN(lastID))
+				messageListFunction(lastID);
 		}, 3000)
 	}
 function friendRequestFunction() {
@@ -343,6 +339,20 @@ function friendRequestFunction() {
 				showConfirmButton: false,
 				timer: 1500
 				});
+			function refresh() {
+			    $.ajax({
+			      url: "",
+			      dataType: "text",
+			      success: function(html) {
+			        $('#fu').replaceWith($.parseHTML(html));
+			        setTimeout(refresh,2000);
+			      }
+			    }).then(
+						()=>{
+							window.location.reload();
+						}
+					)
+			  }
 			} else {
 			Swal.fire({
 				icon: 'error',
@@ -383,7 +393,11 @@ function createChatroomFunction() {
 				title: `채팅방 생성을 완료했습니다.`,
 				showConfirmButton: false,
 				timer: 1500
-				});
+				}).then(
+						()=>{
+							window.location.reload();
+						}
+					)
 			} else {
 			Swal.fire({
 				icon: 'error',
@@ -413,7 +427,11 @@ function deleteChatroomFunction() {
 				title: `채팅방 삭제를 완료했습니다.`,
 				showConfirmButton: false,
 				timer: 1500
-				});
+				}).then(
+						()=>{
+							window.location.reload();
+						}
+					)
 			} else {
 			Swal.fire({
 				icon: 'error',
@@ -543,16 +561,6 @@ function deleteFriendFunction(){
 		evt.currentTarget.className += " active";
 	}
 	document.getElementById("defaultOpen").click();
-function refresh() {
-    $.ajax({
-      url: "",
-      dataType: "text",
-      success: function(html) {
-        $('#fu').replaceWith($.parseHTML(html));
-        setTimeout(refresh,2000);
-      }
-    });
-  }
 	$(document).ready(function() {
 		messageListFunction("0");
 		getInfiniteChat();
