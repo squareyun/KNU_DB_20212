@@ -16,6 +16,9 @@
 <link rel="stylesheet" href="css/MaterialIcons.css?ver=1">
 <link rel="stylesheet" href="css/chatbox.css?ver=1">
 <script type="text/javascript" src="js/jquery-3.6.0.min.js?ver=1"></script>
+<script>
+
+</script>
 <%
 String userEmail = (String) session.getAttribute("Email");
 ProfileDTO currentUser = null;
@@ -83,7 +86,7 @@ if (currentUser != null) {
 			id="defaultOpen">
 			<span class="material-icons">people</span>
 		</button>
-		<button class="menulinks" onclick="openMenu(event, 'chatroomslist')">
+		<button class="menulinks" onclick="openMenu(event, 'chatroomslist')" >
 			<span class="material-icons">chat</span>
 		</button>
 	</div>
@@ -222,6 +225,7 @@ if (currentUser != null) {
 	</div>
 </div>
 <script>
+
 function submitFunction() {
 	var CRID = $("#chatroom_profile i").html();
 	var fromID = "<%=cur_id%>";
@@ -242,7 +246,7 @@ function submitFunction() {
 				} else {
 				Swal.fire({
 					icon: 'error',
-					title: `데이터베이스 오류`,
+					title: `내용을 입력하세요`,
 					showConfirmButton: true
 					});
 				}
@@ -307,7 +311,7 @@ function submitFunction() {
 		setInterval(function(){
 			if(!isNaN(lastID))
 				messageListFunction(lastID);
-		}, 3000)
+		}, 500)
 	}
 function friendRequestFunction() {
     var FriendNickname = $("#profile p").html();
@@ -411,37 +415,39 @@ function createChatroomFunction() {
 }
 
 function deleteChatroomFunction() {
-    var chatroomID = $("#chatroom_profile i").html();
-    	$.ajax({
-		type: "POST",
-		//아래의 url로 보내줌
-		url: "./deleteChatroomServlet",
-		data: { 
-			chatroomID: chatroomID
-		},
-		//성공했다면 result 값을 반환받음
-		success: function (result) {
-			if (result == 1) {
-			Swal.fire({
-				icon: 'success',
-				title: `채팅방 삭제를 완료했습니다.`,
-				showConfirmButton: false,
-				timer: 1500
-				}).then(
-						()=>{
-							window.location.reload();
-						}
-					)
-			} else {
-			Swal.fire({
-				icon: 'error',
-				title: `1. 채팅방이 없는 유저.\n2. 존재하지 않는 유저.`,
-				showConfirmButton: true
-				});
-			}
-		}
-		});
-}
+	   var userPrid = "<%=cur_id%>";
+	   var op_Prid = $("#profile span").html();
+	       $.ajax({
+	      type: "POST",
+	      //아래의 url로 보내줌
+	      url: "./deleteChatroomServlet",
+	      data: { 
+	         userPrid: userPrid,
+	         op_Prid: op_Prid
+	      },
+	      //성공했다면 result 값을 반환받음
+	      success: function (result) {
+	         if (result == 1) {
+	         Swal.fire({
+	            icon: 'success',
+	            title: `채팅방 삭제를 완료했습니다.`,
+	            showConfirmButton: false,
+	            timer: 1500
+	            }).then(
+	                  ()=>{
+	                     window.location.reload();
+	                  }
+	               )
+	         } else {
+	         Swal.fire({
+	            icon: 'error',
+	            title: `1. 채팅방이 없는 유저.\n2. 존재하지 않는 유저.`,
+	            showConfirmButton: true
+	            });
+	         }
+	      }
+	      });
+	}
 
 function requestAcceptFunction() {
    var friendPRid = $("#profile span").html();
@@ -546,24 +552,26 @@ function deleteFriendFunction(){
       }
     });
 }
-	function openMenu(evt, menuName) {
-		var i, menucontents, menulinks;
-		menucontents = document.getElementsByClassName("menucontents");
-		for (i = 0; i < menucontents.length; i++) {
-			menucontents[i].style.display = "none";
-		}
-		menulinks = document.getElementsByClassName("menulinks");
-		for (i = 0; i < menulinks.length; i++) {
-			menulinks[i].className = menulinks[i].className.replace(" active",
-					"");
-		}
-		document.getElementById(menuName).style.display = "block";
-		evt.currentTarget.className += " active";
+function openMenu(evt, menuName) {
+	var i, menucontents, menulinks;
+	menucontents = document.getElementsByClassName("menucontents");
+	for (i = 0; i < menucontents.length; i++) {
+		menucontents[i].style.display = "none";
 	}
-	document.getElementById("defaultOpen").click();
+	menulinks = document.getElementsByClassName("menulinks");
+	for (i = 0; i < menulinks.length; i++) {
+		menulinks[i].className = menulinks[i].className.replace(" active",
+				"");
+	}
+	document.getElementById(menuName).style.display = "block";
+	evt.currentTarget.className += " active";
+}
+
+document.getElementById("defaultOpen").click();
 	$(document).ready(function() {
 		getInfiniteChat();
-	});	
+	});
+	
 </script>
 <script type="text/javascript" src="js/chatbox.js?ver=1"></script>
 <%
