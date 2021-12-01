@@ -125,11 +125,12 @@ $(document).ready(function() {
 						$("#deleteFriend").addClass("show");
 					}
 					else {
-						if (status.hasClass("friendrequested"))
-							$("#deleteFriendrequest").addClass("show");
-						else if (status.hasClass("friendrequest"))
+						if (status.hasClass("friendrequested")){
 							$("#acceptFriendrequest").addClass("show");
-						else
+							$("#deleteFriendrequest").addClass("show");
+						}else if (status.hasClass("friendrequest")){
+							$("#deleteChatroom").addClass("show");
+						}else
 							$("#createFriendrequest").addClass("show");
 					}
 					$("#deleteChatroom").addClass("show");
