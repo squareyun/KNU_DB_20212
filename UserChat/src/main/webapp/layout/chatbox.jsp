@@ -272,11 +272,12 @@ function submitFunction() {
 				if(data == ""){ return;}
 				var parsed = JSON.parse(data);
 				var result = parsed.result;
-				if(!isNaN(parseInt(parsed.last)) && parseInt(parsed.last) != 0 && parseInt(parsed.last) != lastID){
-					lastID = parseInt(parsed.last);
-				for(var i in result){
-					addMessage(result[i][0].value, result[i][1].value, result[i][2].value, result[i][3].value, result[i][4].value)
-				}
+				if(!isNaN(parseInt(parsed.last)) || parseInt(parsed.last) != 0 || parseInt(parsed.last) != lastID){
+					console.log(lastID);
+						lastID = parseInt(parsed.last);
+					for(var i in result){
+						addMessage(result[i][0].value, result[i][1].value, result[i][2].value, result[i][3].value, result[i][4].value)
+					}
 				}
 			} 
 		});

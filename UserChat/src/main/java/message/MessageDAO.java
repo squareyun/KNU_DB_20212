@@ -98,6 +98,11 @@ public class MessageDAO {
 			return "0";
 	}
 	
+	public String getLabel(MessageDTO dto) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy년MM월dd일");
+			return sdf.format(dto.getCreate_date()).toString();
+	}
+	
 	public ArrayList<MessageDTO> getMessageList(String Crid) {
 		// TODO Auto-generated method stub
 		ArrayList<MessageDTO> list = new ArrayList<MessageDTO>();
@@ -135,6 +140,37 @@ public class MessageDAO {
 			String sql = "SELECT * FROM MESSAGE WHERE CRid = ? ORDER BY Create_date DESC LIMIT 1";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, crid);
+			ResultSet rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				int Mid = rs.getInt("Mid");
+				int CRid = rs.getInt("CRid");
+				int Sender_id = rs.getInt("Sender_id");
+				int CR_Host_id = rs.getInt("CR_Host_id");
+				int CR_participant_id = rs.getInt("CR_Participant_id");
+				String Contents = rs.getString("Contents");
+				Timestamp Create_date = rs.getTimestamp("Create_date");
+				return new MessageDTO(Mid, CRid, Sender_id, CR_Host_id, CR_participant_id, Contents, Create_date);
+			}
+		} catch (SQLException e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.exit(1);
+		} catch (Exception e) {
+			e.getStackTrace();
+			System.out.println(e.getMessage());
+			System.out.println(e.getLocalizedMessage());
+			System.out.println("Error in getRecentMessageDTO Function");
+			System.exit(1);
+		}
+		return null;
+	}
+	public MessageDTO getMessagebyMID(String MID) {
+		try {
+			String sql = "SELECT * FROM MESSAGE WHERE Mid = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(MID));
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {

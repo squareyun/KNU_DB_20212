@@ -47,8 +47,10 @@ public class MessageListServlet extends HttpServlet {
 		for(int i = 0; i < messageList.size(); i++) {
 			result.append("[{\"value\": \"" + new ProfileDAO().getUserByPRid(messageList.get(i).getSender_id()).getProfileIMG() + "\"},");
 			result.append("{\"value\": \"" + messageList.get(i).ishost(fromID) + "\"},");
-			if(i == 0)
-				result.append("{\"value\": \"0\"},");
+			if(!listType.equals("0") && i == 0) {
+				result.append("{\"value\": \"" + mDAO.getLabel(mDAO.getMessagebyMID(listType), messageList.get(i)) +"\"},");
+			}else if(listType.equals("0") && i == 0)
+				result.append("{\"value\": \"" + mDAO.getLabel(messageList.get(i)) + "\"},");
 			else
 				result.append("{\"value\": \"" + mDAO.getLabel(messageList.get(i-1) , messageList.get(i)) + "\"},");
 			result.append("{\"value\": \"" + messageList.get(i).getContents() + "\"},");
